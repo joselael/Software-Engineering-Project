@@ -29,7 +29,7 @@ AWS or GC for Hosting the App
 - We'll be using git for all code contributions, please learn how to use its 
 essential features, especially branching and merging.
 - To clone the github repo do:
-`git clone https://jllouis@bitbucket.org/dllz/swe-project.git`
+`git clone https://your_username@bitbucket.org/dllz/swe-project.git`
 
 OPTIONAL:
     Add your github remote (if you'd like to add the project to your github as part of your code portfolio):
