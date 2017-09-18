@@ -33,11 +33,14 @@ essential features, especially branching and merging.
 
 OPTIONAL:
     Add your github remote (if you'd like to add the project to your github as part of your code portfolio):
-    `git remote add origin --add <custom-name> <your-other-repo-here>`
+    `git remote add origin --add <your-other-repo-here>`
     - This way, when you push, it pushes to both repositories simultaneously,
     however, when you pull, it only pulls from the team's bitbucket repo. 
-    - If you would like to pull from your own repo, you have to specify the repo and the branch, example:
-    `git pull gh master`
+    - If you would like to pull from your own repo, you'll have to add it as another remote and  have to specify the repo and the branch when you pull:
+    `git remote add <custom-name> <your-repo-link.git>`
+    - To pull from other repo do:
+    `git pull <custom-name> <branch>` example:
+    `git pull gh master`    
      this will pull from my 'gh' repo's 'master' branch. When I do `git push` again, it will also push it to the team's bitbucket repo.
     [Helpful Source]: https://astrofloyd.wordpress.com/2015/05/05/git-pushing-to-and-pulling-from-multiple-remote-locations-remote-url-and-pushurl/
 
