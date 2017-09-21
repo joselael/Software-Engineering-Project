@@ -27,5 +27,5 @@ AWS or GC for Hosting the App
 essential features, especially branching and merging.
 - To clone the github repo do:
 ```
-$ git clone https://github.com/jllouis/Software-Engineering-Project.git`
+$ git clone https://github.com/jllouis/Software-Engineering-Project.git
 ```
