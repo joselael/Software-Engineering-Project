@@ -15,8 +15,8 @@ https://gitter.im/322-Software-Engineering-Project/Lobby
 
 ### Tools ###
 Recent version of Python 3.x  
-HTML CSS JavaScript (?) for UI  
-MariaDB w/ SQL for DB  
+HTML CSS JavaScript (?) for Front End  
+MariaDB for DB  
 Git for SVM  
 AWS or GC for Hosting the App  
 *Web App and the hosting are reach goals*  
