@@ -1,8 +1,10 @@
 # README #
 
 ## Group 5 SWE Project ##
+**Please edit and add info to this README as needed**  
 
 ### Team Members ###
+Maureen Hanna McLean - Maureen.hannamclean@gmail.com  
 Gina DiCarlo  
 Yong Su Lee  
 Yuan Zhou  
@@ -33,11 +35,11 @@ https://github.com/jllouis/Software-Engineering-Project.git
 https://console.cloud.google.com/home/dashboard?project=dllz-swep  
 ###### Specs ######
 0.6 GB of RAM
-0.2 of a Virtual CPU - that's a 20% time slice on a single core :( 
+0.2 of a Virtual CPU - that's a 20% time slice on a single core :(  
 Server IP: 35.196.192.80  
 The server is Container Linux (CoreOS), a lightweight GNU/Linux OS intended for hosting Docker or Rocket containers  
 Container Linux is _lightweight_ (it is ~150mb large, and runs on ~20mb of RAM), and keeps itself updated. This is useful since we're running on meager server.  
-##### Logging into the Server:######
+##### Logging into the Server: #####
 You can use the shell provided on the [GCP Console Dashboard](console.cloud.google.com) or:  
 1. Download and install the [gcloud](https://cloud.google.com/sdk/docs/) CLI tool for your platform.
 2. After setting it up with your account do:
