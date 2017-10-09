@@ -52,7 +52,7 @@ gcloud will create a RSA ID file under your ssh directory (~/.ssh/ if you're on 
 Please beware, you have root shell access by default, so please be careful  
 2. Log into the database as root and create a user account for yourself:
 `# mysql -u root -p`  
-Then enter the password.
+Then enter the password: dllz322squad
 3. Enter the following commands to create your personal credentials on the dabatase:  
 ```
 mysql> CREATE USER '<your-user-name'@'%' IDENTIFIED BY '<your-secret-password';
