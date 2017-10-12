@@ -16,7 +16,7 @@ body {
 .form-signin .checkbox {
   font-weight: normal;
 }
-.form-signin .form-control {
+.form-signin .form-controtext-centerl {
   position: relative;
   height: auto;
   -webkit-box-sizing: border-box;
@@ -29,12 +29,23 @@ body {
   z-index: 2;
 }
 .form-signin input[type="email"] {
-  margin-bottom: -1px;
+  margin-bottom: 0px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 .form-signin input[type="password"] {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.form-signin .form-group {
+  margin-bottom: auto;
+}
+
+.text-center {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+  padding: 10px
 }
