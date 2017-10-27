@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ["35.196.192.80"]
 # Application definition
 
 INSTALLED_APPS = [
-    'main/apps.MainConfig',
+    'main.apps.MainConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,6 +78,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        # USER SETTINGS FOR TESTING ON MY PLATFORM
+        # change to your or the server's credentials when testing or deploying
+        'USER': 'lael',
+        'PASSWORD': 'insecure-password',
+        'HOST': 'localhost',
+        'PORT': 3306
+
     }
 }
 
