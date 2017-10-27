@@ -87,7 +87,7 @@ class MoneyTransfer(models.Model):
 	def __str__(self):
 		return(self.Amount, self.UserId_To, self.UserId_From)
 
-class RatingHistory(models.Model)
+class RatingHistory(models.Model):
 	RatingId = models.AutoField(primary_key=True)
 	DemandId = models.ForeignKey(SystemDemand.DemandId)
 	Rating = models.RatingField(range=10)
