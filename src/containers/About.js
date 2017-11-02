@@ -7,7 +7,6 @@ class About extends Component {
     return (
       <div className="About">
           <NavigationBar />
-
       </div>
     );
   }

@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import NavigationBar from '../components/NavigationBar'
-import LandingHeader from '../components/LandingHeader'
-import LandingFooter from '../components/LandingFooter'
+import Main from './Main'
 import '../css/template.css'
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <NavigationBar />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div>
+    <NavigationBar />
+    <Main />
+  </div>
+)
 
 export default App;

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
-import About from '../containers/About'
+import '../css/nav.css'
 
-class NavigationBar extends Component {
-  render() {
-    return (
+const NavigationBar = () => (
       <div className="NavigationBar">
         <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
           <div className="container">
@@ -13,7 +11,12 @@ class NavigationBar extends Component {
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarResponsive">
-              <ul className="navbar-nav ml-auto">
+              <ul className="nav navbar-nav mr-auto">
+                <li className="nav-item">
+                  <a className="nav-link">
+                    <NavLink to='/'>Home</NavLink>
+                  </a>
+                </li>
                 <li className="nav-item">
                   <a className="nav-link">
                     <NavLink to='/about'>About</NavLink>
@@ -21,12 +24,12 @@ class NavigationBar extends Component {
                 </li>
                 <li className="nav-item">
                   <a className="nav-link">
-                    <NavLink to='signin'>Sign In</NavLink>
+                    <NavLink to='/signin'>Sign In</NavLink>
                   </a>
                 </li>
                 <li className="nav-item">
                   <a className="nav-link">
-                    <NavLink to='signup'>Sign Up</NavLink>
+                    <NavLink to='/signup'>Sign Up</NavLink>
                   </a>
                 </li>
               </ul>
@@ -35,8 +38,6 @@ class NavigationBar extends Component {
           </div>
         </nav>
       </div>
-    );
-  }
-}
+);
 
 export default NavigationBar;
