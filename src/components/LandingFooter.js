@@ -11,13 +11,13 @@ class LandingFooter extends Component {
           <li class="footer-menu-divider list-inline-item">&sdot;</li>
           <li class="list-inline-item">
             <a>
-            <Link to='/'>Home</Link>
+              <Link to='/'>Home</Link>
             </a>
           </li>
           <li class="footer-menu-divider list-inline-item">&sdot;</li>
           <li class="list-inline-item">
             <a>
-            <Link to='/about'>About</Link>
+              <Link to='/about'>About</Link>
             </a>
           </li>
           <li class="footer-menu-divider list-inline-item">&sdot;</li>

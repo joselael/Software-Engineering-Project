@@ -3,11 +3,15 @@ import NavigationBar from '../components/NavigationBar'
 import Main from './Main'
 import '../css/template.css'
 
-const App = () => (
-  <div>
-    <NavigationBar />
-    <Main />
-  </div>
-)
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <NavigationBar />
+        <Main />
+      </div>
+    )
+  }
+}
 
 export default App;
