@@ -10,7 +10,6 @@ class LandingHeader extends Component {
             <div class="intro-message">
               <h1>Simplified coding Turk system</h1>
               <h3>Start a project today</h3>
-              <hr class="intro-divider"/>
             </div>
           </div>
         </header>

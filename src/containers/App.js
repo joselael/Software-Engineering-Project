@@ -7,10 +7,8 @@ import '../css/template.css'
 class App extends Component {
   render() {
     return (
-      <div className="App">
-          <NavigationBar />
-          <LandingHeader />
-          <LandingFooter />
+      <div>
+        <NavigationBar />
       </div>
     );
   }

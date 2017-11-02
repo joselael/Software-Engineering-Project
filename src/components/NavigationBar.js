@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-//import { NavLink } from 'react-router-dom'
-
+import { NavLink } from 'react-router-dom'
+import About from '../containers/About'
 
 class NavigationBar extends Component {
   render() {
@@ -15,15 +15,22 @@ class NavigationBar extends Component {
             <div className="collapse navbar-collapse" id="navbarResponsive">
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <a className="nav-link" href="aboutus.html">About</a>
+                  <a className="nav-link">
+                    <NavLink to='/about'>About</NavLink>
+                  </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="signin.html">Sign In</a>
+                  <a className="nav-link">
+                    <NavLink to='signin'>Sign In</NavLink>
+                  </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="signup.html">Sign Up</a>
+                  <a className="nav-link">
+                    <NavLink to='signup'>Sign Up</NavLink>
+                  </a>
                 </li>
               </ul>
+              <hr/>
             </div>
           </div>
         </nav>
