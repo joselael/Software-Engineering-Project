@@ -1,15 +1,11 @@
-import React, { Component } from 'react';
-import NavigationBar from '../components/NavigationBar'
-import '../css/template.css'
+import React from 'react'
+import LandingHeader from '../components/LandingHeader'
+import LandingFooter from '../components/LandingFooter'
 
-class About extends Component {
-  render() {
-    return (
-      <div className="About">
-          <NavigationBar />
-      </div>
-    );
-  }
-}
+const About = () => (
+  <div>
+    <LandingFooter />
+  </div>
+)
 
-export default About;
+export default About
