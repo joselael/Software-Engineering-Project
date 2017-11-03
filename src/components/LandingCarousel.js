@@ -15,9 +15,10 @@ class LandingCarousel extends Component {
               showArrows={true} showStatus={false} 
               dynamicHeight={true} 
               centerMode = {true} 
-              centerSlidePercentage = "40" 
+              centerSlidePercentage = "50" 
               autoPlay = {true} 
-              stopOnHover={false} 
+              stopOnHover={false}
+              infiniteLoop={true} 
               width={1150}>
                 <div>
                     <img src={require('../images/Gina.png')} />
