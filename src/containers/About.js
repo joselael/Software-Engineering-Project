@@ -1,15 +1,18 @@
 import React, {Component} from 'react'
-import LandingHeader from '../components/LandingHeader'
 import LandingFooter from '../components/LandingFooter'
+import {AboutHeader, AboutBody} from '../components/AboutHeader'
+
 
 
 class About extends Component {
   render() {
     return (
-      <div>
+	  <div> 
+	  	<AboutHeader />  
+	  	<AboutBody />  
         <LandingFooter />
       </div>
     )
   }
 }
-export default About
+export default About;

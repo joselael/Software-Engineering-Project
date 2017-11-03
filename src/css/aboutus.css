@@ -19,3 +19,18 @@
   color: lightgrey;
   padding-bottom: 0px;
 }
+.intro-header {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  color: #f8f8f8;
+  background: url(../images/original.gif) no-repeat center;
+  background-size: cover;
+}
+
+.content-section-a {
+  padding: 50px 0;
+  background-color: #f8f8f8;
+  border-top: .5px solid #e7e7e7;
+  border-bottom: .5px solid #e7e7e7
+}
