@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
 import PublicSearch from "./PublicSearch"
+import Signup from "./Signup"
 
 const Main = () => (
   <main>
@@ -10,6 +11,7 @@ const Main = () => (
       <Route exact path="/" component={Home} />
       <Route path="/about" component={About} />
       <Route path="/publicsearch" component={PublicSearch} />
+      <Route path="/Signup" component={Signup} />
     </Switch>
   </main>
 );
