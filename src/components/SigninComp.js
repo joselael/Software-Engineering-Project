@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import '../css/aboutus.css'
+import React, { Component } from "react";
+import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 
 const pStyle = {
   padding: '12%'
@@ -27,7 +29,7 @@ class SigninBody extends Component {
     return (
       <div>
       </div>
-    );
+    )
   }
 }
 
