@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'djangoratings',
 ]
 
 MIDDLEWARE = [
@@ -77,18 +76,10 @@ WSGI_APPLICATION = 'website.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # USER SETTINGS FOR TESTING ON MY PLATFORM
-        # change to your or the server's credentials when testing or deploying
-        'USER': 'lael',
-        'PASSWORD': 'insecure-password',
-        'HOST': 'localhost',
-        'PORT': 3306
-
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
