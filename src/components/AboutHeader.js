@@ -19,8 +19,6 @@ class AboutHeader extends Component {
         </header>
 
       </div>
-
-
     );
   }
 }
