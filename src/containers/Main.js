@@ -4,6 +4,7 @@ import Home from "./Home";
 import About from "./About";
 import Login from "./Login";
 import PublicSearch from "./PublicSearch"
+import Signup from "./Signup"
 
 const Main = () => (
   <main>
@@ -12,6 +13,7 @@ const Main = () => (
       <Route path="/about" component={About} />
       <Route path="/login" component={Login} />
       <Route path="/publicsearch" component={PublicSearch} />
+      <Route path="/Signup" component={Signup} />
     </Switch>
   </main>
 );
