@@ -34,7 +34,6 @@ class Signupbody extends Component {
           </div>
         </div>
       </div>
-
     );
   }
 }

@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import '../css/aboutus.css'
 
 const pStyle = {
-    padding: '12%'
+  padding: '12%'
 };
 
-class LoginHeader extends Component {
+class SigninHeader extends Component {
   render() {
     return (
-      <div classNameName="LoginHeader">
+      <div className="SigninHeader">
         <header className="intro-header">
           <div className="container">
             <div className="intro-message" style={pStyle}>
-              <h1>About Us</h1>
-              <h3>We are CCNY computer science students</h3>
+              <h1>Sign In</h1>
+              <h3>Sign In To Start Creating today!</h3>
             </div>
           </div>
         </header>
@@ -22,4 +22,13 @@ class LoginHeader extends Component {
   }
 }
 
-export default LoginHeader;
+class SigninBody extends Component {
+  render() {
+    return (
+      <div>
+      </div>
+    );
+  }
+}
+
+export {SigninHeader, SigninBody}
