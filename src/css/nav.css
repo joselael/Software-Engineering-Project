@@ -1,3 +1,7 @@
 .NavigationBar {
   padding-bottom: 55px;
 }
+
+.navbar-nav {
+  padding : topsize rightsize bottomsize leftsize;
+}
