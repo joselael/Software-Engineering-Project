@@ -1,0 +1,23 @@
+{
+  "name": "software-engineering",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.0.0",
+    "react-bootstrap": "^0.31.5",
+    "react-bootstrap-carousel": "^2.2.0",
+    "react-dom": "^16.0.0",
+    "react-responsive-carousel": "^3.1.28",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.14",
+    "react-slick": "^0.15.4",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^2.2.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
