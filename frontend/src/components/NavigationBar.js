@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom'
 import {Nav, Navbar, NavbarBrand, NavItem, Collapse} from "react-bootstrap";
+import { login, loggedIn } from '../utils/Auth';
 import '../css/nav.css'
 
 class NavigationBar extends Component {

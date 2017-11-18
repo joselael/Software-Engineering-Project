@@ -1,2 +1,4 @@
-export const URL = "http://127.0.0.1:8000/api";
-export const LOGIN = "/auth";
+export const URL = "http://127.0.0.1:8000/rest-auth/";
+export const LOGIN = "login/";
+export const LOGOUT = "logout/";
+export const REGISTER = "registration/";
