@@ -17,10 +17,10 @@ class NavigationBar extends Component {
                 <NavLink to='/about'>About</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to='/signin'>Sign Up</NavLink>
+                <NavLink to='/signin'>Sign In</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to='/signup'>Sign In</NavLink>
+                <NavLink to='/signup'>Sign Up</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink to='/publicsearch'>Search</NavLink>

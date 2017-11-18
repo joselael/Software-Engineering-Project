@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import '../css/Signin.css'
+import { login, loggedIn } from '../utils/Auth';
+import axios from 'axios';
+import '../css/Signin.css';
 
-export default class Signin extends Component {
+class Signin extends Component {
   constructor(props) {
     super(props);
 
@@ -23,6 +25,7 @@ export default class Signin extends Component {
   }
 
   handleSubmit = event => {
+    login(this.state.username, this.state.password);
     event.preventDefault();
   }
 
@@ -60,3 +63,5 @@ export default class Signin extends Component {
     );
   }
 }
+
+export default Signin;
