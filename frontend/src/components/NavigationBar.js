@@ -1,11 +1,27 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
 import {Nav, Navbar, NavbarBrand, NavItem, Collapse} from "react-bootstrap";
 import { login, loggedIn } from '../utils/Auth';
-import '../css/nav.css'
+import '../css/nav.css';
+import Store from '../Store';
 
-class NavigationBar extends Component {
+class NavigationBar extends Component { 
   render() {
+
+    let userMessage;
+    if (loggedIn) {
+      userMessage = (
+        <span>
+          <h2>Yong</h2>
+          <p>You can visit settings to reset your password</p>
+        </span>
+      )
+    } else {
+      userMessage = (
+        <h2>Hey man! Sign in to see this section</h2>
+      )
+    }
+
     return (
       <div className="NavigationBar">
         <Navbar className="navbar-expand-lg navbar-light bg-light fixed-top">

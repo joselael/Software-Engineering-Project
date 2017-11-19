@@ -3,16 +3,16 @@ import axios from 'axios';
 import _ from 'lodash';
 import Store from '../Store';
 import { setToken } from '../actions'
-import { URL, LOGIN, LOGOUT } from '../config/Api';
+import { URL, LOGIN, LOGOUT, USER } from '../config/Api';
 
 export function InvalidCredentialsException(message) {
     this.message = message;
     this.name = 'InvalidCredentialsException';
 }
 
-const email = "";
-
 export function login(username, password) {
+
+  const email = "";
   return axios
     .post(URL + LOGIN, {
       username,
@@ -20,7 +20,8 @@ export function login(username, password) {
       password
     })
     .then(function (response) {
-      Store.dispatch(setToken(response.data.token));
+      console.log(response.data.key);
+      Store.dispatch(setToken(response.data.key));
     })
     .catch(function (error) {
       // raise different exception if due to invalid credentials
@@ -31,29 +32,16 @@ export function login(username, password) {
     });
 }
 
-export function logout() {
-  return axios
-    .post(URL + LOGOUT)
-    .then(function (response) {
-      Store.dispatch(setToken(response.data.token));
-    })
-    .catch(function (error) {
-      // raise different exception if due to invalid credentials
-      if (_.get(error, 'response.status') === 400) {
-        throw new InvalidCredentialsException(error);
-      }
-      throw error;
-    });
-}
+export function userInfo() {
 
-export function register(username, password) {
+  const tokenHeader = "Token a633e76e6de11b000f7ba7f1e074d20dd0100de9"; 
+
   return axios
-    .post(URL + LOGIN, {
-      username,
-      password
+    .get(URL + USER, {
+      tokenHeader
     })
     .then(function (response) {
-      Store.dispatch(setToken(response.data.token));
+      console.log(response.data.first_name)
     })
     .catch(function (error) {
       // raise different exception if due to invalid credentials

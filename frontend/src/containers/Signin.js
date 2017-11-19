@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { login, loggedIn, logout } from '../utils/Auth';
+import { login, loggedIn, userInfo } from '../utils/Auth';
 import axios from 'axios';
+import Store from '../Store';
 import '../css/Signin.css';
 
 class Signin extends Component {
@@ -28,24 +29,18 @@ class Signin extends Component {
     const Username = this.state.username;
     const Password = this.state.password;
 
-    if(Username === "" || Password === "")
-      alert("Please enter your username and password properly");
-    else console.log(Username + ":" + Password);
-
     login(Username, Password);
 
-    event.preventDefault();
-  }
+    alert(Store.getState().token);
+    userInfo();
 
-  handleLogout = event => {
-    logout();
     event.preventDefault();
   }
 
   render() {
     return (
       <div className="Signin">
-        <form onSubmit={this.handleLogout}>
+        <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="username" bsSize="large">
             <ControlLabel>Username</ControlLabel>
             <FormControl
