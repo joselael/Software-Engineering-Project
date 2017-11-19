@@ -14,6 +14,7 @@ export function InvalidCredentialsException(message) {
 export function login(username, password) {
 
   const email = "";
+
   return axios
     .post(URL + LOGIN, {
       username,
@@ -32,21 +33,32 @@ export function login(username, password) {
     });
 }
 
-export function userInfo() {
-  axios.defaults.xsrfHeaderName = "X-CSRFToken";
+export function logout() {
 
-  const tokenHeader = "Token "; 
+  const email = "";
+  return axios
+    .post(URL + LOGOUT)
+    .then(function (response) {
+      Store.dispatch(setToken(null));
+    })
+    .catch(function (error) {
+      // raise different exception if due to invalid credentials
+      if (_.get(error, 'response.status') === 400) {
+        throw new InvalidCredentialsException(error);
+      }
+      throw error;
+    });
+}
+export function getUserInfo() {
 
-  const header = tokenHeader + Store.getState().token;
+  const auth = {
+    headers : {Authorization:"Token " + Store.getState().token}
+  }
 
   return axios
-    .get(URL + USER, {
-      Authentication: {
-        Token: Store.getState().token
-      }
-    })
+    .get(URL + USER,auth)
     .then(function (response) {
-      alert(response.data);
+      console.log(response.data);
     })
     .catch(function (error) {
       // raise different exception if due to invalid credentials

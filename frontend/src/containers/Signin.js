@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { login, loggedIn, userInfo } from '../utils/Auth';
+import { login, loggedIn, getUserInfo } from '../utils/Auth';
 import axios from 'axios';
 import Store from '../Store';
 import '../css/Signin.css';
@@ -29,9 +29,9 @@ class Signin extends Component {
     const Username = this.state.username;
     const Password = this.state.password;
 
-    login(Username, Password);
+    //login(Username, Password);
 
-    userInfo();
+    getUserInfo();
 
     event.preventDefault();
   }
