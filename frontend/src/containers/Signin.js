@@ -29,9 +29,12 @@ class Signin extends Component {
     const Username = this.state.username;
     const Password = this.state.password;
 
-    //login(Username, Password);
+    login(Username, Password);
 
-    getUserInfo();
+    getUserInfo()
+    .then(function(response) {
+      console.log(response.data)
+    });
 
     event.preventDefault();
   }

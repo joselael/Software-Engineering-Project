@@ -49,6 +49,7 @@ export function logout() {
       throw error;
     });
 }
+
 export function getUserInfo() {
 
   const auth = {
@@ -58,7 +59,7 @@ export function getUserInfo() {
   return axios
     .get(URL + USER,auth)
     .then(function (response) {
-      console.log(response.data);
+      console.log(response.data)
     })
     .catch(function (error) {
       // raise different exception if due to invalid credentials
