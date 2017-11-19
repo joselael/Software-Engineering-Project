@@ -31,7 +31,6 @@ class Signin extends Component {
 
     login(Username, Password);
 
-    alert(Store.getState().token);
     userInfo();
 
     event.preventDefault();

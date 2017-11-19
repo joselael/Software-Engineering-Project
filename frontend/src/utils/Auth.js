@@ -5,6 +5,7 @@ import Store from '../Store';
 import { setToken } from '../actions'
 import { URL, LOGIN, LOGOUT, USER } from '../config/Api';
 
+
 export function InvalidCredentialsException(message) {
     this.message = message;
     this.name = 'InvalidCredentialsException';
@@ -20,7 +21,6 @@ export function login(username, password) {
       password
     })
     .then(function (response) {
-      console.log(response.data.key);
       Store.dispatch(setToken(response.data.key));
     })
     .catch(function (error) {
@@ -33,15 +33,20 @@ export function login(username, password) {
 }
 
 export function userInfo() {
+  axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
-  const tokenHeader = "Token a633e76e6de11b000f7ba7f1e074d20dd0100de9"; 
+  const tokenHeader = "Token "; 
+
+  const header = tokenHeader + Store.getState().token;
 
   return axios
     .get(URL + USER, {
-      tokenHeader
+      Authentication: {
+        Token: Store.getState().token
+      }
     })
     .then(function (response) {
-      console.log(response.data.first_name)
+      alert(response.data);
     })
     .catch(function (error) {
       // raise different exception if due to invalid credentials
