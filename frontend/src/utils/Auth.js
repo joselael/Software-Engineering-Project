@@ -1,4 +1,5 @@
 // file: src/util/Auth.js
+
 import axios from 'axios';
 import _ from 'lodash';
 import Store from '../Store';
@@ -50,26 +51,20 @@ export function logout() {
     });
 }
 
-export function getUserInfo() {
+export function getAccountByApiToken(apiToken){
 
   const auth = {
-    headers : {Authorization:"Token " + Store.getState().token}
+    headers : {Authorization:"Token " + apiToken}
   }
 
-  return axios
-    .get(URL + USER,auth)
-    .then(function (response) {
-      console.log(response.data)
-    })
-    .catch(function (error) {
-      // raise different exception if due to invalid credentials
-      if (_.get(error, 'response.status') === 400) {
-        throw new InvalidCredentialsException(error);
-      }
-      throw error;
-    });
+  return axios.get(URL + USER,auth)
+  .then((response) => response.data)
+  .catch((error) => {
+    alert("Error" + error)
+  });
 }
 
+
 export function loggedIn() {
-  return Store.getState().token == null;
+  return Storage.getState().token == null
 }

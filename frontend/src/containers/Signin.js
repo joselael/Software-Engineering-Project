@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { login, loggedIn, getUserInfo } from '../utils/Auth';
+import { Redirect } from 'react-router-dom'
+import { login, loggedIn } from '../utils/Auth';
 import axios from 'axios';
 import Store from '../Store';
 import '../css/Signin.css';
@@ -26,21 +27,20 @@ class Signin extends Component {
   }
 
   handleSubmit = event => {
+
     const Username = this.state.username;
     const Password = this.state.password;
 
-    login(Username, Password);
+    login(Username, Password).then().error;
 
-    getUserInfo()
-    .then(function(response) {
-      console.log(response.data)
-    });
-
-    event.preventDefault();
+    if(loggedIn){this.setState({fireRedirect: true})}
   }
 
   render() {
-    return (
+    const { from } = this.props.location.state || '/'
+    const { fireRedirect } = this.state
+
+    if (!loggedIn()) return (
       <div className="Signin">
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="username" bsSize="large">
@@ -69,8 +69,15 @@ class Signin extends Component {
             Signin
           </Button>
         </form>
+        {fireRedirect && (
+          <Redirect to={from || '/'}/>
+        )}
       </div>
-    );
+    )
+    else {
+      alert("You are signed in!")
+      return <Redirect to="/" />
+    }
   }
 }
 
