@@ -1,4 +1,5 @@
 // file: src/util/Auth.js
+
 import axios from 'axios';
 import _ from 'lodash';
 import Store from '../Store';
@@ -14,6 +15,7 @@ export function InvalidCredentialsException(message) {
 export function login(username, password) {
 
   const email = "";
+
   return axios
     .post(URL + LOGIN, {
       username,
@@ -32,21 +34,13 @@ export function login(username, password) {
     });
 }
 
-export function userInfo() {
-  axios.defaults.xsrfHeaderName = "X-CSRFToken";
+export function logout() {
 
-  const tokenHeader = "Token "; 
-
-  const header = tokenHeader + Store.getState().token;
-
+  const email = "";
   return axios
-    .get(URL + USER, {
-      Authentication: {
-        Token: Store.getState().token
-      }
-    })
+    .post(URL + LOGOUT)
     .then(function (response) {
-      alert(response.data);
+      Store.dispatch(setToken(null));
     })
     .catch(function (error) {
       // raise different exception if due to invalid credentials
@@ -57,6 +51,20 @@ export function userInfo() {
     });
 }
 
+export function getAccountByApiToken(apiToken){
+
+  const auth = {
+    headers : {Authorization:"Token " + apiToken}
+  }
+
+  return axios.get(URL + USER,auth)
+  .then((response) => response.data)
+  .catch((error) => {
+    alert("Error" + error)
+  });
+}
+
+
 export function loggedIn() {
-  return Store.getState().token == null;
+  return Storage.getState().token == null
 }
