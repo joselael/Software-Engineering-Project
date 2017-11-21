@@ -7,7 +7,7 @@ from django.db import models
 
 class User(models.Model):
 	USERTYPE_OPTIONS = (
-			(SUPERUSER, 'SU'),
+			#(SUPERUSER, 'SU'),
 			(PENDING_REJECTION, 'PR'),
 			(DEVELOPER, 'DE'),
 			(CLIENT, 'CL'),
