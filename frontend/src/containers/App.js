@@ -4,6 +4,7 @@ import Main from './Main'
 import '../css/template.css'
 
 class App extends Component {
+
   render() {
     return (
       <div>

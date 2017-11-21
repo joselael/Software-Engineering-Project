@@ -34,13 +34,15 @@ class Signin extends Component {
     login(Username, Password).then().error;
 
     if(loggedIn){this.setState({fireRedirect: true})}
+
+    event.preventDefault();
   }
 
   render() {
     const { from } = this.props.location.state || '/'
     const { fireRedirect } = this.state
 
-    if (!loggedIn()) return (
+    return (
       <div className="Signin">
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="username" bsSize="large">
@@ -69,15 +71,8 @@ class Signin extends Component {
             Signin
           </Button>
         </form>
-        {fireRedirect && (
-          <Redirect to={from || '/'}/>
-        )}
       </div>
     )
-    else {
-      alert("You are signed in!")
-      return <Redirect to="/" />
-    }
   }
 }
 
