@@ -1,53 +1,48 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import {Nav, Navbar, NavbarBrand, NavItem, Collapse, NavDropdown} from "react-bootstrap";
-import { loggedIn, logout } from '../utils/Auth';
-import '../css/nav.css';
-import Store from '../Store';
+import { MenuItem, Nav, Navbar, NavbarBrand, NavItem, Collapse, NavDropdown, NavbarToggler } from "reactstrap";
+//import '../css/nav.css';
 import axios from 'axios';
+import {logout} from '../utils/Auth'
 
 class NavigationBar extends Component { 
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      isOpen: false
+    }
+    this.toggle = this.toggle.bind(this)
+    this.logout = logout.bind(this)
+  }
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
   }
 
   render() {
+    const {navCollapsed} = this.state
     return (
       <div className="NavigationBar">
-        <Navbar className="navbar-expand-lg navbar-light bg-light fixed-top">
+        <Navbar className="navbar-light bg-light" light expand="md">
           <NavbarBrand href="/">Simple Coding Turkish System</NavbarBrand>
-              {loggedIn ? (
-                <Nav pullRight>
-                    <NavItem>
-                      <NavLink to='/myaccount'>My Account</NavLink>
-                    </NavItem>
-                    <NavItem>
-                      <NavLink to='/'>Home</NavLink>
-                    </NavItem>
-                    <NavItem onSelect={logout}>
-                      Logout
-                    </NavItem>
-                </Nav>
-              ) : (
-                <Nav className="ml-auto navbar-nav" id="navLinks">
-                  <NavItem>
-                    <NavLink to='/'>Home </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink to='/about'>About </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink to='/signin'>Sign In </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink to='/signup'>Sign Up </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink to='/publicsearch'>Search </NavLink>
-                  </NavItem>
-                </Nav>
-              )}
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+                <NavItem eventKey={1}>
+                  <NavLink to='/'>Home</NavLink>
+                </NavItem>
+                <NavItem eventKey={2}>
+                  <NavLink to='/myaccount'>My Account</NavLink>
+                </NavItem>
+                <NavItem eventKey={3}>
+                  Logout
+                </NavItem>
+            </Nav>
+          </Collapse>
         </Navbar>
       </div>
     )

@@ -5,10 +5,18 @@ import '../css/template.css'
 
 class App extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      api_token : null
+    }
+  }
+
   render() {
     return (
       <div>
-        <NavigationBar />
+        <NavigationBar/>
         <Main />
       </div>
     )

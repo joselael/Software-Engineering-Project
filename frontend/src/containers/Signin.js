@@ -1,19 +1,22 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
-import { Redirect } from 'react-router-dom'
-import { login, loggedIn } from '../utils/Auth';
-import axios from 'axios';
-import Store from '../Store';
+import { Redirect, Link } from 'react-router-dom'
+import { login } from '../utils/Auth' 
 import '../css/Signin.css';
 
 class Signin extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       username: "",
-      password: ""
-    };
+      password: "",
+      api_token: ""
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.validateForm = this.validateForm.bind(this);
+    this.login = login.bind(this);
   }
 
   validateForm() {
@@ -31,17 +34,29 @@ class Signin extends Component {
     const Username = this.state.username;
     const Password = this.state.password;
 
-    login(Username, Password).then().error;
-
-    if(loggedIn){this.setState({fireRedirect: true})}
+    //Call axios login promise
+    this.login(Username, Password)
+      .then(
+        api_token => {
+          localStorage.setItem('api_token', api_token)
+          localStorage.setItem('loggedIn', true)
+          alert("You're logged in!")
+          this.setState({api_token: api_token})
+        }
+      )
+      .catch( (error) => 
+        {
+        localStorage.setItem('api_token', "")
+        localStorage.setItem('loggedIn', false)
+        this.setState({api_token: ""})
+        alert("Error " + error); 
+      }
+    );
 
     event.preventDefault();
   }
 
   render() {
-    const { from } = this.props.location.state || '/'
-    const { fireRedirect } = this.state
-
     return (
       <div className="Signin">
         <form onSubmit={this.handleSubmit}>
