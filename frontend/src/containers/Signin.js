@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import { Redirect, Link } from 'react-router-dom'
 import { login } from '../utils/Auth' 
+import { setToken } from '../actions'
+import store from '../store'
 import '../css/Signin.css';
+import { SET_TOKEN } from "../actions/types";
 
 class Signin extends Component {
   constructor(props) {
@@ -10,7 +13,7 @@ class Signin extends Component {
     this.state = {
       username: "",
       password: "",
-      api_token: ""
+      fireRedirect: false
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -38,10 +41,11 @@ class Signin extends Component {
     this.login(Username, Password)
       .then(
         api_token => {
-          localStorage.setItem('api_token', api_token)
-          localStorage.setItem('loggedIn', true)
+          store.dispatch(setToken(api_token))
           alert("You're logged in!")
-          this.setState({api_token: api_token})
+          this.setState({
+            fireRedirect: true
+          })
         }
       )
       .catch( (error) => 
@@ -57,6 +61,9 @@ class Signin extends Component {
   }
 
   render() {
+    const { from } = this.props.location.state || '/'
+    const { fireRedirect } = this.state.fireRedirect
+
     return (
       <div className="Signin">
         <form onSubmit={this.handleSubmit}>
@@ -86,6 +93,11 @@ class Signin extends Component {
             Signin
           </Button>
         </form>
+        {
+          fireRedirect && (
+            <Redirect to={from || '/'}/>
+          )
+        }
       </div>
     )
   }

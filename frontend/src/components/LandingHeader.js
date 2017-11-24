@@ -5,9 +5,9 @@ class LandingHeader extends Component {
   render() {
     return (
       <div className="LandingHeader">
-        <header class="intro-header">
-          <div class="container">
-            <div class="intro-message">
+        <header className="intro-header">
+          <div className="container">
+            <div className="intro-message">
               <h1>Simplified coding Turk system</h1>
               <h3>Start a project today</h3>
             </div>

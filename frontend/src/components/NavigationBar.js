@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
-import { MenuItem, Nav, Navbar, NavbarBrand, NavItem, Collapse, NavDropdown, NavbarToggler } from "reactstrap";
-//import '../css/nav.css';
+import { Button, NavLink, MenuItem, Nav, Navbar, NavbarBrand, NavItem, Collapse, NavDropdown, NavbarToggler } from "reactstrap";
 import axios from 'axios';
-import {logout} from '../utils/Auth'
+import { loggedIn } from '../utils/Auth'
+import store from '../store'
+import { setToken } from '../actions/index';
 
 class NavigationBar extends Component { 
 
@@ -14,7 +14,7 @@ class NavigationBar extends Component {
       isOpen: false
     }
     this.toggle = this.toggle.bind(this)
-    this.logout = logout.bind(this)
+    this.signout = this.signout.bind(this)
   }
 
   toggle() {
@@ -23,25 +23,48 @@ class NavigationBar extends Component {
     })
   }
 
+  signout(e) {
+    e.preventDefault();
+    store.dispatch(setToken(null))
+    alert("Signed out")
+  }
+
   render() {
     const {navCollapsed} = this.state
+    const isLoggedIn = loggedIn()
     return (
       <div className="NavigationBar">
         <Navbar className="navbar-light bg-light" light expand="md">
           <NavbarBrand href="/">Simple Coding Turkish System</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
+          {isLoggedIn ? (
             <Nav className="ml-auto" navbar>
-                <NavItem eventKey={1}>
-                  <NavLink to='/'>Home</NavLink>
-                </NavItem>
-                <NavItem eventKey={2}>
-                  <NavLink to='/myaccount'>My Account</NavLink>
-                </NavItem>
-                <NavItem eventKey={3}>
-                  Logout
-                </NavItem>
+              <NavItem>
+                <NavLink href='/'>Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href='/myaccount'>My Account</NavLink>
+              </NavItem>
+              <NavItem>
+                <Button onClick={this.signout}>
+                  Sign Out
+                </Button>
+              </NavItem>
+            </Nav> 
+          ) : (
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href='/'>Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href='/about'>About</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href='/signin'>Sign In</NavLink>
+              </NavItem>
             </Nav>
+          )}
           </Collapse>
         </Navbar>
       </div>

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import {URL, LOGIN} from '../urls/API'
+import store from '../store'
 
 export function login(Username, Password) {
-
 
     return axios.post(
         URL+LOGIN, {
@@ -17,6 +17,10 @@ export function login(Username, Password) {
         console.log(error);
         alert("Error " + error);
     })
+}
+
+export function loggedIn() {
+    return store.getState().token != null;
 }
 
 export function logout() {
