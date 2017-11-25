@@ -5,6 +5,7 @@ import Main from './Main'
 import '../css/template.css'
 import { connect } from 'react-redux'
 
+
 class App extends Component {
 
   render() {

@@ -1,4 +1,6 @@
 .LandingCarousel {
-    padding-top: 5%;
-    margin: auto;
+    padding-top: 5px;
+    margin: 0 auto; 
+    max-width: 60%;
+    padding-bottom: 5px;
 }
