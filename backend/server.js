@@ -2,21 +2,26 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const {check, validationResult} = require('express-validator/check');
+const {matchedData, sanitize} = require('express-validator/filter');
 
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
+/* debug */
 const profile = [{
     username: 'lael',
     email: 'jllouis@live.com',
     url: 'http://localhost:3000'
 }];
 
+/* logging middleware, for debugging */ 
 app.use((req, res, next)=>{
     console.log(`${req.method}: ${req.url}`);
     next();
 })
 
+/* auth middleware */ 
 // app.use((req, res, next)=>{
 //     if (req.query.api_key) {
 //         next();
@@ -25,12 +30,13 @@ app.use((req, res, next)=>{
 //     }
 // })
 
+
 app.get('/profile', (req, res) => {
     if (req.query.id) return res.send(profile[req.query.id]);
     res.send(profile);
 })
 
-app.post('/profile/', (req, res)=>{
+app.post('/profile', (req, res)=>{
     profile.push(req.body);
     console.log('created', profile);
     res.sendStatus(201);
