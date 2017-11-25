@@ -3,8 +3,8 @@ import { Switch, Route, Router } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
 import Signin from "./Signin";
-import PublicSearch from "./PublicSearch"
-import Signup from "./Signup"
+import Search from "./Search";
+import Signup from "./Signup";
 import MyAccount from "./MyAccount";
 
 const Main = () => (
@@ -13,7 +13,7 @@ const Main = () => (
       <Route exact path="/" component={Home} />
       <Route path="/about" component={About} />
       <Route path="/signin" component={Signin} />
-      <Route path="/publicsearch" component={PublicSearch} />
+      <Route path="/search" component={Search} />
       <Route path="/signup" component={Signup} />
       <Route path="/myaccount" component={MyAccount} />
     </Switch>

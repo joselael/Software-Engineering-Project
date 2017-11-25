@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NavigationBar from '../components/NavigationBar'
+import { withRouter } from 'react-router-dom'
 import Main from './Main'
 import '../css/template.css'
 import { connect } from 'react-redux'
@@ -22,4 +23,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));

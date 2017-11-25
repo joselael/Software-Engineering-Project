@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Button, FormGroup, Input, Label, NavLink } from "reactstrap";
 import { Redirect, Link } from 'react-router-dom'
 import { login } from '../utils/Auth' 
 import { setToken } from '../actions'
@@ -28,7 +28,7 @@ class Signin extends Component {
 
   handleChange = event => {
     this.setState({
-      [event.target.id]: event.target.value
+      [event.target.name]: event.target.value
     });
   }
 
@@ -62,26 +62,34 @@ class Signin extends Component {
 
   render() {
     const { from } = this.props.location.state || '/'
-    const { fireRedirect } = this.state.fireRedirect
+    if (this.state.fireRedirect) {
+      return (
+        <Redirect to='/'/>
+      )
+    }
 
     return (
       <div className="Signin">
         <form onSubmit={this.handleSubmit}>
           <FormGroup controlId="username" bsSize="large">
-            <ControlLabel>Username</ControlLabel>
-            <FormControl
+            <Label>Username</Label>
+            <Input
               autoFocus
               type="username"
+              name="username"
+              placeholder="Username"
+              onChange={this.handleChange.bind(this)}
               value={this.state.username}
-              onChange={this.handleChange}
             />
           </FormGroup>
           <FormGroup controlId="password" bsSize="large">
-            <ControlLabel>Password</ControlLabel>
-            <FormControl
-              value={this.state.password}
-              onChange={this.handleChange}
+            <Label>Password</Label>
+            <Input
               type="password"
+              name="password"
+              placeholder="Password"
+              onChange={this.handleChange.bind(this)}
+              value={this.state.password}
             />
           </FormGroup>
           <Button
@@ -93,11 +101,6 @@ class Signin extends Component {
             Signin
           </Button>
         </form>
-        {
-          fireRedirect && (
-            <Redirect to={from || '/'}/>
-          )
-        }
       </div>
     )
   }

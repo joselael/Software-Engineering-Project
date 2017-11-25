@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {URL, LOGIN} from '../urls/API'
 import store from '../store'
+import { setToken } from '../actions/index';
 
 export function login(Username, Password) {
 
@@ -24,8 +25,5 @@ export function loggedIn() {
 }
 
 export function logout() {
-
-    return axios.post(
-
-    )
+    store.dispatch(setToken(null))
 }

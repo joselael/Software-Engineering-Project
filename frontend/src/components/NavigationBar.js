@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
-import { Button, NavLink, MenuItem, Nav, Navbar, NavbarBrand, NavItem, Collapse, NavDropdown, NavbarToggler } from "reactstrap";
+import { NavLink as RRNavLink } from 'react-router-dom'
+import { 
+  Button, MenuItem, Nav, Navbar, 
+  NavbarBrand, NavItem, Collapse, 
+  NavDropdown, NavbarToggler, NavLink
+} from "reactstrap";
 import axios from 'axios';
-import { loggedIn } from '../utils/Auth'
+import { loggedIn, logout } from '../utils/Auth'
 import store from '../store'
 import { setToken } from '../actions/index';
 
@@ -25,7 +30,7 @@ class NavigationBar extends Component {
 
   signout(e) {
     e.preventDefault();
-    store.dispatch(setToken(null))
+    logout()
     alert("Signed out")
   }
 
@@ -35,16 +40,25 @@ class NavigationBar extends Component {
     return (
       <div className="NavigationBar">
         <Navbar className="navbar-light bg-light" light expand="md">
-          <NavbarBrand href="/">Simple Coding Turkish System</NavbarBrand>
+          <NavbarBrand to="/">Simple Coding Turkish System</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
           {isLoggedIn ? (
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href='/'>Home</NavLink>
+                <NavLink to='/' tag={RRNavLink}>
+                  Home
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/myaccount'>My Account</NavLink>
+                <NavLink to='/myaccount' tag={RRNavLink}>
+                  My Account
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink to='/search' tag={RRNavLink}>
+                  Search
+                </NavLink>
               </NavItem>
               <NavItem>
                 <Button onClick={this.signout}>
@@ -55,13 +69,24 @@ class NavigationBar extends Component {
           ) : (
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href='/'>Home</NavLink>
+                <NavLink to='/' tag={RRNavLink}>
+                  Home
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/about'>About</NavLink>
+                <NavLink to='/about' tag={RRNavLink}>
+                  About
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href='/signin'>Sign In</NavLink>
+                <NavLink to='/search' tag={RRNavLink}>
+                  Search
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink to='/signin' tag={RRNavLink}>
+                  Sign In
+                </NavLink>
               </NavItem>
             </Nav>
           )}
