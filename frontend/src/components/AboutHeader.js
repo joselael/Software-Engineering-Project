@@ -37,7 +37,7 @@ class AboutBody extends Component {
               </div>
 
               <div class="col-lg-5 mr-auto">
-                <img src={require('../images/Gina.png')} style={{"height" : "70%"}}/>
+                <img src={require('../images/Gina.png')} alt={"Not working"} style={{"height" : "70%"}}/>
               </div>
             </div>
 
@@ -54,7 +54,7 @@ class AboutBody extends Component {
                       </div>
 
                       <div class="col-lg-5 mr-auto">
-                        <img src={require('../images/Maureen.png')} style={{"height" : "70%"}}/>
+                        <img src={require('../images/Maureen.png')} alt={"Not working"}style={{"height" : "70%"}}/>
                       </div>
                     </div>
 
@@ -71,7 +71,7 @@ class AboutBody extends Component {
               </div>
 
               <div class="col-lg-5 mr-auto">
-                <img src={require('../images/Jose.png')} style={{"height" : "70%"}}/>
+                <img src={require('../images/Jose.png')} alt={"Not working"} style={{"height" : "70%"}}/>
               </div>
             </div>
 
@@ -88,7 +88,7 @@ class AboutBody extends Component {
               </div>
 
               <div class="col-lg-5 mr-auto">
-                <img src={require('../images/Yong.png')} style={{"height" : "70%"}}/>
+                <img src={require('../images/Yong.png')} alt={"Not working"} style={{"height" : "70%"}}/>
               </div>
             </div>
 
@@ -105,7 +105,7 @@ class AboutBody extends Component {
               </div>
 
               <div class="col-lg-5 mr-auto">
-                <img src={require('../images/Yuan.png')} style={{"height" : "70%"}}/>
+                <img src={require('../images/Yuan.png')} alt={"Not working"} style={{"height" : "70%"}}/>
               </div>
             </div>
 

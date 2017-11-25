@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Button, FormGroup, Input, Label, NavLink } from "reactstrap";
-import { Redirect, Link } from 'react-router-dom'
+import { Button, FormGroup, Input, Label } from "reactstrap";
+import { Redirect } from 'react-router-dom'
 import { login } from '../utils/Auth' 
 import { setToken } from '../actions'
 import store from '../store'
 import '../css/Signin.css';
-import { SET_TOKEN } from "../actions/types";
 
 class Signin extends Component {
   constructor(props) {
@@ -61,7 +60,6 @@ class Signin extends Component {
   }
 
   render() {
-    const { from } = this.props.location.state || '/'
     if (this.state.fireRedirect) {
       return (
         <Redirect to='/'/>

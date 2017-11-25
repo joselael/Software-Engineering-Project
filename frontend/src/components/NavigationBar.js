@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { NavLink as RRNavLink } from 'react-router-dom'
 import { 
-  Button, MenuItem, Nav, Navbar, 
+  Button,Nav, Navbar, 
   NavbarBrand, NavItem, Collapse, 
-  NavDropdown, NavbarToggler, NavLink
+  NavbarToggler, NavLink
 } from "reactstrap";
-import axios from 'axios';
 import { loggedIn, logout } from '../utils/Auth'
-import store from '../store'
-import { setToken } from '../actions/index';
 
 class NavigationBar extends Component { 
 
@@ -35,7 +32,6 @@ class NavigationBar extends Component {
   }
 
   render() {
-    const {navCollapsed} = this.state
     const isLoggedIn = loggedIn()
     return (
       <div className="NavigationBar">
