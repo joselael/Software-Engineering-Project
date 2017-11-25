@@ -17,13 +17,13 @@ app.use((req, res, next)=>{
     next();
 })
 
-app.use((req, res, next)=>{
-    if (req.query.api_key) {
-        next();
-    } else {
-        res.status(401).send({msg: "Not authorized"});
-    }
-})
+// app.use((req, res, next)=>{
+//     if (req.query.api_key) {
+//         next();
+//     } else {
+//         res.status(401).send({msg: "Not authorized"});
+//     }
+// })
 
 app.get('/profile', (req, res) => {
     if (req.query.id) return res.send(profile[req.query.id]);
