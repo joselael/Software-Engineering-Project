@@ -4,7 +4,7 @@ const logger = require('morgan');
 const errorhandler = require('errorhandler');
 const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
-var bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 
 const bcryptSaltRounds = 10
 
@@ -50,7 +50,8 @@ app.post('/register'/*, [
         last_name: req.body.last_name,
         password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
         id: acc_id,
-        enabled: false /* accounts is disabled until admin enables it */
+        enabled: false /* accounts is disabled until admin enables it */,
+        admin_message: null
     }
 
     ddb.accounts[req.body.username] = user_obj; /* save user into db */
