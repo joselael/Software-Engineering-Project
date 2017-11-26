@@ -67,8 +67,7 @@ app.get('/login', (req, res) => {
 } )
 /* get user accounts, this should presumably only be callable by admin */
 app.get('/accounts', (req, res) => {
-    res.setatus(200).send(ddb.accounts);
-
+    res.status(200).send(ddb.accounts);
 })
 
 /* update account info, also should only be callable by admin */
