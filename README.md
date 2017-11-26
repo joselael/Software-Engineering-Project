@@ -22,16 +22,17 @@ $ git clone https://github.com/jllouis/Software-Engineering-Project.git
 ```  
 
 ### Tools ###
-Recent version of Python 3.x  
+~~Recent version of Python 3.x~~ 
 HTML CSS JavaScript (?) for Front End  
-MariaDB for DB  
+~~MariaDB for D~~  
 Git for SVM  
 Google Cloud Platform for Hosting the App  
 
 ### Resources ###
 #### Repo ####
 https://github.com/jllouis/Software-Engineering-Project.git  
-#### Cloud Server ####
+
+#### ~~Cloud Server ####
 https://console.cloud.google.com/home/dashboard?project=dllz-swep  
 ###### Specs ######
 0.6 GB of RAM
@@ -62,10 +63,10 @@ mysql> GRANT ALL PRIVILEGES ON *.* TO '<your-user-name>'@'%'
 4. When creating a user for a function or app, consider limiting its access and permissions, so that a bug or logical error doesn't damage the database. Also consider creating a temporary database for development and testing.  
 *Please beware, although your user isn't root, you have persmission to do anything, please don't delete the database on the day before we present* :)  
 
-#### Docker Tutorial ####
+#### ~~Docker Tutorial ####
 https://docs.docker.com/get-started/  
 
-#### MySQL Tutorial ####
+#### ~~MySQL Tutorial ####
 https://dev.mysql.com/doc/refman/5.7/en/tutorial.html  
 
 #### Git Tutorial ####
