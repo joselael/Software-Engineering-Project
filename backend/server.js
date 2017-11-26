@@ -7,7 +7,7 @@ const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 const bcrypt = require('bcrypt');
 
-const port = 3000;
+const PORT = 3000;
 
 app.use(bodyParser.json());
 app.use(logger('dev'));
@@ -83,4 +83,4 @@ app.delete('/accounts/:id', (req, res) => {
     res.status(204).send();
 })
 
-app.listen(port);
+app.listen(PORT);
