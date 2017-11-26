@@ -48,8 +48,10 @@ app.post('/register'/*, [
         username: req.body.username,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
+        /** save hash of password, actual plaintext is never saved in database */
         password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
         id: acc_id,
+        user_type: null,
         enabled: false /* accounts is disabled until admin enables it */,
         admin_message: null
     }
@@ -63,12 +65,15 @@ app.post('/login', (req, res) => {
         msg: "Not Authorized."
     });
 
+    /* Compare hash of login password, with has of registered password */
     if (bcrypt.compareSync(req.body.password, ddb.accounts[req.body.username].password, function(error, res){
         console.log("in compareSync");
         if (error) return res.status(400).send({
             msg: "Invalid request."
-        })   
+        });   
     }))
+
+    /** return  */
      res.status(201).send({
         username: ddb.accounts[req.body.username].username,
         first_name: ddb.accounts[req.body.username].first_name,
@@ -96,5 +101,7 @@ app.delete('/accounts/:id', (req, res) => {
     ddb.accounts.splice(req.params.id, 1);
     res.status(204).send();
 })
+
+app.get('/')
 
 app.listen(PORT);
