@@ -11,8 +11,10 @@ export function login(Username, Password) {
             email: "",
             password:Password
         } 
-    ).then(
-        (response) => response.data.key
+    ).then(function(response) {
+        store.dispatch(setToken(response.data.key));
+        alert("You're logged in!!!")
+    }
     ) 
     .catch( (error) => {
         console.log(error);

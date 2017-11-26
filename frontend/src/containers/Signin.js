@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { Redirect } from 'react-router-dom'
-import { login } from '../utils/Auth' 
-import { setToken } from '../actions'
-import store from '../store'
+import { login, loggedIn } from '../utils/Auth' 
 import '../css/Signin.css';
 
 class Signin extends Component {
@@ -39,23 +37,13 @@ class Signin extends Component {
 
     //Call axios login promise
     this.login(Username, Password)
-      .then(
-        api_token => {
-          store.dispatch(setToken(api_token))
-          alert("You're logged in!")
-          this.setState({
-            fireRedirect: true
-          })
-        }
-      )
-      .catch( (error) => 
-        {
-        localStorage.setItem('api_token', "")
-        localStorage.setItem('loggedIn', false)
-        this.setState({api_token: ""})
-        alert("Error " + error); 
+
+    if (loggedIn) {
+      this.setState({
+        fireRedirect:true
       }
-    );
+      )
+    }
 
     event.preventDefault();
   }
