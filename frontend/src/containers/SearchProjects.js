@@ -61,23 +61,25 @@ class SearchProjects extends Component {
             }
         );
         return(
-            <div className="SearchProjects">
-                <FormGroup>
-                    <Input 
-                        placeholder="SEARCH ME!!!"
-                        onChange={this.searchUpdate}
-                        type="text"
-                        id="searchProject"
-                    >
-                    </Input>
-                </FormGroup>
-                {
-                    filteredProjects.map((project)=> {
-                        return <Project project={project} 
-                            key={project.id} 
-                        />
-                    })
-                }
+            <div className="SearchBackground">
+                <div className="SearchProjects">
+                    <FormGroup>
+                        <Input 
+                            placeholder="SEARCH ME!!!"
+                            onChange={this.searchUpdate}
+                            type="text"
+                            id="searchProject"
+                        >
+                        </Input>
+                    </FormGroup>
+                    {
+                        filteredProjects.map((project)=> {
+                            return <Project project={project} 
+                                key={project.id} 
+                            />
+                        })
+                    }
+                </div>
             </div>
         )
     }
