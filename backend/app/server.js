@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 var User = require('./models/users')
 var config = require('./config');
-
+var UserController = require('./models/UserController');
 
 const bcryptSaltRounds = 10
 const app = express();
@@ -84,7 +84,7 @@ app.post('/login', (req, res) => {
     });
   });
 
-  router.get('/logout', function(req, res) {
+  app.get('/logout', function(req, res) {
     res.status(200).send({ auth: false, token: null });
   });/*{
     if(!(req.body.username in ddb.accounts)) return res.status(401).send({
