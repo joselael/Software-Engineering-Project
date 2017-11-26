@@ -22,7 +22,7 @@ $ git clone https://github.com/jllouis/Software-Engineering-Project.git
 ```  
 
 ### Tools ###
-Latest version of Node, NPM
+Latest version of Node, NPM  
 HTML CSS JavaScript (?) for Front End  
 Mongo Client  
 Git for SVM  
