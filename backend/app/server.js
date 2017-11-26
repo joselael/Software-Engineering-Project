@@ -6,9 +6,25 @@ const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-var User = require('./models/User')
+// var User = require('./models/User')
+const mongoose = require('mongoose');  
+
+mongoose.connect('mongodb://nodejsapp:dllmz322squad@ds119436.mlab.com:19436/swepdb');
+var UserSchema = new mongoose.Schema({  
+  username: String,
+  first_name: String,
+  last_name: String,
+  email: String,
+  password: String,
+  user_type: String,
+  enabled: Boolean,
+  blacklisted: Boolean,
+  admin_message: String
+});
+var User = mongoose.model('User', UserSchema);
+
 var config = require('./config');
-var UserController = require('./models/UserController');
+// var UserController = require('./models/UserController');
 
 const bcryptSaltRounds = 10
 const app = express();
@@ -31,8 +47,15 @@ app.post('/register'/*, [
     check('password', 'passwords must be at least 8 chars long and contain one number')
     .isLength({min : 5}).matches(/\d/)
 ]*/, function(req, res) {
-    
+    //outputting for debugging purposes
     console.log("creating user");
+    console.log(`req.body.username: ${req.body.username}`);
+    console.log(`req.body.first_name: ${req.body.first_name}`);
+    console.log(`req.body.last_name: ${req.body.last_name}`);
+    console.log(`req.body.email: ${req.body.email}`);
+    console.log(`req.body.password: ${req.body.password}`);
+    console.log(`req.body.user_type: ${req.body.user_type}`);
+    console.log(mongoose.connection.readyState);
     User.create({
       username: req.body.username,
       first_name: req.body.first_name,
@@ -44,7 +67,7 @@ app.post('/register'/*, [
       blacklisted: false,
       admin_message: null
     }, function (err, user) {
-        console.log("done creating user");
+      console.log("done creating user");
       if (err) return res.status(500).send("There was a problem registering the user.")
       // create a token
       var token = jwt.sign({ id: user._id }, config.secret, {
