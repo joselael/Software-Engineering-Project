@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const errorhandler = require('errohandler');
+const errorhandler = require('errorhandler');
 const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 const bcrypt = require('bcrypt');
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 
 app.use(bodyParser.json());
 app.use(logger('dev'));
@@ -63,7 +63,7 @@ app.post('/register', [
 })
 
 app.get('/login', (req, res) => {
-
+    
 } )
 /* get user accounts, this should presumably only be callable by admin */
 app.get('/accounts', (req, res) => {
