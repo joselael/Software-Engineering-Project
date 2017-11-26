@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { Redirect } from 'react-router-dom'
-import { login, loggedIn } from '../utils/Auth' 
+import { login, loggedIn, getUser } from '../utils/Auth' 
+import store from '../store'
 import '../css/Signin.css';
 
 class Signin extends Component {
@@ -27,7 +28,6 @@ class Signin extends Component {
     this.setState({
       [event.target.name]: event.target.value
     });
-    console.log(event.target.value)
   }
 
   handleSubmit = event => {
@@ -37,6 +37,7 @@ class Signin extends Component {
 
     //Call axios login promise
     this.login(Username, Password)
+    getUser(store.token)
 
     if (loggedIn) {
       this.setState({
@@ -58,7 +59,7 @@ class Signin extends Component {
     return (
       <div className="Signin">
         <form onSubmit={this.handleSubmit}>
-          <FormGroup controlId="username" bsSize="large">
+          <FormGroup>
             <Label>Username</Label>
             <Input
               autoFocus
@@ -69,7 +70,7 @@ class Signin extends Component {
               value={this.state.username}
             />
           </FormGroup>
-          <FormGroup controlId="password" bsSize="large">
+          <FormGroup>
             <Label>Password</Label>
             <Input
               type="password"
@@ -81,7 +82,6 @@ class Signin extends Component {
           </FormGroup>
           <Button
             block
-            bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
           >

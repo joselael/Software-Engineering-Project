@@ -1,7 +1,21 @@
 import axios from 'axios'
-import {URL, LOGIN} from '../urls/API'
+import { URL, LOGIN, USER } from '../urls/API'
 import store from '../store'
 import { setToken } from '../actions/index';
+
+export function getUser(Token) {
+
+    const auth = {
+        "Authentication":"Token 09c2a9a1e4c46458a60f183a93e9eb8ad34eac19"
+    }
+
+    return axios.get(
+        "localhost:8000/rest-auth/user/",
+        auth
+    ).then((function(response){
+        console.log(response.data)
+    }))
+}
 
 export function login(Username, Password) {
 

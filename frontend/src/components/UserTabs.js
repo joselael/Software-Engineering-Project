@@ -3,7 +3,9 @@ import { TabContent, TabPane, Nav, NavItem,
   NavLink, Button, Table,
   Row, Col } from 'reactstrap';
 import classnames from 'classnames';
-import '../css/usertab.css'
+import '../css/usertab.css';
+import { getUser } from '../utils/Auth';
+import store from '../store'
 
 export class SuperUserTab extends React.Component {
   constructor(props) {
@@ -11,7 +13,9 @@ export class SuperUserTab extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      first_name: getUser(store.token),
+      last_name: getUser(store.token),
     };
   }
 
@@ -21,6 +25,7 @@ export class SuperUserTab extends React.Component {
         activeTab: tab
       });
     }
+    console.log(this.state.first_name)
   }
   render() {
     return (
