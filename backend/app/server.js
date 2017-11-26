@@ -6,7 +6,7 @@ const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-var User = require('./models/users')
+var User = require('./models/User')
 var config = require('./config');
 var UserController = require('./models/UserController');
 
