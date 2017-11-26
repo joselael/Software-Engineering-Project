@@ -17,7 +17,7 @@ app.use(errorhandler());
 
 /* debug */
 const ddb = {}; //debug database
-ddb.accounts = [];
+ddb.accounts = {};
 
 /* logging middleware, for debugging */ 
 // app.use((req, res, next)=>{
@@ -43,7 +43,7 @@ app.post('/register'/*, [
     .isLength({min : 5}).matches(/\d/)
 ]*/, (req, res, next) => {
 
-    let acc_id = ddb.accounts.length; 
+    let acc_id = Object.keys(ddb.accounts).length; 
     let user_obj = {
         username: req.body.username,
         first_name: req.body.first_name,
@@ -53,12 +53,31 @@ app.post('/register'/*, [
         enabled: false /* accounts is disabled until admin enables it */
     }
 
-    ddb.accounts.push(user_obj); /* save user into db */
+    ddb.accounts[req.body.username] = user_obj; /* save user into db */
     res.status(201).send({id:acc_id});
 })
 
-app.get('/login', (req, res) => {
-    
+app.post('/login', (req, res) => {
+    if(!(req.body.username in ddb.accounts)) return res.status(401).send({
+        msg: "Not Authorized."
+    });
+
+    if (bcrypt.compareSync(req.body.password, ddb.accounts[req.body.username].password, function(error, res){
+        console.log("in compareSync");
+        if (error) return res.status(400).send({
+            msg: "Invalid request."
+        })   
+    }))
+     res.status(201).send({
+        username: ddb.accounts[req.body.username].username,
+        first_name: ddb.accounts[req.body.username].first_name,
+        last_name: ddb.accounts[req.body.username].last_name,
+        id: ddb.accounts[req.body.username].id
+    });
+else return res.status(401).send({
+    msg: "Not Authorized."
+});
+
 } )
 /* get user accounts, this should presumably only be callable by admin */
 app.get('/accounts', (req, res) => {
