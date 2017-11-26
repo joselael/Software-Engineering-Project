@@ -1,0 +1,13 @@
+.SearchBackground {
+    background-image: url('../images/Programmer.jpg');
+}
+
+.SearchProjects {
+    padding-top: 40px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.SearchInput {
+    padding-bottom: 50px;
+}

@@ -1,54 +1,40 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Carousel } from 'react-responsive-carousel';
-import '../css/carousel.css'
+import { UncontrolledCarousel } from 'reactstrap';
+//import '../css/carousel.css'
+import Image from '../images/Yong.png'
 
-const paddingStyle = {
-  padding: "4%",
-}
+var styles = {
+  backgroundColor:'grey',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
 
 class LandingCarousel extends Component {
-    render() {
-        return (
-          <div className="LandingCarousel" style={paddingStyle}>
-            <Carousel showThumbs={true} 
-              showArrows={true} showStatus={false} 
-              dynamicHeight={true} 
-              centerMode = {true} 
-              centerSlidePercentage = "50" 
-              autoPlay = {true} 
-              stopOnHover={false}
-              infiniteLoop={true} 
-              width={1150}>
-                <div>
-                    <img src={require('../images/Gina.png')} />
-                    <p className="legend">Legend 1</p>
-                </div>
-                <div>
-                    <img src={require('../images/Gina.png')}  />
-                    <p className="legend">Legend 2</p>
-                </div>
-                <div>
-                    <img src={require('../images/Gina.png')} />
-                    <p className="legend">Legend 3</p>
-                </div>
-                <div>
-                    <img src={require('../images/Gina.png')} />
-                    <p className="legend">Legend 4</p>
-                </div>
-                <div>
-                    <img src={require('../images/Gina.png')} />
-                    <p className="legend">Legend 5</p>
-                </div>
-                <div>
-                    <img src={require('../images/Gina.png')} />
-                    <p className="legend">Legend 6</p>
-                </div>
-            </Carousel>
-          </div>
-          
-        )
-    }
+  render() {
+
+    const items = [
+      {
+        src: Image,
+        altText: 'Slide 1',
+        caption: 'Slide 1'
+      },
+      {
+        src: Image,
+        altText: 'Slide 2',
+        caption: 'Slide 2'
+      },
+      {
+        src: Image,
+        altText: 'Slide 3',
+        caption: 'Slide 3'
+      }
+    ];
+    return(
+      <div className="LandingCarousel" style={styles}>
+        <UncontrolledCarousel items={items}/>
+      </div>
+    )
+  }
 }
 
 export default LandingCarousel;

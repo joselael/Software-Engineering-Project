@@ -8,7 +8,9 @@ class Home extends Component {
 		return (
 		  <div>
 		    <LandingHeader />
-		    <LandingCarousel />
+				{/*
+				<LandingCarousel />
+				*/}
 		    <LandingFooter />
 		  </div>
   		)

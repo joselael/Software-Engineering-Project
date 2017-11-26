@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
+import { NavLink } from 'reactstrap'
+import { NavLink as RRNavLink } from 'react-router-dom'
 import '../css/landing.css'
 
 class LandingFooter extends Component {
@@ -7,33 +8,25 @@ class LandingFooter extends Component {
     return (
       <div className="LandingFooter">
       <footer>
-        <ul class="list-inline">
-          <li class="footer-menu-divider list-inline-item">&sdot;</li>
-          <li class="list-inline-item">
-            <a>
-              <Link to='/'>Home</Link>
-            </a>
+        <ul className="list-inline">
+          <li className="footer-menu-divider list-inline-item">&sdot;</li>
+          <li className="list-inline-item">
+              <NavLink to='/' tag={RRNavLink}>Home</NavLink>
           </li>
-          <li class="footer-menu-divider list-inline-item">&sdot;</li>
-          <li class="list-inline-item">
-            <a>
-              <Link to='/about'>About</Link>
-            </a>
+          <li className="footer-menu-divider list-inline-item">&sdot;</li>
+          <li className="list-inline-item">
+              <NavLink to='/about' tag={RRNavLink}>About</NavLink>
           </li>
-          <li class="footer-menu-divider list-inline-item">&sdot;</li>
-          <li class="list-inline-item">
-            <a>
-              <Link to='signin'>Sign In</Link>
-            </a>
+          <li className="footer-menu-divider list-inline-item">&sdot;</li>
+          <li className="list-inline-item">
+              <NavLink to='signin' tag={RRNavLink}>Sign In</NavLink>
           </li>
-          <li class="footer-menu-divider list-inline-item">&sdot;</li>
-          <li class="list-inline-item">
-            <a>
-              <Link to='/signup'>Sign Up</Link>
-            </a>
+          <li className="footer-menu-divider list-inline-item">&sdot;</li>
+          <li className="list-inline-item">
+              <NavLink to='/signup' tag={RRNavLink}>Sign Up</NavLink>
           </li>
         </ul>
-        <p class="copyright text-muted small">Copyright &copy; Simple Turking System 2017. All Rights Reserved</p>
+        <p className="copyright text-muted small">Copyright &copy; Simple Turking System 2017. All Rights Reserved</p>
         </footer>
       </div>
     );
