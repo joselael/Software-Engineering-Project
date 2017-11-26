@@ -20,8 +20,8 @@ app.use(logger('dev'));
 app.use(errorhandler());
 
 /* debug */
-const ddb = {}; //debug database
-ddb.accounts = {};
+// const ddb = {}; //debug database
+// ddb.accounts = {};
 
 // register endpoint
 app.post('/register'/*, [
@@ -115,6 +115,8 @@ app.get('/accounts', (req, res) => {
     res.status(200).send(ddb.accounts);
 })
 
+
+//get user by token
 app.get('/user', function(req, res) {
     var token = req.headers['x-access-token'];
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
@@ -132,17 +134,20 @@ app.get('/user', function(req, res) {
   });
 
 /* update account info, also should only be callable by admin */
-app.put('/accounts/:id', (req, res)=>{
-    store.accounts[req.params.id] = req.body;
-    res.status(200).send(store.accounts[req.params.id]);
-})
+// app.put('/accounts/:id', (req, res)=>{
+//     store.accounts[req.params.id] = req.body;
+//     res.status(200).send(store.accounts[req.params.id]);
+// })
 
 /* delete account, only callable by admin */
-app.delete('/accounts/:id', (req, res) => {
-    ddb.accounts.splice(req.params.id, 1);
-    res.status(204).send();
-})
+// app.delete('/accounts/:id', (req, res) => {
+//     ddb.accounts.splice(req.params.id, 1);
+//     res.status(204).send();
+// })
 
-app.get('/')
+// if endpoint doesn't exist
+app.all('/*', (req, res) => {
+    res.status(404).send("Not found");
+})
 
 app.listen(PORT);
