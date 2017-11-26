@@ -111,9 +111,9 @@ else return res.status(401).send({
 } )*/
 
 /* get user accounts, this should presumably only be callable by admin */
-app.get('/accounts', (req, res) => {
-    res.status(200).send(ddb.accounts);
-})
+// app.get('/accounts', (req, res) => {
+//     res.status(200).send(ddb.accounts);
+// })
 
 
 //get user by token
