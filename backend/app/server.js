@@ -4,7 +4,9 @@ const logger = require('morgan');
 const errorhandler = require('errorhandler');
 const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
-const bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt');
+
+const bcryptSaltRounds = 10
 
 const app = express();
 const PORT = 3001;
@@ -33,33 +35,26 @@ ddb.accounts = [];
 // })
 
 // register endpoint
-app.post('/register', [
+app.post('/register'/*, [
     check('username').isAlphanumeric().withMessage("invalid username").trim(),
     check('first_name').isAlpha().withMessage("invalid first name").trim,
     check('last_name').isAlpha().withMessage("invalid last name").trim(),
     check('password', 'passwords must be at least 8 chars long and contain one number')
     .isLength({min : 5}).matches(/\d/)
-], (req, res, next) => {
-
-    //hash pw
-    var pwhash; 
-    bcrypt.hash(req.body.password, 10, function(err, hash) {
-        pwhash = hash;
-    })
+]*/, (req, res, next) => {
 
     let acc_id = ddb.accounts.length; 
-
     let user_obj = {
         username: req.body.username,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        password: pwhash,
+        password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
         id: acc_id,
         enabled: false /* accounts is disabled until admin enables it */
     }
 
     ddb.accounts.push(user_obj); /* save user into db */
-    req.status(201).send({id:acc_id});
+    res.status(201).send({id:acc_id});
 })
 
 app.get('/login', (req, res) => {
