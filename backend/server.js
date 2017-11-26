@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const errorhandler = require('errohandler');
@@ -7,6 +6,7 @@ const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 const bcrypt = require('bcrypt');
 
+const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());

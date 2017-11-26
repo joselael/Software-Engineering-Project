@@ -14,8 +14,10 @@
     "bcrypt": "1.0.3",
     "body-parser": "1.18.2",
     "errorhandler": "1.5.0",
-    "express": "^4.16.2",
+    "express": "4.16.2",
     "express-validator": "4.3.0",
+    "jsonwebtoken": "8.1.0",
+    "mongoose": "4.13.5",
     "morgan": "1.9.0"
   },
   "devDependencies": {
