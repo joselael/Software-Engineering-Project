@@ -5,6 +5,10 @@ const errorhandler = require('errorhandler');
 const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+var User = require('./models/users')
+var config = require('../config');
+
 
 const bcryptSaltRounds = 10
 
@@ -19,21 +23,6 @@ app.use(errorhandler());
 const ddb = {}; //debug database
 ddb.accounts = {};
 
-/* logging middleware, for debugging */ 
-// app.use((req, res, next)=>{
-//     console.log(`${req.method}: ${req.url}`);
-//     next();
-// })
-
-/* auth middleware */ 
-// app.use((req, res, next)=>{
-//     if (req.query.api_key) {
-//         next();
-//     } else {
-//         res.status(401).send({msg: "Not authorized"});
-//     }
-// })
-
 // register endpoint
 app.post('/register'/*, [
     check('username').isAlphanumeric().withMessage("invalid username").trim(),
@@ -41,24 +30,46 @@ app.post('/register'/*, [
     check('last_name').isAlpha().withMessage("invalid last name").trim(),
     check('password', 'passwords must be at least 8 chars long and contain one number')
     .isLength({min : 5}).matches(/\d/)
-]*/, (req, res, next) => {
+]*/, function(req, res) {
+    
+    console.log("creating user");
+    User.create({
+      username: req.body.username,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email: req.body.email,
+      password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
+      user_type: req.body.user_type,
+      enabled: false,
+      blacklisted: false,
+      admin_message: null
+    }, function (err, user) {
+        console.log("done creating user");
+      if (err) return res.status(500).send("There was a problem registering the user.")
+      // create a token
+      var token = jwt.sign({ id: user._id }, config.secret, {
+        expiresIn: 86400 // expires in 24 hours
+      });
+      res.status(200).send({ auth: true, token: token });
+    }); 
+  });/* (req, res, next) => {
 
     let acc_id = Object.keys(ddb.accounts).length; 
     let user_obj = {
         username: req.body.username,
         first_name: req.body.first_name,
         last_name: req.body.last_name,
-        /** save hash of password, actual plaintext is never saved in database */
+        // save hash of password, actual plaintext is never saved in database 
         password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
         id: acc_id,
         user_type: null,
-        enabled: false /* accounts is disabled until admin enables it */,
+        enabled: false // accounts is disabled until admin enables it ,
         admin_message: null
     }
 
-    ddb.accounts[req.body.username] = user_obj; /* save user into db */
+    ddb.accounts[req.body.username] = user_obj; // save user into db 
     res.status(201).send({id:acc_id});
-})
+}) */
 
 app.post('/login', (req, res) => {
     if(!(req.body.username in ddb.accounts)) return res.status(401).send({
@@ -72,8 +83,6 @@ app.post('/login', (req, res) => {
             msg: "Invalid request."
         });   
     }))
-
-    /** return  */
      res.status(201).send({
         username: ddb.accounts[req.body.username].username,
         first_name: ddb.accounts[req.body.username].first_name,
