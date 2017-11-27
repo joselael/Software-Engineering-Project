@@ -28,8 +28,8 @@ export function login(Username, Password) {
         } 
     }).then(function(response) {
         store.dispatch(setToken(response.data.token))
-        alert("You're logged in!!!")
         getUser(response.data.token)
+        alert("You're logged in!!!")
     }
     ) 
     .catch( (error) => {
