@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { NavLink as RRNavLink } from 'react-router-dom'
-import { 
-  Button,Nav, Navbar, 
-  NavbarBrand, NavItem, Collapse, 
+import {
+  Button,Nav, Navbar,
+  NavbarBrand, NavItem, Collapse,
   NavbarToggler, NavLink
 } from "reactstrap";
 import { loggedIn, logout } from '../utils/Auth'
 
-class NavigationBar extends Component { 
+class NavigationBar extends Component {
 
   constructor(props) {
     super(props);
@@ -54,7 +54,7 @@ class NavigationBar extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <Button 
+                <Button
                   onClick={this.signout}
                   size="md"
                   color="primary"
@@ -62,7 +62,7 @@ class NavigationBar extends Component {
                   Sign Out
                 </Button>
               </NavItem>
-            </Nav> 
+            </Nav>
           ) : (
             <Nav className="ml-auto" navbar>
               <NavItem>
@@ -76,14 +76,9 @@ class NavigationBar extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <Button 
-                  to='/signin' 
-                  tag={RRNavLink}
-                  size="md"
-                  color="primary"
-                >
+                <NavLink to='/signin' tag={RRNavLink}>
                   Sign In
-                </Button>
+                </NavLink>
               </NavItem>
             </Nav>
           )}
