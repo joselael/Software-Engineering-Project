@@ -1,7 +1,7 @@
 // file: containers/MyAccount.js
 
 import React, { Component} from 'react';
-import { SuperUserTab } from '../components/UserTabs'
+import { AdminTab } from '../components/UserTabs/AdminTab'
 import { loggedIn } from '../utils/Auth'
 import { Redirect } from 'react-router-dom'
 import store from '../store'
@@ -24,7 +24,7 @@ class MyAccount extends Component {
     switch(store.getState().user.user_type) {
       case 'admin':
         return (
-          <SuperUserTab />
+          <AdminTab />
         )
       default:
         alert("Login first!!")
