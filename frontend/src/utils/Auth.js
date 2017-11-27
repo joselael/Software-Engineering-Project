@@ -2,7 +2,6 @@ import axios from 'axios'
 import { URL, LOGIN, USER, REGISTER, ACCOUNTS } from '../urls/API'
 import store from '../store'
 import { setToken, setUser } from '../actions/index';
-import { get } from 'http';
 
 export function login(Username, Password) {
     return axios({
