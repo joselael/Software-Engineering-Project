@@ -54,7 +54,11 @@ class NavigationBar extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <Button onClick={this.signout}>
+                <Button 
+                  onClick={this.signout}
+                  size="md"
+                  color="primary"
+                >
                   Sign Out
                 </Button>
               </NavItem>
@@ -72,9 +76,14 @@ class NavigationBar extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to='/signin' tag={RRNavLink}>
+                <Button 
+                  to='/signin' 
+                  tag={RRNavLink}
+                  size="md"
+                  color="primary"
+                >
                   Sign In
-                </NavLink>
+                </Button>
               </NavItem>
             </Nav>
           )}

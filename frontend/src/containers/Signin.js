@@ -79,6 +79,7 @@ class Signin extends Component {
             />
           </FormGroup>
           <Button
+            color="primary"
             block
             disabled={!this.validateForm()}
             type="submit"
