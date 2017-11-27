@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { Button } from 'reactstrap'
+import { NavLink as RRNavLink } from 'react-router-dom'
 import '../css/landing.css'
 
 class LandingHeader extends Component {
+
   render() {
     return (
       <div className="LandingHeader">
@@ -10,6 +13,10 @@ class LandingHeader extends Component {
             <div className="intro-message">
               <h1>Simplified coding Turk system</h1>
               <h3>Start a project today</h3>
+              <hr/>
+              <h2>
+                <Button color="primary" to="/signup" tag={RRNavLink}> Sign Up </Button>
+              </h2>
             </div>
           </div>
         </header>

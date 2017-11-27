@@ -1,19 +1,16 @@
 import React, {Component} from 'react'
 import Signupbody from '../components/Signupbody'
-import '../css/Signin.css';
-
+import Signupheader from '../components/Signupheader'
 
 class Signup extends Component {
   render() {
     return (
       <div>
+        <Signupheader />
 
-        <div className="row">
-  	     <div className="col-md-4 col-md-offset-4">
           <div>
             <Signupbody />
-          </div>
-         </div>
+          
          </div>
       </div>
     )
