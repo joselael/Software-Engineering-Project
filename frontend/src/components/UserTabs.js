@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabContent, TabPane, Nav, NavItem, 
   NavLink, Button, Table,
-  Row, Col } from 'reactstrap';
+  Row, Col, Media } from 'reactstrap';
 import classnames from 'classnames';
 import '../css/usertab.css';
 import { getUser } from '../utils/Auth';
@@ -14,8 +14,6 @@ export class SuperUserTab extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: '1',
-      first_name: getUser(store.token),
-      last_name: getUser(store.token),
     };
   }
 
@@ -25,7 +23,6 @@ export class SuperUserTab extends React.Component {
         activeTab: tab
       });
     }
-    console.log(this.state.first_name)
   }
   render() {
     return (
@@ -102,17 +99,14 @@ export class SuperUserTab extends React.Component {
                 </Table>
               </Row>
             </TabPane>
-            <TabPane tabId="2">
+            <TabPane tabId="2" className="Profile-Tab">
               <Row>
                 <Col sm="6">
-                  <h4>I am profile tab</h4>
-                </Col>
-                <Col sm="6">
-                  <h4>My name is</h4>
+                  <h4>{store.getState().user.first_name} {store.getState().user.last_name}</h4>
                 </Col>
               </Row>
             </TabPane>
-            <TabPane tabId="3">
+            <TabPane tabId="3" className="Setting-Tab">
               <Row>
                 <Col sm="12">
                   <h4>I am setting tab</h4>

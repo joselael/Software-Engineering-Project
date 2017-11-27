@@ -36,16 +36,13 @@ class NavigationBar extends Component {
     return (
       <div className="NavigationBar">
         <Navbar className="navbar-light bg-light" light expand="md">
-          <NavbarBrand to="/">Simple Coding Turkish System</NavbarBrand>
+          <NavbarBrand to="/" tag={RRNavLink}>
+            Simple Coding Turkish System
+          </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
           {isLoggedIn ? (
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink to='/' tag={RRNavLink}>
-                  Home
-                </NavLink>
-              </NavItem>
               <NavItem>
                 <NavLink to='/myaccount' tag={RRNavLink}>
                   My Account
@@ -57,18 +54,17 @@ class NavigationBar extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <Button onClick={this.signout}>
+                <Button 
+                  onClick={this.signout}
+                  size="md"
+                  color="primary"
+                >
                   Sign Out
                 </Button>
               </NavItem>
             </Nav> 
           ) : (
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink to='/' tag={RRNavLink}>
-                  Home
-                </NavLink>
-              </NavItem>
               <NavItem>
                 <NavLink to='/about' tag={RRNavLink}>
                   About
@@ -80,9 +76,14 @@ class NavigationBar extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to='/signin' tag={RRNavLink}>
+                <Button 
+                  to='/signin' 
+                  tag={RRNavLink}
+                  size="md"
+                  color="primary"
+                >
                   Sign In
-                </NavLink>
+                </Button>
               </NavItem>
             </Nav>
           )}
