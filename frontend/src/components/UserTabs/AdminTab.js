@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { TabContent, TabPane, Nav, NavItem, 
   NavLink, Button, Table,
   Row, Col, Media } from 'reactstrap';
-import classnames from 'classnames';
 import '../../css/usertab.css';
 import { accounts } from '../../utils/Auth'
 import store from '../../store'
+import classnames from 'classnames'
+import ProfileTab from './GeneralTab/ProfileTab'
+import SettingsTab from './GeneralTab/SettingsTab'
 
 export class AdminTab extends Component {
   constructor(props) {
@@ -103,20 +105,8 @@ export class AdminTab extends Component {
                 </Table>
               </Row>
             </TabPane>
-            <TabPane tabId="2" className="Profile-Tab">
-              <Row>
-                <Col sm="6">
-                  <h4>{store.getState().user.first_name} {store.getState().user.last_name}</h4>
-                </Col>
-              </Row>
-            </TabPane>
-            <TabPane tabId="3" className="Setting-Tab">
-              <Row>
-                <Col sm="12">
-                  <h4>I am setting tab</h4>
-                </Col>
-              </Row>
-            </TabPane>
+            <ProfileTab />
+            <SettingsTab />
           </TabContent>
         </div>
       </div>
