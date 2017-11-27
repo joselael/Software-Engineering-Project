@@ -1,14 +1,20 @@
 import React, {Component} from 'react'
-import LandingFooter from '../components/LandingFooter'
-import {Signupheader, Signupbody} from '../components/Signupbody'
+import Signupbody from '../components/Signupbody'
+import '../css/Signin.css';
+
 
 class Signup extends Component {
   render() {
     return (
-	  <div>
-	  	<Signupheader />
-	  	<Signupbody />
-      <LandingFooter />
+      <div>
+
+        <div className="row">
+  	     <div className="col-md-4 col-md-offset-4">
+          <div>
+            <Signupbody />
+          </div>
+         </div>
+         </div>
       </div>
     )
   }
