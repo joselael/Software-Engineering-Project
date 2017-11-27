@@ -9,6 +9,8 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');  
 const cors = require('cors');
 
+const VerifyToken = require('./auth/VerifyToken');
+
 mongoose.connect('mongodb://nodejsapp:dllmz322squad@ds119436.mlab.com:19436/swepdb');
 var UserSchema = new mongoose.Schema({  
   username: String,
@@ -24,6 +26,7 @@ var UserSchema = new mongoose.Schema({
 var ProjectSchema = new mongoose.Schema({
   author_username: String,
   summary: String,
+  details: String,
   post_date: { type: Date, default: Date.now },
   bid_start: { type: Date, default: Date.now },
   bid_end: Date,
@@ -80,10 +83,11 @@ app.post('/register'/*, [
   });
 
 
-app.post('/createproject', function(req, res) {
+app.post('/createproject', VerifyToken, function(req, res) {
   User.create({
     author_username: req.body.author,
     summary: req.body.summary,
+    detils: req.body.details,
     bid_end: Date(req.body.bid_end),
     min_budget: parseInt(req.body.min_budget),
     max_budget: parseInt(req.body.max_budget),
@@ -115,7 +119,7 @@ app.post('/login', (req, res) => {
 
 
   // get all users from the database
-  app.get('/accounts', function (req, res) {
+  app.get('/accounts', VerifyToken, function (req, res) {
     User.find({},{password: 0}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
         res.status(200).send(users);
@@ -124,7 +128,7 @@ app.post('/login', (req, res) => {
 
 
   // get all projects from the database
-  app.get('/projects', function (req, res) {
+  app.get('/projects', VerifyToken, function (req, res) {
     Project.find({}, function (err, projects) {
         if (err) return res.status(500).send("There was a problem finding the projects.");
         res.status(200).send(projects);
@@ -133,7 +137,7 @@ app.post('/login', (req, res) => {
 
 
 // delete a user from the database
-app.delete('/delete/:id', function (req, res) {
+app.delete('/delete/:id', VerifyToken, function (req, res) {
   User.findByIdAndRemove(req.params.id, function (err, user) {
       if (err) return res.status(500).send("There was a problem deleting the user.");
       res.status(200).send("User: "+ user.name +" was deleted.");
@@ -142,7 +146,7 @@ app.delete('/delete/:id', function (req, res) {
 
 
 // update user profile in database
-app.put('/update/:id', function (req, res) {
+app.put('/update/:id', VerifyToken, function (req, res) {
   User.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, user) {
       if (err) return res.status(500).send("There was a problem updating the user.");
       res.status(200).send(user);
@@ -156,21 +160,24 @@ app.put('/update/:id', function (req, res) {
 
 
 //get user by token
-app.get('/user', function(req, res) {
-    var token = req.headers['x-access-token'];
-    if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+app.get('/user', VerifyToken, function(req, res) {
+    // var token = req.headers['x-access-token'];
+    // if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
     
-    jwt.verify(token, config.secret, function(err, decoded) {
-      if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+    // jwt.verify(token, config.secret, function(err, decoded) {
+    //   if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
       
       User.findById(decoded.id, {password: 0}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user) return res.status(404).send("No user found.");
         
-        res.status(200).send(user);
+         res.status(200).send(user);
       });
     });
-  });
+
+  app.use(function (user, req, res, next) {
+    res.status(200).send(user);
+  })
 
 
 // if endpoint doesn't exist
