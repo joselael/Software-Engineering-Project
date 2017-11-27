@@ -2,7 +2,7 @@
 
 import React, { Component} from 'react';
 import { SuperUserTab } from '../components/UserTabs'
-import { loggedIn, getUser } from '../utils/Auth'
+import { loggedIn } from '../utils/Auth'
 import { Redirect } from 'react-router-dom'
 import store from '../store'
 import '../css/account.css'
@@ -11,18 +11,15 @@ class MyAccount extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      fireRedirect: !loggedIn(),
-    }
-    this.getUser = getUser.bind(this)
   }
 
   render() {
 
-    if (this.state.fireRedirect) {
+    if (!loggedIn()) {
       return (
         <Redirect to="/" />
       )
+      alert("You're not logged in!!!")
     }
     switch(store.getState().user.user_type) {
       case 'admin':
@@ -30,6 +27,7 @@ class MyAccount extends Component {
           <SuperUserTab />
         )
       default:
+        alert("Login first!!")
         return (
           <Redirect to="/" />
         )

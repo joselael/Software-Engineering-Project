@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { FormGroup, Button, Label } from 'reactstrap'
+import { register } from '../utils/Auth'
+import { Redirect } from 'react-router-dom'
 import '../css/signup.css'
 
 class Signupbody extends Component {
@@ -13,7 +16,8 @@ class Signupbody extends Component {
       passwordconfirmation: '',
       linkedinURL: '',
       githubURL: '',
-      usertype: ''
+      usertype: '',
+      fireRedirect: false
     }
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -21,7 +25,6 @@ class Signupbody extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value}); //this requires each to have a name when used
-    console.log(e.target.value);
   }
 
   onSubmit(e){
@@ -29,30 +32,43 @@ class Signupbody extends Component {
       console.log(this.state);
       e.preventDefault();
       //after checking that the passwords are equal, this is where we get put the requests
+      register(this.state.username, this.state.password, this.state.firstname,
+      this.state.lastname, this.state.usertype, this.state.email) 
+      this.setState({
+        fireRedirect: true
+      })
     }else{
       alert("Passwords do not match!")
     }
   }
 
   render() {
+
+    if (this.state.fireRedirect) {
+      return(
+        <Redirect to="/" />
+      )
+    }
+
     return (
       <div className="Signup">
         <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label className="control-label"> First Name</label>
+          <FormGroup>
+            <Label> First Name</Label>
             <input value={this.state.firstname} onChange={this.onChange} type="text" name="firstname" placeholder= "First name" className="form-control"/>
-          </div>
+          </FormGroup>
 
-          <div className="form-group">
-            <label className="control-label"> Last Name</label>
+          <FormGroup>
+            <Label> Last Name</Label>
             <input value={this.state.lastname} onChange={this.onChange} type="text" name="lastname" placeholder= "Last name" className="form-control"/>
-          </div>
+          </FormGroup>
 
-          <div className="form-group">
-            <label className="control-label"> Email</label>
+          <FormGroup>
+            <Label> Email</Label>
             <input value={this.state.email} onChange={this.onChange} type="email" name="email" placeholder= "Email" className="form-control"/>
-          </div>
+          </FormGroup>
 
+          {/* Add later to DB 
           <div className="form-group">
             <label className="control-label"> LinkedIn Link</label>
             <input value={this.state.linkedinURL} onChange={this.onChange} type="url" name="linkedinURL" placeholder= "LinkedIn link" className="form-control"/>
@@ -62,37 +78,42 @@ class Signupbody extends Component {
             <label className="control-label"> Github Link</label>
             <input value={this.state.githubURL} onChange={this.onChange} type="url" name="githubURL" placeholder= "Github link" className="form-control"/>
           </div>
+          */}
 
-          <div className="form-group">
-            <label className="control-label"> User type</label>
+
+          <FormGroup>
+            <Label> User type</Label>
             <select value={this.state.usertype} onChange={this.onChange} type="text" name="usertype" className="form-control">
               <option value="" disabled> Choose your user type </option>
               <option value="developer"> Developer </option>
               <option value="client"> Client </option>
-
             </select>
-          </div>
+          </FormGroup>
 
-          <div className="form-group">
+          <FormGroup>
             <label className="control-label"> Username</label>
             <input value={this.state.username} onChange={this.onChange} type="text" name="username" placeholder= "Create a username" className="form-control"/>
-          </div>
+          </FormGroup>
 
-          <div className="form-group">
+          <FormGroup>
             <label className="control-label"> Password</label>
             <input value={this.state.password} onChange={this.onChange} type="password" name="password" placeholder= "password" className="form-control"/>
-          </div>
+          </FormGroup>
 
-          <div className="form-group">
-            <label className="control-label"> Confirm password</label>
+          <FormGroup>
+            <Label>
+              Confirm password
+            </Label>
             <input value={this.state.passwordconfirmation} onChange={this.onChange} type="password" name="passwordconfirmation" placeholder= "Confirm password" className="form-control"/>
-          </div>
+          </FormGroup>
 
-          <div className="form-group">
-            <button type="submit" className="btn btn-primary btn-lg">
-            Sign up
-            </button>
-          </div>
+            <Button 
+              type="submit"
+              color="primary"
+              size="lg"
+            >
+              Sign up
+            </Button>
         </form>
       </div>
     );

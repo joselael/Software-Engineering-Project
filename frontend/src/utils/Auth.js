@@ -2,7 +2,6 @@ import axios from 'axios'
 import { URL, LOGIN, USER, REGISTER } from '../urls/API'
 import store from '../store'
 import { setToken, setUser } from '../actions/index';
-import { storages } from 'redux-persist';
 
 export function getUser(Token) {
     return axios({
@@ -30,21 +29,36 @@ export function login(Username, Password) {
         store.dispatch(setToken(response.data.token))
         getUser(response.data.token)
         alert("You're logged in!!!")
-    }
-    ) 
-    .catch( (error) => {
+    }).catch( (error) => {
         alert(error)
     })
 }
 
-/*
-export function register(Username, Password, First_name, Last_name, User_type) {
+//Register user
+export function register(Username, Password, First_name, Last_name, User_type, Email) {
 
-    return axios.post(
-        URL+REGISTER, 
-    )
+    return axios({
+        method: 'post',
+        url: URL+REGISTER,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data: {
+            username: Username,
+            password: Password,
+            first_name: First_name,
+            last_name: Last_name,
+            user_type: User_type,
+            email: Email
+        }
+    }).then(function(response) {
+        console.log(response.data)
+        alert("Sending request to admin")
+    }).catch( (error) => {
+        alert(error)
+    })
+
 }
-*/
 
 export function loggedIn() {
     if (store.getState().token != null) {
