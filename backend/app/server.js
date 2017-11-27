@@ -155,9 +155,9 @@ app.post('/login', (req, res) => {
 
   // get all projects from the database
   app.get('/projects', function (req, res) {
-    Project.find({}, function (err, users) {
+    Project.find({}, function (err, projects) {
         if (err) return res.status(500).send("There was a problem finding the projects.");
-        res.status(200).send(users);
+        res.status(200).send(projects);
     });
 });
 
