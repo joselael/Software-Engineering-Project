@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { Redirect } from 'react-router-dom'
-import { login, loggedIn, getUser } from '../utils/Auth' 
+import { login, loggedIn } from '../utils/Auth' 
 import store from '../store'
 import '../css/Signin.css';
 
@@ -37,13 +37,11 @@ class Signin extends Component {
 
     //Call axios login promise
     this.login(Username, Password)
-    getUser(store.token)
 
     if (loggedIn) {
       this.setState({
         fireRedirect:true
-      }
-      )
+      })
     }
 
     event.preventDefault();

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { URL, LOGIN, USER, REGISTER } from '../urls/API'
 import store from '../store'
-import { setToken } from '../actions/index';
+import { setToken, setUser } from '../actions/index';
 import { storages } from 'redux-persist';
 
 export function getUser(Token) {
@@ -9,15 +9,16 @@ export function getUser(Token) {
         method: 'get',
         url: URL+USER,
         headers: {
-            'x-access-token': Token
+            'x-access-token': store.getState().token
         }
-    }).then(function(response){
-        console.log(response.data)
+    }).then(function(response) {
+        store.dispatch(setUser(response.data))
+    }).catch( (error) => {
+        console.log(error);
     })
 }
 
 export function login(Username, Password) {
-
     return axios({
         method: 'post',
         url: URL+LOGIN, 
@@ -28,11 +29,11 @@ export function login(Username, Password) {
     }).then(function(response) {
         store.dispatch(setToken(response.data.token))
         alert("You're logged in!!!")
+        getUser(response.data.token)
     }
     ) 
     .catch( (error) => {
-        console.log(error);
-        alert("Error " + error);
+        alert(error)
     })
 }
 
@@ -54,4 +55,5 @@ export function loggedIn() {
 
 export function logout() {
     store.dispatch(setToken(null))
+    store.dispatch(setUser({}))
 }

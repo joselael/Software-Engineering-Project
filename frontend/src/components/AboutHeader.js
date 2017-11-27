@@ -8,7 +8,7 @@ const pStyle = {
 class AboutHeader extends Component {
   render() {
     return (
-      <div classNameName="AboutHeader">
+      <div className="AboutHeader">
         <header className="intro-header">
           <div className="container">
             <div className="intro-message" style={pStyle}>
@@ -26,7 +26,7 @@ class AboutHeader extends Component {
 class AboutBody extends Component {
   render() {
     return (
-      <div classNameName="AboutBody">
+      <div className="AboutBody">
         <section className="content-section-a">
           <div className="container">
             <div className="row">

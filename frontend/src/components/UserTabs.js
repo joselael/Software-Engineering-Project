@@ -14,8 +14,6 @@ export class SuperUserTab extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: '1',
-      first_name: getUser(store.token),
-      last_name: getUser(store.token),
     };
   }
 
@@ -25,7 +23,6 @@ export class SuperUserTab extends React.Component {
         activeTab: tab
       });
     }
-    console.log(this.state.first_name)
   }
   render() {
     return (
@@ -105,10 +102,7 @@ export class SuperUserTab extends React.Component {
             <TabPane tabId="2">
               <Row>
                 <Col sm="6">
-                  <h4>I am profile tab</h4>
-                </Col>
-                <Col sm="6">
-                  <h4>My name is</h4>
+                  <h4>{store.getState().user.first_name} {store.getState().user.last_name}</h4>
                 </Col>
               </Row>
             </TabPane>
