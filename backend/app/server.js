@@ -6,7 +6,6 @@ const {check, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-// var User = require('./models/User')
 const mongoose = require('mongoose');  
 const cors = require('cors');
 
@@ -40,7 +39,6 @@ var User = mongoose.model('User', UserSchema);
 var Project = mongoose.model('Project', ProjectSchema);
 
 var config = require('./config');
-// var UserController = require('./models/UserController');
 
 const bcryptSaltRounds = 10
 const app = express();
@@ -52,10 +50,6 @@ app.use(logger('dev'));
 app.use(errorhandler());
 app.use(cors());
 
-/* debug */
-// const ddb = {}; //debug database
-// ddb.accounts = {};
-
 // register endpoint
 app.post('/register'/*, [
     check('username').isAlphanumeric().withMessage("invalid username").trim(),
@@ -64,15 +58,6 @@ app.post('/register'/*, [
     check('password', 'passwords must be at least 8 chars long and contain one number')
     .isLength({min : 5}).matches(/\d/)
 ]*/, function(req, res) {
-    //outputting for debugging purposes
-    // console.log("creating user");
-    // console.log(`req.body.username: ${req.body.username}`);
-    // console.log(`req.body.first_name: ${req.body.first_name}`);
-    // console.log(`req.body.last_name: ${req.body.last_name}`);
-    // console.log(`req.body.email: ${req.body.email}`);
-    // console.log(`req.body.password: ${req.body.password}`);
-    // console.log(`req.body.user_type: ${req.body.user_type}`);
-    // console.log(mongoose.connection.readyState);
     User.create({
       username: req.body.username,
       first_name: req.body.first_name,
@@ -92,24 +77,8 @@ app.post('/register'/*, [
       });
       res.status(200).send({ auth: true, token: token });
     }); 
-  });/* (req, res, next) => {
+  });
 
-    let acc_id = Object.keys(ddb.accounts).length; 
-    let user_obj = {
-        username: req.body.username,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        // save hash of password, actual plaintext is never saved in database 
-        password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
-        id: acc_id,
-        user_type: null,
-        enabled: false // accounts is disabled until admin enables it ,
-        admin_message: null
-    }
-
-    ddb.accounts[req.body.username] = user_obj; // save user into db 
-    res.status(201).send({id:acc_id});
-}) */
 
 app.post('/createproject', function(req, res) {
   User.create({
@@ -130,6 +99,7 @@ app.post('/createproject', function(req, res) {
   }); 
 });
 
+
 app.post('/login', (req, res) => {
     User.findOne({ username: req.body.username }, function (err, user) {
       if (err) return res.status(500).send('Error on the server.');
@@ -143,6 +113,7 @@ app.post('/login', (req, res) => {
     });
   });
 
+
   // get all users from the database
   app.get('/accounts', function (req, res) {
     User.find({},{password: 0}, function (err, users) {
@@ -150,6 +121,7 @@ app.post('/login', (req, res) => {
         res.status(200).send(users);
     });
 });
+
 
   // get all projects from the database
   app.get('/projects', function (req, res) {
@@ -159,6 +131,7 @@ app.post('/login', (req, res) => {
     });
 });
 
+
 // delete a user from the database
 app.delete('/delete/:id', function (req, res) {
   User.findByIdAndRemove(req.params.id, function (err, user) {
@@ -166,6 +139,7 @@ app.delete('/delete/:id', function (req, res) {
       res.status(200).send("User: "+ user.name +" was deleted.");
   });
 });
+
 
 // update user profile in database
 app.put('/update/:id', function (req, res) {
@@ -178,34 +152,7 @@ app.put('/update/:id', function (req, res) {
 
   app.get('/logout', function(req, res) {
     res.status(200).send({ auth: false, token: null });
-  });/*{
-    if(!(req.body.username in ddb.accounts)) return res.status(401).send({
-        msg: "Not Authorized."
-    });
-
-    // Compare hash of login password, with has of registered password 
-    if (bcrypt.compareSync(req.body.password, ddb.accounts[req.body.username].password, function(error, res){
-        console.log("in compareSync");
-        if (error) return res.status(400).send({
-            msg: "Invalid request."
-        });   
-    }))
-     res.status(201).send({
-        username: ddb.accounts[req.body.username].username,
-        first_name: ddb.accounts[req.body.username].first_name,
-        last_name: ddb.accounts[req.body.username].last_name,
-        id: ddb.accounts[req.body.username].id
-    });
-else return res.status(401).send({
-    msg: "Not Authorized."
-});
-
-} )*/
-
-/* get user accounts, this should presumably only be callable by admin */
-// app.get('/accounts', (req, res) => {
-//     res.status(200).send(ddb.accounts);
-// })
+  });
 
 
 //get user by token
@@ -225,21 +172,11 @@ app.get('/user', function(req, res) {
     });
   });
 
-/* update account info, also should only be callable by admin */
-// app.put('/accounts/:id', (req, res)=>{
-//     store.accounts[req.params.id] = req.body;
-//     res.status(200).send(store.accounts[req.params.id]);
-// })
-
-/* delete account, only callable by admin */
-// app.delete('/accounts/:id', (req, res) => {
-//     ddb.accounts.splice(req.params.id, 1);
-//     res.status(204).send();
-// })
 
 // if endpoint doesn't exist
 app.all('/*', (req, res) => {
     res.status(404).send("Not found");
 })
+
 
 app.listen(PORT);
