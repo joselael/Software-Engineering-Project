@@ -1,14 +1,17 @@
 import React, {Component} from 'react'
-import LandingFooter from '../components/LandingFooter'
-import {Signupheader, Signupbody} from '../components/Signupbody'
+import Signupbody from '../components/Signupbody'
+import Signupheader from '../components/Signupheader'
 
 class Signup extends Component {
   render() {
     return (
-	  <div>
-	  	<Signupheader />
-	  	<Signupbody />
-      <LandingFooter />
+      <div>
+        <Signupheader />
+
+          <div>
+            <Signupbody />
+          
+         </div>
       </div>
     )
   }
