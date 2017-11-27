@@ -2,19 +2,18 @@ import axios from 'axios'
 import { URL, LOGIN, USER, REGISTER } from '../urls/API'
 import store from '../store'
 import { setToken } from '../actions/index';
+import { storages } from 'redux-persist';
 
 export function getUser(Token) {
-
-    const auth = {
-        "Authentication":"Token 09c2a9a1e4c46458a60f183a93e9eb8ad34eac19"
-    }
-
-    return axios.get(
-        "localhost:8000/rest-auth/user/",
-        auth
-    ).then((function(response){
+    return axios({
+        method: 'get',
+        url: URL+USER,
+        headers: {
+            'x-access-token': Token
+        }
+    }).then(function(response){
         console.log(response.data)
-    }))
+    })
 }
 
 export function login(Username, Password) {
@@ -27,7 +26,8 @@ export function login(Username, Password) {
             password:Password
         } 
     }).then(function(response) {
-        console.log(response)
+        store.dispatch(setToken(response.data.token))
+        alert("You're logged in!!!")
     }
     ) 
     .catch( (error) => {
@@ -46,7 +46,10 @@ export function register(Username, Password, First_name, Last_name, User_type) {
 */
 
 export function loggedIn() {
-    return store.getState().token != null;
+    if (store.getState().token != null) {
+        return true;
+    }
+    return false;
 }
 
 export function logout() {

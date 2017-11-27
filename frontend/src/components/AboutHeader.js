@@ -8,10 +8,10 @@ const pStyle = {
 class AboutHeader extends Component {
   render() {
     return (
-      <div className="AboutHeader">
-        <header class="intro-header">
-          <div class="container">
-            <div class="intro-message" style={pStyle}>
+      <div classNameName="AboutHeader">
+        <header className="intro-header">
+          <div className="container">
+            <div className="intro-message" style={pStyle}>
               <h1>About Us</h1>
               <h3>We are CCNY computer science students</h3>
             </div>
@@ -26,17 +26,17 @@ class AboutHeader extends Component {
 class AboutBody extends Component {
   render() {
     return (
-      <div className="AboutBody">
-        <section class="content-section-a">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-5 ml-auto">
+      <div classNameName="AboutBody">
+        <section className="content-section-a">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-5 ml-auto">
                 
-                <h2 class="section-heading">Gina DiCarlo</h2>
-                <p class="lead">dicarlo.g.m@gmail.com</p>
+                <h2 className="section-heading">Gina DiCarlo</h2>
+                <p className="lead">dicarlo.g.m@gmail.com</p>
               </div>
 
-              <div class="col-lg-5 mr-auto">
+              <div className="col-lg-5 mr-auto">
                 <img src={require('../images/Gina.png')} alt={"Not working"} style={{"height" : "70%"}}/>
               </div>
             </div>
@@ -44,16 +44,16 @@ class AboutBody extends Component {
           </div>
         </section>
 
-        <section class="content-section-a">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-lg-5 ml-auto">
+        <section className="content-section-a">
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-lg-5 ml-auto">
                         
-                        <h2 class="section-heading">Maureen Hanna McLean</h2>
-                        <p class="lead">Maureen.hannamclean@gmail.com</p>
+                        <h2 className="section-heading">Maureen Hanna McLean</h2>
+                        <p className="lead">Maureen.hannamclean@gmail.com</p>
                       </div>
 
-                      <div class="col-lg-5 mr-auto">
+                      <div className="col-lg-5 mr-auto">
                         <img src={require('../images/Maureen.png')} alt={"Not working"}style={{"height" : "70%"}}/>
                       </div>
                     </div>
@@ -61,16 +61,16 @@ class AboutBody extends Component {
                   </div>
                 </section>
 
-        <section class="content-section-a">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-5 ml-auto">
+        <section className="content-section-a">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-5 ml-auto">
                 
-                <h2 class="section-heading">Jose Laël Louis</h2>
-                <p class="lead"> jlouis000@citymail.cuny.edu</p>
+                <h2 className="section-heading">Jose Laël Louis</h2>
+                <p className="lead"> jlouis000@citymail.cuny.edu</p>
               </div>
 
-              <div class="col-lg-5 mr-auto">
+              <div className="col-lg-5 mr-auto">
                 <img src={require('../images/Jose.png')} alt={"Not working"} style={{"height" : "70%"}}/>
               </div>
             </div>
@@ -78,16 +78,16 @@ class AboutBody extends Component {
           </div>
         </section>
 
-        <section class="content-section-a">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-5 ml-auto">
+        <section className="content-section-a">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-5 ml-auto">
                 
-                <h2 class="section-heading">Yong Su Lee</h2>
-                <p class="lead">dkrcjs7521@gmail.com</p>
+                <h2 className="section-heading">Yong Su Lee</h2>
+                <p className="lead">dkrcjs7521@gmail.com</p>
               </div>
 
-              <div class="col-lg-5 mr-auto">
+              <div className="col-lg-5 mr-auto">
                 <img src={require('../images/Yong.png')} alt={"Not working"} style={{"height" : "70%"}}/>
               </div>
             </div>
@@ -95,16 +95,16 @@ class AboutBody extends Component {
           </div>
         </section>
 
-        <section class="content-section-a">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-5 ml-auto">
+        <section className="content-section-a">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-5 ml-auto">
                 
-                <h2 class="section-heading">Yuan Zhou</h2>
-                <p class="lead">yuanzhou719@gmail.com</p>
+                <h2 className="section-heading">Yuan Zhou</h2>
+                <p className="lead">yuanzhou719@gmail.com</p>
               </div>
 
-              <div class="col-lg-5 mr-auto">
+              <div className="col-lg-5 mr-auto">
                 <img src={require('../images/Yuan.png')} alt={"Not working"} style={{"height" : "70%"}}/>
               </div>
             </div>
