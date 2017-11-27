@@ -24,7 +24,9 @@ class MyAccount extends Component {
     switch(store.getState().user.user_type) {
       case 'admin':
         return (
-          <AdminTab />
+          <div className="accountsPage">
+            <AdminTab />
+          </div>
         )
       default:
         alert("Login first!!")
