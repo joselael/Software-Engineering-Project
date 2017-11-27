@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { URL, LOGIN, USER } from '../urls/API'
+import { URL, LOGIN, USER, REGISTER } from '../urls/API'
 import store from '../store'
 import { setToken } from '../actions/index';
 
@@ -19,15 +19,15 @@ export function getUser(Token) {
 
 export function login(Username, Password) {
 
-    return axios.post(
-        URL+LOGIN, {
+    return axios({
+        method: 'post',
+        url: URL+LOGIN, 
+        data: {
             username:Username,
-            email: "",
             password:Password
         } 
-    ).then(function(response) {
-        store.dispatch(setToken(response.data.key));
-        alert("You're logged in!!!")
+    }).then(function(response) {
+        console.log(response)
     }
     ) 
     .catch( (error) => {
@@ -35,6 +35,15 @@ export function login(Username, Password) {
         alert("Error " + error);
     })
 }
+
+/*
+export function register(Username, Password, First_name, Last_name, User_type) {
+
+    return axios.post(
+        URL+REGISTER, 
+    )
+}
+*/
 
 export function loggedIn() {
     return store.getState().token != null;
