@@ -1,7 +1,7 @@
 import React from 'react';
 import { TabContent, TabPane, Nav, NavItem, 
   NavLink, Button, Table,
-  Row, Col } from 'reactstrap';
+  Row, Col, Media } from 'reactstrap';
 import classnames from 'classnames';
 import '../css/usertab.css';
 import { getUser } from '../utils/Auth';
@@ -99,14 +99,14 @@ export class SuperUserTab extends React.Component {
                 </Table>
               </Row>
             </TabPane>
-            <TabPane tabId="2">
+            <TabPane tabId="2" className="Profile-Tab">
               <Row>
                 <Col sm="6">
                   <h4>{store.getState().user.first_name} {store.getState().user.last_name}</h4>
                 </Col>
               </Row>
             </TabPane>
-            <TabPane tabId="3">
+            <TabPane tabId="3" className="Setting-Tab">
               <Row>
                 <Col sm="12">
                   <h4>I am setting tab</h4>
