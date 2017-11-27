@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { TabContent, TabPane, Nav, NavItem, 
   NavLink, Button, Table,
   Row, Col, Media } from 'reactstrap';
 import classnames from 'classnames';
-import '../css/usertab.css';
-import { accounts } from '../utils/Auth'
-import store from '../store'
+import '../../css/usertab.css';
+import { accounts } from '../../utils/Auth'
+import store from '../../store'
 
-export class SuperUserTab extends React.Component {
+export class AdminTab extends Component {
   constructor(props) {
     super(props);
 
