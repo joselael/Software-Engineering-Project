@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // var User = require('./models/User')
 const mongoose = require('mongoose');  
-var cors = require('cors');
+const cors = require('cors');
 
 mongoose.connect('mongodb://nodejsapp:dllmz322squad@ds119436.mlab.com:19436/swepdb');
 var UserSchema = new mongoose.Schema({  
@@ -23,7 +23,7 @@ var UserSchema = new mongoose.Schema({
   admin_message: String
 });
 var ProjectSchema = new mongoose.Schema({
-  project_id: Schema.Types.ObjectId, 
+  project_id: mongoose.Schema.Types.ObjectId,
   author_username: String,
   summary: String,
   post_date: { type: Date, default: Date.now },
@@ -149,6 +149,14 @@ app.post('/login', (req, res) => {
   app.get('/accounts', function (req, res) {
     User.find({}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
+        res.status(200).send(users);
+    });
+});
+
+  // get all projects from the database
+  app.get('/projects', function (req, res) {
+    Project.find({}, function (err, users) {
+        if (err) return res.status(500).send("There was a problem finding the projects.");
         res.status(200).send(users);
     });
 });
