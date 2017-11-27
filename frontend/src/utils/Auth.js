@@ -1,21 +1,8 @@
 import axios from 'axios'
-import { URL, LOGIN, USER, REGISTER } from '../urls/API'
+import { URL, LOGIN, USER, REGISTER, ACCOUNTS } from '../urls/API'
 import store from '../store'
 import { setToken, setUser } from '../actions/index';
-
-export function getUser(Token) {
-    return axios({
-        method: 'get',
-        url: URL+USER,
-        headers: {
-            'x-access-token': store.getState().token
-        }
-    }).then(function(response) {
-        store.dispatch(setUser(response.data))
-    }).catch( (error) => {
-        console.log(error);
-    })
-}
+import { get } from 'http';
 
 export function login(Username, Password) {
     return axios({
@@ -26,11 +13,34 @@ export function login(Username, Password) {
             password:Password
         } 
     }).then(function(response) {
-        store.dispatch(setToken(response.data.token))
-        getUser(response.data.token)
-        alert("You're logged in!!!")
+
+        const token = response.data.token
+        axios({
+            method: 'get',
+            url: URL+USER,
+            headers: {
+                'x-access-token': token
+            }
+        }).then((function(response){
+            if(!response.data.enabled) {
+                alert("You're not enabled")
+            } else {
+                store.dispatch(setToken(token))
+                store.dispatch(setUser(response.data))
+            }
+        }))
+
     }).catch( (error) => {
         alert(error)
+    })
+}
+
+export function accounts() {
+    return axios({
+        method: 'get',
+        url: URL+ACCOUNTS
+    }).then(function(response) {
+        console.log(response.data)
     })
 }
 
