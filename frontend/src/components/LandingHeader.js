@@ -15,7 +15,7 @@ class LandingHeader extends Component {
               <h3>Start a project today</h3>
               <hr/>
               <h2>
-                <Button color="primary" to="/signup" tag={RRNavLink}> Sign Up </Button>
+                <Button color='success'size='lg' to="/signup" tag={RRNavLink}> Sign Up </Button>
               </h2>
             </div>
           </div>
