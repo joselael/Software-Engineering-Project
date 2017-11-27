@@ -4,7 +4,7 @@ import { TabContent, TabPane, Nav, NavItem,
   Row, Col, Media } from 'reactstrap';
 import classnames from 'classnames';
 import '../css/usertab.css';
-import { getUser } from '../utils/Auth';
+import { accounts } from '../utils/Auth'
 import store from '../store'
 
 export class SuperUserTab extends React.Component {
@@ -14,6 +14,7 @@ export class SuperUserTab extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: '1',
+      users: accounts()
     };
   }
 
@@ -62,6 +63,7 @@ export class SuperUserTab extends React.Component {
                   <thead>
                     <tr>
                       <th>#</th>
+                      <th>User Type</th>
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Username</th>
@@ -76,6 +78,7 @@ export class SuperUserTab extends React.Component {
                   <thead>
                     <tr>
                       <th>#</th>
+                      <th>User Type</th>
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Username</th>
@@ -90,6 +93,7 @@ export class SuperUserTab extends React.Component {
                   <thead>
                     <tr>
                       <th>#</th>
+                      <th>User Type</th>
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Username</th>

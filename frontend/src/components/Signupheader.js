@@ -9,9 +9,9 @@ class Signupheader extends Component {
   render() {
     return (
       <div className="AboutHeader">
-        <header class="intro-header">
-          <div class="container">
-            <div class="intro-message" style={pStyle}>
+        <header className="intro-header">
+          <div className="container">
+            <div className="intro-message" style={pStyle}>
               <h1>Start creating today!</h1>
             </div>
           </div>

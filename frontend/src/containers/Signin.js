@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { Redirect } from 'react-router-dom'
 import { login, loggedIn } from '../utils/Auth' 
-import store from '../store'
 import '../css/Signin.css';
 
 class Signin extends Component {
@@ -17,7 +16,6 @@ class Signin extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
-    this.login = login.bind(this);
   }
 
   validateForm() {
@@ -36,7 +34,7 @@ class Signin extends Component {
     const Password = this.state.password;
 
     //Call axios login promise
-    this.login(Username, Password)
+    login(Username, Password)
 
     if (loggedIn) {
       this.setState({
