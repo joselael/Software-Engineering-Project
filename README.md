@@ -24,21 +24,22 @@ $ git clone https://github.com/jllouis/Software-Engineering-Project.git
 ### Tools ###
 Recent version of Python 3.x  
 HTML CSS JavaScript (?) for Front End  
-MariaDB for DB  
+~~MariaDB for DB~~  
 Git for SVM  
 Google Cloud Platform for Hosting the App  
 
 ### Resources ###
 #### Repo ####
 https://github.com/jllouis/Software-Engineering-Project.git  
+
 #### Cloud Server ####
 https://console.cloud.google.com/home/dashboard?project=dllz-swep  
 ###### Specs ######
-0.6 GB of RAM
+~~0.6 GB of RAM
 0.2 of a Virtual CPU - that's a 20% time slice on a single core :(  
 Server IP: 35.196.192.80  
 The server is Container Linux (CoreOS), a lightweight GNU/Linux OS intended for hosting Docker or Rocket containers  
-Container Linux is _lightweight_ (it is ~150mb large, and runs on ~20mb of RAM), and keeps itself updated. This is useful since we're running on meager server.  
+Container Linux is _lightweight_ (it is ~150mb large, and runs on ~20mb of RAM), and keeps itself updated. This is useful since we're running on meager~~ ~server.~~
 ##### Logging into the Server: #####
 You can use the shell provided on the [GCP Console Dashboard](console.cloud.google.com) or:  
 1. Download and install the [gcloud](https://cloud.google.com/sdk/docs/) CLI tool for your platform.
@@ -67,7 +68,7 @@ https://docs.docker.com/get-started/
 
 #### MySQL Tutorial ####
 https://dev.mysql.com/doc/refman/5.7/en/tutorial.html  
-
+~~
 #### Git Tutorial ####
 Basic: https://try.github.io/, or better yet  http://rogerdudler.github.io/git-guide/  
 In depth: http://gitimmersion.com/  

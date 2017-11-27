@@ -8,6 +8,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // var User = require('./models/User')
 const mongoose = require('mongoose');  
+var cors = require('cors');
 
 mongoose.connect('mongodb://nodejsapp:dllmz322squad@ds119436.mlab.com:19436/swepdb');
 var UserSchema = new mongoose.Schema({  
@@ -34,6 +35,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(logger('dev'));
 app.use(errorhandler());
+app.use(cors());
 
 /* debug */
 // const ddb = {}; //debug database
