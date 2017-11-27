@@ -25,7 +25,7 @@ class MyAccount extends Component {
       )
     }
     switch(store.getState().user.user_type) {
-      case 'SU':
+      case 'admin':
         return (
           <SuperUserTab />
         )
