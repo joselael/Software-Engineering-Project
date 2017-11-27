@@ -20,7 +20,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    token: state.token
+    token: state.token,
+    user: state.user
   }
 }
 
