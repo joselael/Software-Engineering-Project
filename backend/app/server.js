@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // var User = require('./models/User')
 const mongoose = require('mongoose');  
-var cors = require('cors');
+const cors = require('cors');
 
 mongoose.connect('mongodb://nodejsapp:dllmz322squad@ds119436.mlab.com:19436/swepdb');
 var UserSchema = new mongoose.Schema({  
@@ -22,7 +22,23 @@ var UserSchema = new mongoose.Schema({
   blacklisted: Boolean,
   admin_message: String
 });
+var ProjectSchema = new mongoose.Schema({
+  project_id: mongoose.Schema.Types.ObjectId,
+  author_username: String,
+  summary: String,
+  post_date: { type: Date, default: Date.now },
+  bid_start: { type: Date, default: Date.now },
+  bid_end: Date,
+  min_budget: Number,
+  max_budget: Number,
+  assignee: String,
+  completed: Boolean,
+  problematic: Boolean,
+  admin_comments: String
+});
+
 var User = mongoose.model('User', UserSchema);
+var Project = mongoose.model('Project', ProjectSchema);
 
 var config = require('./config');
 // var UserController = require('./models/UserController');
@@ -50,14 +66,14 @@ app.post('/register'/*, [
     .isLength({min : 5}).matches(/\d/)
 ]*/, function(req, res) {
     //outputting for debugging purposes
-    console.log("creating user");
-    console.log(`req.body.username: ${req.body.username}`);
-    console.log(`req.body.first_name: ${req.body.first_name}`);
-    console.log(`req.body.last_name: ${req.body.last_name}`);
-    console.log(`req.body.email: ${req.body.email}`);
-    console.log(`req.body.password: ${req.body.password}`);
-    console.log(`req.body.user_type: ${req.body.user_type}`);
-    console.log(mongoose.connection.readyState);
+    // console.log("creating user");
+    // console.log(`req.body.username: ${req.body.username}`);
+    // console.log(`req.body.first_name: ${req.body.first_name}`);
+    // console.log(`req.body.last_name: ${req.body.last_name}`);
+    // console.log(`req.body.email: ${req.body.email}`);
+    // console.log(`req.body.password: ${req.body.password}`);
+    // console.log(`req.body.user_type: ${req.body.user_type}`);
+    // console.log(mongoose.connection.readyState);
     User.create({
       username: req.body.username,
       first_name: req.body.first_name,
@@ -69,7 +85,7 @@ app.post('/register'/*, [
       blacklisted: false,
       admin_message: null
     }, function (err, user) {
-      console.log("done creating user");
+      // console.log("done creating user");
       if (err) return res.status(500).send("There was a problem registering the user.")
       // create a token
       var token = jwt.sign({ id: user._id }, config.secret, {
@@ -96,6 +112,26 @@ app.post('/register'/*, [
     res.status(201).send({id:acc_id});
 }) */
 
+app.post('/createproject', function(req, res) {
+  User.create({
+    project_id: new mongoose.Types.ObjectId,
+    author_username: req.body.author,
+    summary: req.body.summary,
+    bid_end: Date(req.body.bid_end),
+    min_budget: parseInt(req.body.min_budget),
+    max_budget: parseInt(req.body.max_budget),
+    assignee: null,
+    completed: false,
+    problematic: false,
+    admin_comments: null
+  }, function (err, user) {
+    // console.log("done creating user");
+    if (err) return res.status(500).send("There was a problem creating the project.")
+    // create a token
+    res.status(200).send({ created: true, id: project_id });
+  }); 
+});
+
 app.post('/login', (req, res) => {
     User.findOne({ username: req.body.username }, function (err, user) {
       if (err) return res.status(500).send('Error on the server.');
@@ -108,6 +144,39 @@ app.post('/login', (req, res) => {
       res.status(200).send({ auth: true, token: token });
     });
   });
+
+  // get all users from the database
+  app.get('/accounts', function (req, res) {
+    User.find({}, function (err, users) {
+        if (err) return res.status(500).send("There was a problem finding the users.");
+        res.status(200).send(users);
+    });
+});
+
+  // get all projects from the database
+  app.get('/projects', function (req, res) {
+    Project.find({}, function (err, users) {
+        if (err) return res.status(500).send("There was a problem finding the projects.");
+        res.status(200).send(users);
+    });
+});
+
+// delete a user from the database
+app.delete('/delete/:id', function (req, res) {
+  User.findByIdAndRemove(req.params.id, function (err, user) {
+      if (err) return res.status(500).send("There was a problem deleting the user.");
+      res.status(200).send("User: "+ user.name +" was deleted.");
+  });
+});
+
+// update user profile in database
+app.put('/update/:id', function (req, res) {
+  User.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, user) {
+      if (err) return res.status(500).send("There was a problem updating the user.");
+      res.status(200).send(user);
+  });
+});
+
 
   app.get('/logout', function(req, res) {
     res.status(200).send({ auth: false, token: null });
