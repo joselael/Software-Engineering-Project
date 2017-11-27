@@ -23,7 +23,6 @@ var UserSchema = new mongoose.Schema({
   admin_message: String
 });
 var ProjectSchema = new mongoose.Schema({
-  project_id: mongoose.Schema.Types.ObjectId,
   author_username: String,
   summary: String,
   post_date: { type: Date, default: Date.now },
@@ -114,7 +113,6 @@ app.post('/register'/*, [
 
 app.post('/createproject', function(req, res) {
   User.create({
-    project_id: new mongoose.Types.ObjectId,
     author_username: req.body.author,
     summary: req.body.summary,
     bid_end: Date(req.body.bid_end),
