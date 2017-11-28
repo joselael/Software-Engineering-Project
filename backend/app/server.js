@@ -10,38 +10,13 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const VerifyToken = require('./auth/VerifyToken');
+const VerifyAdmin = require('./auth/VerifyAdmin');
+const config = require('./config');
 
 mongoose.connect('mongodb://nodejsapp:dllmz322squad@ds119436.mlab.com:19436/swepdb');
-var UserSchema = new mongoose.Schema({  
-  username: String,
-  first_name: String,
-  last_name: String,
-  email: String,
-  password: String,
-  user_type: String,
-  enabled: Boolean,
-  blacklisted: Boolean,
-  admin_message: String
-});
-var ProjectSchema = new mongoose.Schema({
-  author_username: String,
-  summary: String,
-  details: String,
-  post_date: { type: Date, default: Date.now },
-  bid_start: { type: Date, default: Date.now },
-  bid_end: Date,
-  min_budget: Number,
-  max_budget: Number,
-  assignee: String,
-  completed: Boolean,
-  problematic: Boolean,
-  admin_comments: String
-});
 
-var User = mongoose.model('User', UserSchema);
-var Project = mongoose.model('Project', ProjectSchema);
-
-var config = require('./config');
+var User = require('./models/User');
+var Project = require('./models/Project');
 
 const bcryptSaltRounds = 10
 const app = express();
@@ -119,7 +94,7 @@ app.post('/login', (req, res) => {
 
 
   // get all users from the database
-  app.get('/accounts', VerifyToken, function (req, res) {
+  app.get('/accounts', VerifyAdmin, function (req, res) {
     User.find({},{password: 0}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
         res.status(200).send(users);
@@ -137,7 +112,7 @@ app.post('/login', (req, res) => {
 
 
 // delete a user from the database
-app.delete('/delete/:id', VerifyToken, function (req, res) {
+app.delete('/delete/:id', VerifyAdmin, function (req, res) {
   User.findByIdAndRemove(req.params.id, function (err, user) {
       if (err) return res.status(500).send("There was a problem deleting the user.");
       res.status(200).send("User: "+ user.name +" was deleted.");
@@ -146,7 +121,7 @@ app.delete('/delete/:id', VerifyToken, function (req, res) {
 
 
 // update user profile in database
-app.put('/update/:id', VerifyToken, function (req, res) {
+app.put('/update/:id', VerifyAdmin, function (req, res) {
   User.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, user) {
       if (err) return res.status(500).send("There was a problem updating the user.");
       res.status(200).send(user);
