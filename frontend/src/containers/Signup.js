@@ -7,11 +7,7 @@ class Signup extends Component {
     return (
       <div>
         <Signupheader />
-
-          <div>
-            <Signupbody />
-          
-         </div>
+        <Signupbody />
       </div>
     )
   }

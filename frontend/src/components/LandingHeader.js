@@ -19,8 +19,6 @@ class LandingHeader extends Component {
   render() {
 
     const isLoggedIn = loggedIn()
-
-    console.log("rendering home page")
     
     return (
       <div className="LandingHeader">
