@@ -3,7 +3,7 @@ import { TabContent, TabPane, Nav, NavItem,
   NavLink, Button, Table,
   Row, Col, Media } from 'reactstrap';
 import '../../css/usertab.css';
-import { accounts, acceptUser, blacklistUser } from '../../utils/Users'
+import { accounts, acceptUser, blacklistUser, deleteUser } from '../../utils/Users'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -27,6 +27,7 @@ export class AdminTab extends Component {
     this.declineUser = this.declineUser.bind(this)
     this.blacklistUser = this.blacklistUser.bind(this)
     this.updateTable = this.updateTable.bind(this)
+    this.deleteUser = this.deleteUser.bind(this)
   }
 
   updateTable() {
@@ -47,10 +48,20 @@ export class AdminTab extends Component {
     console.log("Blacklisting user")
     console.log(id)
     blacklistUser(id)
-      .then(function(response) {
+      .then( (response) => {
         console.log(response)
-        this.updateTable
+        this.updateTable()
       })
+  }
+
+  deleteUser = id => event => {
+    console.log("Deleting user")
+    console.log(id)
+    deleteUser(id)
+      .then( (response) => {
+        console.log(response)
+        this.updateTable()
+      })   
   }
 
   declineUser = id => event => {
@@ -62,19 +73,9 @@ export class AdminTab extends Component {
     console.log("Accepting user")
     console.log(id)
     acceptUser(id)
-      .then(function(response) {
+      .then( (response) => {
         console.log(response)
-        accounts()
-          .then(({data}) => {
-            var users = data.filter(this.notAdmin)
-            this.setState({
-              users: users
-            })
-            console.log(this.state.users)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+        this.updateTable()
       })
   }
 
@@ -214,6 +215,7 @@ export class AdminTab extends Component {
               size="sm"
               color="danger"
               value={user.token}
+              onClick={this.deleteUser(user._id)}
             >
               Delete
             </Button>
