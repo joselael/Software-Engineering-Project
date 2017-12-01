@@ -21,28 +21,38 @@ class LandingHeader extends Component {
     const isLoggedIn = loggedIn()
     
     return (
-      <div className="LandingHeader">
-        <header className="intro-header">
-          <div className="container">
-            <div className="intro-message">
+        <div>
               {isLoggedIn ? (
-                <div>
-                <h1>Welcome back!!!</h1> 
-                <h3>{store.getState().user.first_name} {store.getState().user.last_name}</h3>
-                </div>                
+                <div className="LandingHeader">
+                  <header className="loggedin-intro-header">
+                    <div className="container">
+                      <div className="loggedin-intro-message">
+                        <div className="text-background">
+                        <h1>Welcome back!</h1>
+                        <h3>{store.getState().user.first_name} {store.getState().user.last_name}</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </header>
+                </div>
               ) : (
-                <div>
-                  <h1>Simplified coding Turk system</h1>
-                  <h3>Start a project today</h3>
-                  <Button color='success'size='lg' to="/signup" tag={RRNavLink}> 
-                    Sign Up 
-                  </Button>
+                <div className="LandingHeader">
+                  <header className="intro-header">
+                    <div className="container">
+                      <div className="intro-message">
+                        <div>
+                          <h1>Simplified coding Turk system</h1>
+                          <h3>Start a project today</h3>
+                          <Button color='success'size='lg' to="/signup" tag={RRNavLink}>
+                            Sign Up
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </header>
                 </div>
               )}
-            </div>
-          </div>
-        </header>
-      </div>
+        </div>
     );
   }
 }
