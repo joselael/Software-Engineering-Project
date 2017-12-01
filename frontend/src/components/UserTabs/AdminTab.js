@@ -16,8 +16,14 @@ export class AdminTab extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: '1',
-      users: accounts()
+      users: []
     };
+    //this.renderAccounts = this.renderAccounts.bind(this)
+    this.notAdmin = this.notAdmin.bind(this)
+  }
+
+  notAdmin(user) {
+    return user.user_type !== "admin"
   }
 
   toggle(tab) {
@@ -27,7 +33,59 @@ export class AdminTab extends Component {
       });
     }
   }
+
+  componentDidMount() {
+    accounts()
+      .then(({data}) => {
+        var users = data.filter(this.notAdmin)
+        this.setState({
+          users: users
+        })
+        console.log(this.state.users)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   render() {
+
+    const allUsers = this.state.users.map((user, index) =>
+      <tr key={user.id}>
+        <th scope="row">{index + 1}</th>
+        <td>
+          {user.user_type}
+        </td>
+        <td>
+          {user.first_name}
+        </td>
+        <td>
+          {user.last_name}
+        </td>
+        <td>
+          {user.username}
+        </td>
+        <td>
+          <Button
+            size="sm"
+            color="success"
+          >
+            Accept
+          </Button>
+          <Button
+            size="sm"
+            color="danger"
+          >
+            Decline
+          </Button>
+        </td>
+        <td>
+          {user.enabled ?
+            "Enabled" : "Disabled"}
+        </td>
+      </tr>
+    )
+
     return (
       <div>
         <Nav tabs>
@@ -60,8 +118,8 @@ export class AdminTab extends Component {
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
               <Row>
-                <h4>Pending</h4>
-                <Table hover responsive>
+                <h4>User List</h4>
+                <Table hover responsive striped>
                   <thead>
                     <tr>
                       <th>#</th>
@@ -70,38 +128,12 @@ export class AdminTab extends Component {
                       <th>Last Name</th>
                       <th>Username</th>
                       <th>Action</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
-                </Table>
-              </Row>
-              <Row>
-                <h4>Accepted</h4>
-                <Table hover responsive>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>User Type</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Username</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                </Table>
-              </Row>
-              <Row>
-                <h4>Black List</h4>
-                <Table hover responsive>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>User Type</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Username</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
+                  <tbody>
+                    {allUsers}
+                  </tbody>
                 </Table>
               </Row>
             </TabPane>

@@ -38,8 +38,6 @@ export function accounts() {
     return axios({
         method: 'get',
         url: URL+ACCOUNTS
-    }).then(function(response) {
-        console.log(response.data)
     })
 }
 

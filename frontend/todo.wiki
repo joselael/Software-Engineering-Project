@@ -1,0 +1,6 @@
+= TODO LIST =
+
+== Profile Page ==
+
+- [ ] Profile of any kind of user
+- [ ] Super User approve / disapprove users
