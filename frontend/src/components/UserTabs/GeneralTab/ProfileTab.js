@@ -11,6 +11,7 @@ export default class ProfileTab extends Component {
             <TabPane tabId="2" className="Profile-Tab">
                 <Row>
                   <Col>
+                  <img src="../../../images/profile.png"/>
                     <Media>
                       <Media left href="#">
                         <Media object src="../../../images/profile.png"/>
