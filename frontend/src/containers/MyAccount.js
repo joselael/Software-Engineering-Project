@@ -2,6 +2,8 @@
 
 import React, { Component} from 'react';
 import { AdminTab } from '../components/UserTabs/AdminTab'
+import { ClientTab } from '../components/UserTabs/ClientTab'
+import { DeveloperTab } from '../components/UserTabs/DeveloperTab'
 import { loggedIn } from '../utils/Auth'
 import { Redirect } from 'react-router-dom'
 import store from '../store'
@@ -26,6 +28,18 @@ class MyAccount extends Component {
         return (
           <div className="accountsPage">
             <AdminTab />
+          </div>
+        )
+      case 'client':
+        return (
+          <div className="accountsPage">
+            <ClientTab />
+          </div>
+        )
+      case 'developer':
+        return (
+          <div className="accountsPage">
+            <ClientTab />
           </div>
         )
       default:

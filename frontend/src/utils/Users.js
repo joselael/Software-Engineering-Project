@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { URL, USER, ACCOUNTS, UPDATE } from '../urls/API'
+import { URL, USER, ACCOUNTS, UPDATE, DELETE } from '../urls/API'
 
 export function acceptUser(userID) {
     return axios({
@@ -25,5 +25,12 @@ export function accounts() {
     return axios({
         method: 'get',
         url: URL+ACCOUNTS
+    })
+}
+
+export function deleteUser(userID) {
+    return axios({
+        method: 'delete',
+        url: URL + DELETE + userID
     })
 }
