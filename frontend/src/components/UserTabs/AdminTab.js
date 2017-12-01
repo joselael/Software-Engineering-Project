@@ -20,6 +20,16 @@ export class AdminTab extends Component {
     };
     //this.renderAccounts = this.renderAccounts.bind(this)
     this.notAdmin = this.notAdmin.bind(this)
+    this.acceptUser = this.acceptUser.bind(this)
+    this.declineUser = this.declineUser.bind(this)
+  }
+
+  declineUser(e) {
+    console.log("Disabling user")
+  }
+
+  acceptUser(e) {
+    console.log("Accepting user")
   }
 
   notAdmin(user) {
@@ -51,7 +61,7 @@ export class AdminTab extends Component {
   render() {
 
     const allUsers = this.state.users.map((user, index) =>
-      <tr key={user.id}>
+      <tr key={user._id}>
         <th scope="row">{index + 1}</th>
         <td>
           {user.user_type}
@@ -69,14 +79,17 @@ export class AdminTab extends Component {
           <Button
             size="sm"
             color="success"
+            value={user.token}
+            onClick={this.acceptUser}
           >
             Accept
           </Button>
           <Button
             size="sm"
             color="danger"
+            onClick={this.declineUser}
           >
-            Decline
+            Blacklist
           </Button>
         </td>
         <td>
@@ -118,7 +131,41 @@ export class AdminTab extends Component {
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
               <Row>
-                <h4>User List</h4>
+                <h4>Pending Users List</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User Type</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                      <th>Action</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allUsers}
+                  </tbody>
+                </Table>
+                <h4>Accepted User List</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User Type</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                      <th>Action</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allUsers}
+                  </tbody>
+                </Table>
+                <h4>Blacklisted User List</h4>
                 <Table hover responsive striped>
                   <thead>
                     <tr>
