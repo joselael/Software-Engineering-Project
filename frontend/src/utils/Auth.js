@@ -34,13 +34,6 @@ export function login(Username, Password) {
     })
 }
 
-export function accounts() {
-    return axios({
-        method: 'get',
-        url: URL+ACCOUNTS
-    })
-}
-
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email) {
 
