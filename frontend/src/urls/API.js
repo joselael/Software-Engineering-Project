@@ -6,5 +6,8 @@ const ACCOUNTS = "accounts"
 const REGISTER = "register"
 const UPDATE = "update/"
 const DELETE = "delete/"
+const PROJECTS = "projects"
 
-export {URL, LOGIN, LOGOUT, USER, REGISTER, ACCOUNTS, UPDATE, DELETE}
+export {URL, LOGIN, LOGOUT, USER, 
+    REGISTER, ACCOUNTS, UPDATE, DELETE, PROJECTS
+}

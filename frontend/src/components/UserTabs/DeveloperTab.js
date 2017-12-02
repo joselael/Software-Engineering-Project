@@ -3,7 +3,7 @@ import { TabContent, TabPane, Nav, NavItem,
   NavLink, Button, Table,
   Row, Col, Media } from 'reactstrap';
 import '../../css/usertab.css';
-import { accounts, acceptUser, blacklistUser, deleteUser } from '../../utils/Users'
+import { projects } from '../../utils/Projects'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -25,6 +25,19 @@ export class ClientTab extends Component {
             activeTab: tab
         });
         }
+    }
+    componentDidMount() {
+        projects()
+        .then(({data}) => {
+            var projects = data
+            this.setState({
+                projects: projects
+            })
+            console.log(this.state.projects)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
 
     render() {
@@ -77,7 +90,8 @@ export class ClientTab extends Component {
                     <thead>
                         <tr>
                         <th>#</th>
-                        <th>User Type</th>
+                        <th>Project Name</th>
+                        <th>Link</th>
                         </tr>
                     </thead>
                     <tbody>
