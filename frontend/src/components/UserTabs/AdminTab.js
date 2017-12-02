@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { TabContent, TabPane, Nav, NavItem, 
-  NavLink, Button, Table,
-  Row, Col, Media } from 'reactstrap';
+    NavLink, Button, Table,
+    Row, Col, Media, Input,
+    Modal, ModalBody, ModalFooter, ModalHeader
+} from 'reactstrap';
 import '../../css/usertab.css';
 import { accounts, acceptUser, blacklistUser, deleteUser } from '../../utils/Users'
 import store from '../../store'
@@ -16,6 +18,7 @@ export class AdminTab extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: '1',
+      modal: false,
       users: []
     };
     //this.renderAccounts = this.renderAccounts.bind(this)
@@ -28,6 +31,13 @@ export class AdminTab extends Component {
     this.blacklistUser = this.blacklistUser.bind(this)
     this.updateTable = this.updateTable.bind(this)
     this.deleteUser = this.deleteUser.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
+  }
+
+  toggleModal() {
+      this.setState({
+          modal: !this.state.modal
+      })
   }
 
   updateTable() {
@@ -148,10 +158,26 @@ export class AdminTab extends Component {
           <Button
             size="sm"
             color="danger"
-            onClick={this.declineUser(user._id)}
+            onClick={this.toggleModal}
           >
             Decline
           </Button>
+          <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+              <ModalHeader toggle={this.toggleModal}>
+                Please type in the reason for rejection
+              </ModalHeader>
+              <Input
+                autoFocus
+              />
+              <ModalFooter>
+                  <Button color="danger" onClick={this.toggleModal}>
+                    Reject
+                  </Button>
+                  <Button color="primary" onClick={this.toggleModal}>
+                    Cancel
+                  </Button>
+              </ModalFooter>
+          </Modal>
         </td>
         <td>
           {user.enabled ?
