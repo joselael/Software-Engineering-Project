@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { TabContent, TabPane, Nav, NavItem, 
-    NavLink, Button, Table,
-    Row, Col, Media, Input,
+    NavLink, Button, Table, FormGroup,
+    Row, Col, Media, Input, Label,
     Modal, ModalBody, ModalFooter, ModalHeader
 } from 'reactstrap';
 import '../../css/usertab.css';
-import { accounts, acceptUser, blacklistUser, deleteUser } from '../../utils/Users'
+import { accounts, acceptUser, blacklistUser, deleteUser, rejectUser } from '../../utils/Users'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -19,6 +19,7 @@ export class AdminTab extends Component {
     this.state = {
       activeTab: '1',
       modal: false,
+      reject_reason: "",
       users: []
     };
     //this.renderAccounts = this.renderAccounts.bind(this)
@@ -32,6 +33,14 @@ export class AdminTab extends Component {
     this.updateTable = this.updateTable.bind(this)
     this.deleteUser = this.deleteUser.bind(this)
     this.toggleModal = this.toggleModal.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.rejectUser = this.rejectUser.bind(this)
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
   }
 
   toggleModal() {
@@ -47,19 +56,31 @@ export class AdminTab extends Component {
         this.setState({
           users: users
         })
-        console.log(this.state.users)
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
+  rejectUser = id => event => {
+    console.log("Rejecting User")
+
+    this.setState({
+      reject_reason: ""
+    })
+
+    const reject_msg = this.state.reject_reason
+
+    rejectUser(id, reject_msg)
+      .then( (response) => {
+        this.updateTable()
+      })
+  }
+
   blacklistUser = id => event => {
     console.log("Blacklisting user")
-    console.log(id)
     blacklistUser(id)
       .then( (response) => {
-        console.log(response)
         this.updateTable()
       })
   }
@@ -69,7 +90,6 @@ export class AdminTab extends Component {
     console.log(id)
     deleteUser(id)
       .then( (response) => {
-        console.log(response)
         this.updateTable()
       })   
   }
@@ -84,7 +104,6 @@ export class AdminTab extends Component {
     console.log(id)
     acceptUser(id)
       .then( (response) => {
-        console.log(response)
         this.updateTable()
       })
   }
@@ -120,7 +139,6 @@ export class AdminTab extends Component {
         this.setState({
           users: users
         })
-        console.log(this.state.users)
       })
       .catch((err) => {
         console.log(err)
@@ -163,14 +181,21 @@ export class AdminTab extends Component {
             Decline
           </Button>
           <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
-              <ModalHeader toggle={this.toggleModal}>
-                Please type in the reason for rejection
-              </ModalHeader>
+            <FormGroup>
+              <Label>Why are you rejecting {user.username} ?</Label>
+              <Col sm={12}>
               <Input
                 autoFocus
+                type="textarea"
+                name="reject_reason"
+                placeholder="Reason"
+                onChange={this.handleChange}
+                value={this.state.reject_reason}
               />
+              </Col>
+            </FormGroup>
               <ModalFooter>
-                  <Button color="danger" onClick={this.toggleModal}>
+                  <Button color="danger" onClick={this.rejectUser(user._id)}>
                     Reject
                   </Button>
                   <Button color="primary" onClick={this.toggleModal}>

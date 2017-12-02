@@ -22,7 +22,7 @@ export function login(Username, Password) {
             }
         }).then(( (response) => {
             if (response.data.blacklisted) {
-                alert("GET OFF OUR WEBSITE YOU'RE BLACKLISTED");
+                alert("You are rejected because " + response.data.admin_message)
             }
             else if(!response.data.enabled) {
                 alert("You're not enabled")

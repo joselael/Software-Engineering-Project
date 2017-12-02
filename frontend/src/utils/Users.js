@@ -21,6 +21,17 @@ export function blacklistUser(userID) {
     })
 }
 
+export function rejectUser(userID, reject_reason) {
+    return axios({
+        method: 'put',
+        url: URL + UPDATE + userID,
+        data : {
+            blacklisted:true,
+            admin_message: reject_reason
+        }
+    })
+}
+
 export function accounts() {
     return axios({
         method: 'get',
