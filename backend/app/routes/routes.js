@@ -1,13 +1,13 @@
 //SWEP: backend: routes: routes.js
 
 /* NODE MODULES */
-var express = require('express');
+const express = require('express');
 const cors = require('cors'); // to enable cross-origin requests
-var router = express.Router();
-var bodyParser = require('body-parser');
+const router = express.Router();
+const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken'); // to create and validate tokens
 const bcrypt = require('bcrypt'); // to hash and check hashed passwords
-var logger = require('morgan'); // for logging outputs on server process for debugging
+const logger = require('morgan'); // for logging outputs on server process for debugging
 
 /* EXTERNAL FUNCTIONS AND FILES */
 const VerifyToken = require('../auth/VerifyToken');
@@ -26,14 +26,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(cors);
 
 // register endpoint
-// the input validation code below is buggy (gets stuck somewhere), so I've commented it out
-router.post('/register'/*, [
-    check('username').isAlphanumeric().withMessage("invalid username").trim(),
-    check('first_name').isAlpha().withMessage("invalid first name").trim,
-    check('last_name').isAlpha().withMessage("invalid last name").trim(),
-    check('password', 'passwords must be at least 8 chars long and contain one number')
-    .isLength({min : 5}).matches(/\d/)
-]*/, function(req, res) {
+router.post('/register', function(req, res) {
     User.create({
         username: req.body.username,
         first_name: req.body.first_name,
@@ -133,11 +126,6 @@ router.get('/logout', function(req, res) {
 
 //get user by token
 router.get('/user', VerifyToken, function(req, res) {
-    // var token = req.headers['x-access-token'];
-    // if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
-
-    // jwt.verify(token, config.secret, function(err, decoded) {
-    //   if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
 
     User.findById(decoded.id, {password: 0}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
