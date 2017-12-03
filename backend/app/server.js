@@ -129,7 +129,7 @@ app.post('/createproject', function(req, res) {
     // console.log("done creating user");
     if (err) return res.status(500).send("There was a problem creating the project.")
     // create a token
-    res.status(200).send({ created: true, id: project_id });
+    res.status(200).send({ created: true, id: _id });
   }); 
 });
 
