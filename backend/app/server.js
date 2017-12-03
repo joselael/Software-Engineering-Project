@@ -23,7 +23,7 @@ var UserSchema = new mongoose.Schema({
   admin_message: String
 });
 var ProjectSchema = new mongoose.Schema({
-  title, String,
+  title: String,
   project_id: mongoose.Schema.Types.ObjectId,
   author_username: String,
   summary: String,
