@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { FormGroup, Input } from 'reactstrap'
+import { projects } from '../utils/Projects'
 import Project from './Project'
 import '../css/search.css'
 
@@ -18,6 +19,19 @@ class SearchProjects extends Component {
         this.setState({
             search: event.target.value
         })
+    }
+
+    componentDidMount() {
+        projects()
+            .then( (response) => {
+                this.setState({
+                    projects: response.data
+                })
+                console.log(this.state.projects)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     render() {

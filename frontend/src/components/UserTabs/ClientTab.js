@@ -32,6 +32,10 @@ export class ClientTab extends Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
+    componentDidMount() {
+
+    }
+
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
