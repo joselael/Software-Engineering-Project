@@ -113,7 +113,7 @@ app.post('/register'/*, [
 }) */
 
 app.post('/createproject', function(req, res) {
-  User.create({
+  Project.create({
     project_id: new mongoose.Types.ObjectId,
     author_username: req.body.author,
     summary: req.body.summary,
@@ -124,7 +124,7 @@ app.post('/createproject', function(req, res) {
     completed: false,
     problematic: false,
     admin_comments: null
-  }, function (err, user) {
+  }, function (err, project) {
     // console.log("done creating user");
     if (err) return res.status(500).send("There was a problem creating the project.")
     // create a token
@@ -155,9 +155,9 @@ app.post('/login', (req, res) => {
 
   // get all projects from the database
   app.get('/projects', function (req, res) {
-    Project.find({}, function (err, users) {
+    Project.find({}, function (err, projects) {
         if (err) return res.status(500).send("There was a problem finding the projects.");
-        res.status(200).send(users);
+        res.status(200).send(projects);
     });
 });
 
