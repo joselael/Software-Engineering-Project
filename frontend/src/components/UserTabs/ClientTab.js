@@ -35,7 +35,7 @@ export class ClientTab extends Component {
       projects: [],
       summary: "",
       date: "",
-      project_name: "",
+      title: "",
       min_budget: 0,
       max_budget: 0,
       modal: false
@@ -50,9 +50,32 @@ export class ClientTab extends Component {
     this.handleChange = this
       .handleChange
       .bind(this)
+    this.handleSubmit = this
+      .handleSubmit
+      .bind(this)
+    this.updateTable = this.updateTable.bind(this)
   }
 
   componentDidMount() {}
+
+  updateTable() {
+    console.log("Updating table...")
+  }
+
+  handleSubmit = event => {
+    /*
+    createprojects(
+      this.state.title, store.getState().username,
+      this.state.summary, this.state.date, this.state.min_budget,
+      this.state.max_budget
+    ).then( (response) => {
+      console.log(response)
+    }) 
+    */
+    alert("Submitting Project!!!")
+    this.toggleModal()
+    console.log(this.state)
+  }
 
   handleChange = event => {
     this.setState({
@@ -127,8 +150,8 @@ export class ClientTab extends Component {
                       <Input
                         placeholder="Awesome Project Name"
                         type="text"
-                        name="project_name"
-                        value={this.state.project_name}
+                        name="title"
+                        value={this.state.title}
                         onChange={this.handleChange}/>
                       <Label>Summary of Project</Label>
                       <Input
@@ -166,7 +189,7 @@ export class ClientTab extends Component {
                     </FormGroup>
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="primary" onClick={this.toggleModal}>
+                    <Button color="primary" onClick={this.handleSubmit}>
                       Create Project
                     </Button>
                     <Button color="secondary" onClick={this.toggleModal}>
