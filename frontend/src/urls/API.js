@@ -9,7 +9,15 @@ const DELETE = "delete/"
 const PROJECTS = "projects"
 const CREATEPROJECTS = "createprojects"
 
-export {URL, LOGIN, LOGOUT, USER, 
-    REGISTER, ACCOUNTS, UPDATE, DELETE, 
-    PROJECTS, CREATEPROJECTS
+export {
+  URL,
+  LOGIN,
+  LOGOUT,
+  USER,
+  REGISTER,
+  ACCOUNTS,
+  UPDATE,
+  DELETE,
+  PROJECTS,
+  CREATEPROJECTS
 }
