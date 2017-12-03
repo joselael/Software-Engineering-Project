@@ -7,7 +7,7 @@ const REGISTER = "register"
 const UPDATE = "update/"
 const DELETE = "delete/"
 const PROJECTS = "projects"
-const CREATEPROJECTS = "createprojects"
+const CREATEPROJECTS = "createproject"
 
 export {
   URL,

@@ -7,7 +7,8 @@ import {
   CardTitle,
   CardSubtitle,
   Col,
-  Row
+  Row,
+  Button
 } from 'reactstrap';
 import '../css/project.css'
 
@@ -16,42 +17,19 @@ class Project extends Component {
     return (
       <div className="Project">
         <Row>
-          <Col sm="6">
+          <Col sm="12">
             <Card>
               <CardBody>
                 <CardTitle>
-                  {this.props.project.name}
+                  {this.props.project.title}
                 </CardTitle>
-                <CardSubtitle>Card subtitle</CardSubtitle>
-              </CardBody>
-              <CardImg
-                width="100%"
-                src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180"
-                alt="Card image cap"/>
-              <CardBody>
                 <CardText>
-                  {this.props.project.details}
+                  {this.props.project.summary}
                 </CardText>
               </CardBody>
-            </Card>
-          </Col>
-          <Col sm="6">
-            <Card>
-              <CardBody>
-                <CardTitle>
-                  {this.props.project.name}
-                </CardTitle>
-                <CardSubtitle>Card subtitle</CardSubtitle>
-              </CardBody>
-              <CardImg
-                width="100%"
-                src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180"
-                alt="Card image cap"/>
-              <CardBody>
-                <CardText>
-                  {this.props.project.details}
-                </CardText>
-              </CardBody>
+              <Button>
+                Expand for more details
+              </Button>
             </Card>
           </Col>
         </Row>

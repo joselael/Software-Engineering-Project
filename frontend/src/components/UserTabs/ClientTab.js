@@ -50,9 +50,7 @@ export class ClientTab extends Component {
     this.handleChange = this
       .handleChange
       .bind(this)
-    this.handleSubmit = this
-      .handleSubmit
-      .bind(this)
+    this.handleSubmitProject = this.handleSubmitProject.bind(this)
     this.updateTable = this.updateTable.bind(this)
   }
 
@@ -62,16 +60,16 @@ export class ClientTab extends Component {
     console.log("Updating table...")
   }
 
-  handleSubmit = event => {
-    /*
+  handleSubmitProject = event => {
     createprojects(
       this.state.title, store.getState().username,
       this.state.summary, this.state.date, this.state.min_budget,
       this.state.max_budget
     ).then( (response) => {
       console.log(response)
-    }) 
-    */
+    }).catch( (err) => {
+      console.log(err)
+    })
     alert("Submitting Project!!!")
     this.toggleModal()
     console.log(this.state)
@@ -189,7 +187,7 @@ export class ClientTab extends Component {
                     </FormGroup>
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="primary" onClick={this.handleSubmit}>
+                    <Button color="primary" onClick={this.handleSubmitProject}>
                       Create Project
                     </Button>
                     <Button color="secondary" onClick={this.toggleModal}>

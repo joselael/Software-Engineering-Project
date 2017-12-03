@@ -37,7 +37,7 @@ export default class SearchProjects extends Component {
       .projects
       .filter((project) => {
         return project
-          .name
+          .title
           .toLowerCase()
           .indexOf(this.state.search.toLowerCase()) !== -1;
       });
