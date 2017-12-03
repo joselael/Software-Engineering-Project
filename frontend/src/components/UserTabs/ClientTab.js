@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { TabContent, TabPane, Nav, NavItem, 
     NavLink, Button, Table,
-    Row, Col, Media,
+    Row, Col, Media, FormGroup, Input, Label,
+    InputGroupAddon, InputGroup,
     Modal, ModalBody, ModalFooter, ModalHeader
 } from 'reactstrap';
 import '../../css/usertab.css';
-import { accounts, acceptUser, blacklistUser, deleteUser } from '../../utils/Users'
+import { createprojects } from '../../utils/Projects'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -18,11 +19,23 @@ export class ClientTab extends Component {
         this.state = {
             activeTab: '1',
             projects: [],
+            summary: "",
+            date: "",
+            project_name: "",
+            min_budget: 0,
+            max_budget: 0,
             modal: false
         }
 
         this.toggleTab = this.toggleTab.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    handleChange = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
     }
 
     toggleTab(tab) {
@@ -81,20 +94,67 @@ export class ClientTab extends Component {
                         Add Projects
                     </Button>
                     <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
-                        <ModalHeader toggle={this.toggleModal}>Modal Header
-                            <ModalBody>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                            </ModalBody>
+                        <ModalHeader toggle={this.toggleModal}>Create a project today!
                         </ModalHeader>
+                        <ModalBody>
+                            <FormGroup>
+                                <Label>Project Name</Label>
+                                <Input
+                                    placeholder="Awesome Project Name"
+                                    type="text"
+                                    name="project_name"
+                                    value={this.state.project_name}
+                                    onChange={this.handleChange}
+                                />
+                                <Label>Summary of Project</Label>
+                                <Input
+                                    placeholder="Summary of Project"
+                                    type="textarea"
+                                    name="summary"
+                                    bsSize="sm"
+                                    value={this.state.summary}
+                                    onChange={this.handleChange}
+                                />
+                                <Label>Date of End</Label>
+                                <Input
+                                    type="date"
+                                    name="date"
+                                    placeholder="date placeholder"
+                                    onChange={this.handleChange}
+                                    value={this.state.date}
+                                />
+                                <Label>Min Budget</Label>
+                                <InputGroup>
+                                    <InputGroupAddon>$</InputGroupAddon>
+                                    <Input
+                                        value={this.state.min_budget}                                        
+                                        name="min_budget"
+                                        type="number"
+                                        onChange={this.handleChange}
+                                    />
+                                </InputGroup>
+                                <Label>Max Budget</Label>
+                                <InputGroup>
+                                    <InputGroupAddon>$</InputGroupAddon>
+                                    <Input
+                                        value={this.state.max_budget}
+                                        name="max_budget"
+                                        type="number"
+                                        onChange={this.handleChange}
+                                    />
+                                </InputGroup>
+                            </FormGroup>
+                        </ModalBody>
                         <ModalFooter>
                             <Button color="primary" onClick={this.toggleModal}>
-                                Do something
+                                Create Project
                             </Button>
-                            <Button color="primary" onClick={this.toggleModal}>
-                                Do something else
+                            <Button color="secondary" onClick={this.toggleModal}>
+                                Cancel
                             </Button>
                         </ModalFooter>
                     </Modal>
+                    {/*
                     <Table hover responsive striped>
                     <thead>
                         <tr>
@@ -117,6 +177,8 @@ export class ClientTab extends Component {
                     <tbody>
                     </tbody>
                     </Table>
+                    */
+                    }
                 </Row>
                 </TabPane>
                 <ProfileTab />

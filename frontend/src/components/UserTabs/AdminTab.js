@@ -64,7 +64,6 @@ export class AdminTab extends Component {
 
   rejectUser = id => event => {
     console.log("Rejecting User")
-
     this.setState({
       reject_reason: ""
     })
@@ -87,7 +86,6 @@ export class AdminTab extends Component {
 
   deleteUser = id => event => {
     console.log("Deleting user")
-    console.log(id)
     deleteUser(id)
       .then( (response) => {
         this.updateTable()

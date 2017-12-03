@@ -7,7 +7,9 @@ const REGISTER = "register"
 const UPDATE = "update/"
 const DELETE = "delete/"
 const PROJECTS = "projects"
+const CREATEPROJECTS = "createprojects"
 
 export {URL, LOGIN, LOGOUT, USER, 
-    REGISTER, ACCOUNTS, UPDATE, DELETE, PROJECTS
+    REGISTER, ACCOUNTS, UPDATE, DELETE, 
+    PROJECTS, CREATEPROJECTS
 }

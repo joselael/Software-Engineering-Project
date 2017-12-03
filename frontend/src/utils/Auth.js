@@ -21,8 +21,11 @@ export function login(Username, Password) {
                 'x-access-token': token
             }
         }).then(( (response) => {
-            if (response.data.blacklisted) {
+            if (response.data.blacklisted && !response.data.enabled) {
                 alert("You are rejected because " + response.data.admin_message)
+            }
+            else if(response.data.blacklisted) {
+                alert("GET OFF OUR WEBSITES")
             }
             else if(!response.data.enabled) {
                 alert("You're not enabled")
