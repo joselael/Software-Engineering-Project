@@ -114,7 +114,6 @@ app.post('/register'/*, [
 
 app.post('/createproject', function(req, res) {
   Project.create({
-    project_id: new mongoose.Types.ObjectId,
     author_username: req.body.author,
     summary: req.body.summary,
     bid_end: Date(req.body.bid_end),
