@@ -13,7 +13,7 @@ export function createprojects(username, summary, bid_end, min_budget, max_budge
         method: 'post',
         url: URL + CREATEPROJECTS,
         data: {
-            author_username: username,
+            author: username,
             summary: summary,
             bid_end, bid_end,
             min_budget: min_budget,

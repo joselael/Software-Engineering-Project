@@ -84,102 +84,105 @@ export class ClientTab extends Component {
             <div className="activeTab">
             <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
-                <Row>
-                    <h4>
-                        Current Projects
-                    </h4>
-                    <Button
-                        color="primary"
-                        onClick={this.toggleModal}>
-                        Add Projects
-                    </Button>
-                    <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
-                        <ModalHeader toggle={this.toggleModal}>Create a project today!
-                        </ModalHeader>
-                        <ModalBody>
-                            <FormGroup>
-                                <Label>Project Name</Label>
-                                <Input
-                                    placeholder="Awesome Project Name"
-                                    type="text"
-                                    name="project_name"
-                                    value={this.state.project_name}
-                                    onChange={this.handleChange}
-                                />
-                                <Label>Summary of Project</Label>
-                                <Input
-                                    placeholder="Summary of Project"
-                                    type="textarea"
-                                    name="summary"
-                                    bsSize="sm"
-                                    value={this.state.summary}
-                                    onChange={this.handleChange}
-                                />
-                                <Label>Date of End</Label>
-                                <Input
-                                    type="date"
-                                    name="date"
-                                    placeholder="date placeholder"
-                                    onChange={this.handleChange}
-                                    value={this.state.date}
-                                />
-                                <Label>Min Budget</Label>
-                                <InputGroup>
-                                    <InputGroupAddon>$</InputGroupAddon>
+                    <Row />
+                    <Row>
+                        <Button
+                            color="primary"
+                            onClick={this.toggleModal}>
+                            Add Projects
+                        </Button>
+                        <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+                            <ModalHeader toggle={this.toggleModal}>Create a project today!
+                            </ModalHeader>
+                            <ModalBody>
+                                <FormGroup>
+                                    <Label>Project Name</Label>
                                     <Input
-                                        value={this.state.min_budget}                                        
-                                        name="min_budget"
-                                        type="number"
+                                        placeholder="Awesome Project Name"
+                                        type="text"
+                                        name="project_name"
+                                        value={this.state.project_name}
                                         onChange={this.handleChange}
                                     />
-                                </InputGroup>
-                                <Label>Max Budget</Label>
-                                <InputGroup>
-                                    <InputGroupAddon>$</InputGroupAddon>
+                                    <Label>Summary of Project</Label>
                                     <Input
-                                        value={this.state.max_budget}
-                                        name="max_budget"
-                                        type="number"
+                                        placeholder="Summary of Project"
+                                        type="textarea"
+                                        name="summary"
+                                        bsSize="sm"
+                                        value={this.state.summary}
                                         onChange={this.handleChange}
                                     />
-                                </InputGroup>
-                            </FormGroup>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button color="primary" onClick={this.toggleModal}>
-                                Create Project
-                            </Button>
-                            <Button color="secondary" onClick={this.toggleModal}>
-                                Cancel
-                            </Button>
-                        </ModalFooter>
-                    </Modal>
-                    {/*
-                    <Table hover responsive striped>
-                    <thead>
-                        <tr>
-                        <th>#</th>
-                        <th>Project Name</th>
-                        <th>Link</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    </Table>
-                    <h4>Past Project</h4>
-                    <Table hover responsive striped>
-                    <thead>
-                        <tr>
-                        <th>#</th>
-                        <th>User Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    </Table>
-                    */
-                    }
-                </Row>
+                                    <Label>Date of End</Label>
+                                    <Input
+                                        type="date"
+                                        name="date"
+                                        placeholder="date placeholder"
+                                        onChange={this.handleChange}
+                                        value={this.state.date}
+                                    />
+                                    <Label>Min Budget</Label>
+                                    <InputGroup>
+                                        <InputGroupAddon>$</InputGroupAddon>
+                                        <Input
+                                            value={this.state.min_budget}                                        
+                                            name="min_budget"
+                                            type="number"
+                                            onChange={this.handleChange}
+                                        />
+                                    </InputGroup>
+                                    <Label>Max Budget</Label>
+                                    <InputGroup>
+                                        <InputGroupAddon>$</InputGroupAddon>
+                                        <Input
+                                            value={this.state.max_budget}
+                                            name="max_budget"
+                                            type="number"
+                                            onChange={this.handleChange}
+                                        />
+                                    </InputGroup>
+                                </FormGroup>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button color="primary" onClick={this.toggleModal}>
+                                    Create Project
+                                </Button>
+                                <Button color="secondary" onClick={this.toggleModal}>
+                                    Cancel
+                                </Button>
+                            </ModalFooter>
+                        </Modal>
+                    </Row>
+                    <Row>
+                        <h4>Current Projects</h4>
+                        <Table hover responsive striped>
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Project Name</th>
+                                <th>Min Budget</th>
+                                <th>Max Budget</th>
+                                <th>Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </Table>
+                        <h4>Past Project</h4>
+                        <Table hover responsive striped>
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Project Name</th>
+                                <th>Min Budget</th>
+                                <th>Max Budget</th>
+                                <th>Link</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </Table>
+                    </Row>
                 </TabPane>
                 <ProfileTab />
                 <SettingsTab />
