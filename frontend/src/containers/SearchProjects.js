@@ -41,6 +41,7 @@ export default class SearchProjects extends Component {
           .toLowerCase()
           .indexOf(this.state.search.toLowerCase()) !== -1;
       });
+
     return (
       <div className="SearchProjects">
         <FormGroup>
