@@ -13,7 +13,10 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Label
+  Label,
+  Input,
+  InputGroupAddon,
+  InputGroup
 } from 'reactstrap';
 import '../css/project.css'
 
@@ -27,6 +30,11 @@ class Project extends Component {
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmitBid = this.handleSubmitBid.bind(this)
+  }
+
+  handleSubmitBid = event => {
+    console.log(this.state.bid)
   }
 
   handleChange = event => {
@@ -69,17 +77,20 @@ class Project extends Component {
                   <Label>Bid End Date</Label><br/>
                   {this.props.project.bid_end}<br/>
                   <Label>Enter Bid</Label>
-                  <Input
-                    autofocus
-                    type="number"                    
-                    name="bid"
-                    value={this.state.bid}
-                    onChange={this.handleChange}
-                    placeholder="Enter Bid"
-                  />
+                  <InputGroup>
+                    <InputGroupAddon>$</InputGroupAddon>
+                    <Input
+                      autoFocus
+                      type="number"                    
+                      name="bid"
+                      value={this.state.bid}
+                      onChange={this.handleChange}
+                      placeholder="Enter Bid"
+                    />
+                  </InputGroup>
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" onClick={this.handleSubmitProject}>
+                  <Button color="primary" onClick={this.handleSubmitBid}>
                     Submit Bid
                   </Button>
                   <Button color="secondary" onClick={this.toggleModal}>
