@@ -28,7 +28,7 @@ export function login(Username, Password) {
     const token = response.data.token
     axios({
       method: 'get',
-      url: URL + USER,
+      url: URL + USER + ME,
       headers: {
         'x-access-token': token
       }
@@ -60,7 +60,7 @@ export function loggedIn() {
 export function logout() {
 
   return axios({
-    method: "post",
+    method: "get",
     url: URL + LOGOUT
   }).then( (response) => {
     alert("Signing out...")
@@ -68,6 +68,7 @@ export function logout() {
     store.dispatch(setUser({}))
   }).catch( (err) => {
     alert(err)
+    console.log()
   })
 
 }

@@ -90,7 +90,7 @@ export class AdminTab extends Component {
   }
 
   updateTable() {
-    accounts().then(({data}) => {
+    accounts(store.getState().token).then(({data}) => {
       var users = data.filter(this.notAdmin)
       this.setState({users: users})
     }).catch((err) => {
@@ -103,22 +103,22 @@ export class AdminTab extends Component {
     this.setState({reject_reason: ""})
 
     const reject_msg = this.state.reject_reason
-
-    rejectUser(id, reject_msg).then((response) => {
+    rejectUser(store.getState().token, id, reject_msg).then((response) => {
       this.updateTable()
+      this.toggleModal()
     })
   }
 
   blacklistUser = id => event => {
     console.log("Blacklisting user")
-    blacklistUser(id).then((response) => {
+    blacklistUser(store.getState().token, id).then((response) => {
       this.updateTable()
     })
   }
 
   deleteUser = id => event => {
     console.log("Deleting user")
-    deleteUser(id).then((response) => {
+    deleteUser(store.getState().token, id).then((response) => {
       this.updateTable()
     })
   }
@@ -131,7 +131,7 @@ export class AdminTab extends Component {
   acceptUser = id => event => {
     console.log("Accepting user")
     console.log(id)
-    acceptUser(id).then((response) => {
+    acceptUser(store.getState().token, id).then((response) => {
       this.updateTable()
     })
   }
@@ -159,7 +159,7 @@ export class AdminTab extends Component {
   }
 
   componentDidMount() {
-    accounts().then(({data}) => {
+    accounts(store.getState().token).then(({data}) => {
       var users = data.filter(this.notAdmin)
       this.setState({users: users})
     }).catch((err) => {
