@@ -5,11 +5,6 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-const index = require('./routes/index');
-const user = require('./routes/users');
-const project = require('./routes/projects');
-const db = require('./databases/db');
-
 const app = express();
 
 // view engine setup
@@ -20,9 +15,14 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+const index = require('./routes/index');
+const user = require('./routes/users');
+const project = require('./routes/projects');
+const db = require('./databases/db');
 
 app.use('/', index);
 app.use('/user', user);
