@@ -38,7 +38,8 @@ export class ClientTab extends Component {
       title: "",
       min_budget: 0,
       max_budget: 0,
-      modal: false
+      modal: false,
+      link: false
     }
 
     this.toggleTab = this
@@ -52,6 +53,12 @@ export class ClientTab extends Component {
       .bind(this)
     this.handleSubmitProject = this.handleSubmitProject.bind(this)
     this.updateTable = this.updateTable.bind(this)
+    this.checkFinished = this.checkFinished.bind(this)
+    this.toggleLink = this.toggleLink.bind(this)
+  }
+
+  checkFinished(project) {
+    return !project.completed
   }
 
   componentDidMount() {
@@ -59,13 +66,18 @@ export class ClientTab extends Component {
   }
 
   updateTable() {
-    myproject(store.getState().user.username).then( (data) => {
-      console.log(data)
+    myproject(store.getState().user.username).then( (response) => {
+      this.setState({
+        projects: response.data
+      })
+      console.log(this.state.projects)
+      console.log("Updating table...")
+    }).catch( (err) => {
+      console.log(err)
     })
   }
 
   handleSubmitProject = event => {
-
     createprojects(
       this.state.title, 
       store.getState().user.username,
@@ -95,6 +107,12 @@ export class ClientTab extends Component {
     }
   }
 
+  toggleLink() {
+    this.setState({
+      link: !this.state.link
+    })
+  }
+
   toggleModal() {
     this.setState({
       modal: !this.state.modal
@@ -102,9 +120,41 @@ export class ClientTab extends Component {
   }
 
   render() {
-
-    let currentProject = this.state.projects
-
+    const currentProject = this.state.projects.
+      filter(this.checkFinished)
+      .map((project, index) => 
+        <tr key={project._id}>
+          <td scope="row">{index + 1}</td>
+          <td>{project.title}</td>
+          <td>{project.mid_budget}</td>
+          <td>{project.max_budget}</td>
+          <td>
+            <Button
+              size="sm"
+              color="primary"
+              onClick={this.toggleLink}
+            >
+              Link
+            </Button>
+            <Modal isOpen={this.state.link} toggle={this.toggleLink}>
+              <ModalHeader>
+                {project.title}
+              </ModalHeader>
+              <ModalBody>
+                {project.summary}
+              </ModalBody>
+              <ModalFooter>
+                <Button color="danger" onClick={this.toggleLink}>
+                  Choose
+                </Button>
+                <Button color="primary" onClick={this.toggleLink}>
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </td>
+        </tr>
+    )
     return (
       <div>
         <Nav tabs>
@@ -219,7 +269,9 @@ export class ClientTab extends Component {
                       <th>Link</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                    {currentProject}
+                  </tbody>
                 </Table>
                 <h4>Past Project</h4>
                 <Table hover responsive striped>

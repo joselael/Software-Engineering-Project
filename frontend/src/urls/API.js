@@ -7,6 +7,7 @@ const ME = "me"
 const CREATE = "create"
 const PROJECT = "project/"
 const PROJECTS = "projects"
+const SEARCH = "search/"
 
 export {
   URL,
@@ -17,5 +18,6 @@ export {
   ME,
   CREATE,
   PROJECT,
-  PROJECTS  
+  PROJECTS,
+  SEARCH  
 }

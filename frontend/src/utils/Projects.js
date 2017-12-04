@@ -4,7 +4,9 @@ import {
   PROJECT,
   PROJECTS,
   CREATE,
+  SEARCH
 } from '../urls/API'
+import store from '../store'
 
 export function projects() {
   return axios({
@@ -16,7 +18,10 @@ export function projects() {
 export function myproject(username) {
   return axios({
     method: "get",
-    url: URL + PROJECT + username
+    url: URL + PROJECT + SEARCH + username,
+    headers: {
+      'x-access-token': store.getState().token
+    }
   })
 }
 
