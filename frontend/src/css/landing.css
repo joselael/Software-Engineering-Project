@@ -1,0 +1,53 @@
+.intro-header {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  color: #f8f8f8;
+  background: url(../images/original.gif) no-repeat center;
+  background-size: cover;
+}
+
+.loggedin-intro-header {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  text-align: center;
+  color: #f8f8f8;
+  background: url(../images/test1.jpg) no-repeat center;
+  background-size: cover;
+  opacity: .85;
+
+}
+
+.intro-message {
+  position: relative;
+  padding-top: 20%;
+  padding-bottom: 20%;
+}
+
+.loggedin-intro-message {
+  position: relative;
+  padding-top: 20%;
+  padding-bottom: 20%;
+  color: #000000;
+  opacity: 1;
+}
+
+.text-background {
+  margin: auto;
+  border-radius: 25px;
+  background: #f8f8ff;
+  max-width: 450px;
+  opacity: 1;
+
+
+}
+
+footer {
+  padding: 50px;
+  margin: auto;
+  background-color: #f8f8f8;
+}
+
+p.copyright {
+  margin: 15px 0 0;
+}
