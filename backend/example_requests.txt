@@ -1,0 +1,26 @@
+/register:
+Sent: {
+	"username": "spongybottom",
+	"first_name": "spongy",
+	"last_name": "bottom",
+	"email": "sbottom@nsa.gov",
+	"password": "supersecure",
+	"user_type": "client"
+}
+
+Received: {
+    "auth": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMjQ5M2IwNDAyM2EzNzcwZTQyMzg3NiIsImlhdCI6MTUxMjM0NjU0NCwiZXhwIjoxNTEyMzg5NzQ0fQ.aQyJuzmBNOYK4Zu_pNIxGqBYueJsy_aL00umL9goX1U"
+}
+
+/login:
+Sent: {
+	"username": "yong",
+	"password": "password"
+}
+
+Received: {
+    "auth": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMWM3NjYwNTgyNTY1MjI3NGZiMjE4YSIsImlhdCI6MTUxMjM0Njk0NSwiZXhwIjoxNTEyMzkwMTQ1fQ.GmQwbgcZf5suyb9Vj5Dv2rIF0succR7Fa6xLgwxJreY"
+}
+
