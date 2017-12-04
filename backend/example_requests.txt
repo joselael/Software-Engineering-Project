@@ -1,26 +1,75 @@
-/register:
-Sent: {
-	"username": "spongybottom",
-	"first_name": "spongy",
-	"last_name": "bottom",
-	"email": "sbottom@nsa.gov",
-	"password": "supersecure",
-	"user_type": "client"
-}
-
+/* Creating Project */
+POST /project/create
+Sent:
+    Header[x-access-token] : <token>
+    {
+    	"title": "the best project",
+    	"author": "djt",
+    	"summary": "most tremendous project",
+    	"details": "all the expert are calling me and saying, I've never seen a project so good!",
+    	"min_budget": 0,
+    	"max_budget": 1000,
+    	"bid_end": "12/04/2017"
+    }
 Received: {
-    "auth": true,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMjQ5M2IwNDAyM2EzNzcwZTQyMzg3NiIsImlhdCI6MTUxMjM0NjU0NCwiZXhwIjoxNTEyMzg5NzQ0fQ.aQyJuzmBNOYK4Zu_pNIxGqBYueJsy_aL00umL9goX1U"
-}
+              "created": true,
+              "id": "5a2550ed177b0855e1be1d2c"
+          }
 
-/login:
-Sent: {
-	"username": "yong",
-	"password": "password"
-}
+/* Getting all projects */
+GET /project/projects
+Sent:
+    Header[x-access-token] : <admin-token> // otherwise 401
+Received: [ ...
+            {
+                    "_id": "5a2550ed177b0855e1be1d2c",
+                    "title": "the best project",
+                    "author_username": "djt",
+                    "summary": "most tremendous project",
+                    "details": "function String() { [native code] }", //oops, bug I guess
+                    "bid_end": "2017-12-04T13:43:09.000Z",
+                    "min_budget": 0,
+                    "max_budget": 1000,
+                    "assignee": null,
+                    "completed": false,
+                    "problematic": false,
+                    "admin_comments": null,
+                    "__v": 0,
+                    "bid_start": "2017-12-04T13:43:09.504Z",
+                    "post_date": "2017-12-04T13:43:09.504Z"
+                },
+                ...
+            ]
 
-Received: {
-    "auth": true,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhMWM3NjYwNTgyNTY1MjI3NGZiMjE4YSIsImlhdCI6MTUxMjM0Njk0NSwiZXhwIjoxNTEyMzkwMTQ1fQ.GmQwbgcZf5suyb9Vj5Dv2rIF0succR7Fa6xLgwxJreY"
-}
+/* Deleting a project */
+DELETE /project/<project-id>
+Sent:
+    Header[x-access-token] : <admin-token> // otherwise 401
+Received: [
+              true,
+              "Project was deleted."
+          ]
+
+/* Getting project by title */
+GET /project/best%20project
+Sent:
+    Header[x-access-token] : <token> // otherwise 401
+Received: [
+              {
+                  "_id": "5a254f8537ef4a5595e54990",
+                  "title": "best project",
+                  "summary": "most tremendous project",
+                  "details": "function String() { [native code] }",
+                  "bid_end": "2017-12-04T13:37:09.000Z",
+                  "min_budget": 0,
+                  "max_budget": 1000,
+                  "assignee": null,
+                  "completed": false,
+                  "problematic": false,
+                  "admin_comments": null,
+                  "__v": 0,
+                  "bid_start": "2017-12-04T13:37:09.665Z",
+                  "post_date": "2017-12-04T13:37:09.665Z"
+              }
+          ]
 
