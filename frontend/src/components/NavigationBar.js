@@ -57,7 +57,7 @@ class NavigationBar extends Component {
                 <Button
                   onClick={this.signout}
                   size="md"
-                  color="primary"
+                  color="info"
                 >
                   Sign Out
                 </Button>

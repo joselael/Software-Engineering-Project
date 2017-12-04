@@ -11,7 +11,7 @@ export function login(Username, Password) {
             username:Username,
             password:Password
         } 
-    }).then(function(response) {
+    }).then( (response) => {
 
         const token = response.data.token
         axios({
@@ -20,8 +20,11 @@ export function login(Username, Password) {
             headers: {
                 'x-access-token': token
             }
-        }).then((function(response){
-            if(!response.data.enabled) {
+        }).then(( (response) => {
+            if (response.data.blacklisted) {
+                alert("GET OFF OUR WEBSITE YOU'RE BLACKLISTED");
+            }
+            else if(!response.data.enabled) {
                 alert("You're not enabled")
             } else {
                 store.dispatch(setToken(token))
@@ -31,15 +34,6 @@ export function login(Username, Password) {
 
     }).catch( (error) => {
         alert(error)
-    })
-}
-
-export function accounts() {
-    return axios({
-        method: 'get',
-        url: URL+ACCOUNTS
-    }).then(function(response) {
-        console.log(response.data)
     })
 }
 

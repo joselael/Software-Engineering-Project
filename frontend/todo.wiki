@@ -1,0 +1,18 @@
+= TODO LIST =
+
+== Accounts Page ==
+
+- [X] Profile of any kind of user (First name, last name user name, account type)
+
+=== Admin Tab ===
+
+- [X] Super User approve / disapprove users
+- [ ] Align column
+
+=== Clients Tab ===
+
+- [ ] List all projects with option to add projects
+
+=== Dev Tab ===
+
+- [ ] List all working projects and Past projects 
