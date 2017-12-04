@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
   blacklisted: Boolean,
   admin_message: String
 });
+
 var User = mongoose.model('User', UserSchema);
 
 module.exports = mongoose.model('User');
