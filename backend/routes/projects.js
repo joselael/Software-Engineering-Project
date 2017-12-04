@@ -26,7 +26,7 @@ router.post('/create', (req, res) => {
 });
 
 // get all projects from the database
-router.get('/projects', VerifyToken, function (req, res) {
+router.get('/projects', function (req, res) {
     Project.find({}, function (err, projects) {
         if (err) return res.status(500).send("There was a problem finding the projects.");
         res.status(200).send(projects);
