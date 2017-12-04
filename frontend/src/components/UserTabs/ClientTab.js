@@ -55,11 +55,16 @@ export class ClientTab extends Component {
     this.handleSubmitProject = this.handleSubmitProject.bind(this)
     this.updateTable = this.updateTable.bind(this)
     this.checkFinished = this.checkFinished.bind(this)
+    this.checkDone = this.checkDone.bind(this)
     this.toggleLink = this.toggleLink.bind(this)
   }
 
   checkFinished(project) {
     return !project.completed
+  }
+
+  checkDone(project) {
+    return project.completed
   }
 
   componentDidMount() {
@@ -123,6 +128,53 @@ export class ClientTab extends Component {
   render() {
     const currentProject = this.state.projects.
       filter(this.checkFinished)
+      .map((project, index) => 
+        <tr key={project._id}>
+          <td scope="row">{index + 1}</td>
+          <td>{project.title}</td>
+          <td>{project.mid_budget}</td>
+          <td>{project.max_budget}</td>
+          <td>
+            <Button
+              size="sm"
+              color="primary"
+              onClick={this.toggleLink}
+            >
+              Link
+            </Button>
+            <Modal isOpen={this.state.link} toggle={this.toggleLink}>
+              <ModalHeader>
+                {project.title}
+              </ModalHeader>
+              <ModalBody>
+                {project.summary}
+              </ModalBody>
+              <ModalFooter>
+                <FormGroup>
+                <select value={this.state.dev_username} 
+                  onChange={this.handleChange} 
+                  type="text" 
+                  name="dev_username" 
+                  className="form-control">
+                  <option value="" disabled> Choose your user type </option>
+                  <option value="developer"> Developer </option>
+                  <option value="client"> Client </option>
+                </select>
+                </FormGroup>
+                <Button color="danger" onClick={this.toggleLink}>
+                  Choose
+                </Button>
+                <Button color="primary" onClick={this.toggleLink}>
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </td>
+        </tr>
+    )
+
+    const pastProjects = this.state.projects.
+      filter(this.checkDone)
       .map((project, index) => 
         <tr key={project._id}>
           <td scope="row">{index + 1}</td>
@@ -296,7 +348,9 @@ export class ClientTab extends Component {
                       <th>Link</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody>
+                
+                  </tbody>
                 </Table>
               </Row>
             </TabPane>
