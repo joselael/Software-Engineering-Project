@@ -6,8 +6,8 @@ const router = express.Router();
 // const db = require('../databases/db');
 
 
-var Project = require('../models/Project');
-var VerifyToken = require('../auth/VerifyToken');
+const Project = require('../models/Project');
+const VerifyToken = require('../auth/VerifyToken');
 
 
 router.post('/create', (req, res) => {

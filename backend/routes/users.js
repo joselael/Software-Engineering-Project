@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
-var VerifyAdmin = require('../auth/VerifyAdmin');
-var VerifyToken = require('../auth/VerifyToken');
+const VerifyAdmin = require('../auth/VerifyAdmin');
+const VerifyToken = require('../auth/VerifyToken');
 
 const bcryptSaltRounds = 10;
 const config = require('../config');
@@ -31,9 +32,9 @@ router.post('/register', (req, res) => {
         admin_message: null
     }, function (err, user) {
         // console.log("done creating user");
-        if (err) return res.status(500).send("There was a problem registering the user.")
+        if (err) return res.status(500).send("There was a problem registering the user.");
         // create a token
-        var token = jwt.sign({id: user._id}, config.secret, {
+        let token = jwt.sign({id: user._id}, config.secret, {
             expiresIn: 43200 // expires in 12 hours
         });
         res.status(200).send({auth: true, token: token});

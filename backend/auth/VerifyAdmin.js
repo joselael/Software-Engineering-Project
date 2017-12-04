@@ -1,9 +1,9 @@
-var jwt = require('jsonwebtoken');
-var config = require('../config');
-var User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
+const User = require('../models/User');
 
 function verifyAdmin(req, res, next) {
-    var token = req.headers['x-access-token'];
+    let token = req.headers['x-access-token'];
      if(!token)
         return res.status(403).send({auth: false, message: 'No token provided.'});
 
@@ -17,7 +17,7 @@ function verifyAdmin(req, res, next) {
         User.findById(req.userID, (err, user) => {
             if (err) return res.status(500).send("There was a problem finding the user.");
             if(!user) return res.status(404).send("No such user.");
-            if(user.user_type != "admin")
+            if(user.user_type !== "admin")
                 return res.status(401).send("Unauthorized!");
             
             next();
