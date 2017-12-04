@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, Button, Label } from 'reactstrap'
-import { register } from '../utils/Auth'
+import { register } from '../utils/Users'
 import { Redirect } from 'react-router-dom'
 import '../css/signup.css'
 

@@ -1,21 +1,22 @@
 import axios from 'axios'
 import {
   URL,
+  PROJECT,
   PROJECTS,
-  CREATEPROJECTS
+  CREATE,
 } from '../urls/API'
 
 export function projects() {
   return axios({
     method: "get",
-    url: URL + PROJECTS
+    url: URL + PROJECT + PROJECTS
   })
 }
 
 export function createprojects(title, username, summary, bid_end, min_budget, max_budget) {
   return axios({
     method: 'post',
-    url: URL + CREATEPROJECTS,
+    url: URL + PROJECT + CREATE,
     data: {
       title: title,
       author: username,

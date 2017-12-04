@@ -2,22 +2,22 @@ const URL = "http://localhost:3001/";
 const LOGIN = "login"
 const LOGOUT = "logout"
 const USER = "user"
-const ACCOUNTS = "accounts"
-const REGISTER = "register"
+const ACCOUNTS = "/accounts"
+const ME = "/me"
+const CREATE = "/create"
 const UPDATE = "update/"
-const DELETE = "delete/"
-const PROJECTS = "projects"
-const CREATEPROJECTS = "createproject"
+const PROJECT = "/project"
+const PROJECTS = "/projects"
 
 export {
   URL,
   LOGIN,
   LOGOUT,
   USER,
-  REGISTER,
   ACCOUNTS,
+  ME,
+  CREATE,
   UPDATE,
-  DELETE,
-  PROJECTS,
-  CREATEPROJECTS
+  PROJECT,
+  PROJECTS  
 }

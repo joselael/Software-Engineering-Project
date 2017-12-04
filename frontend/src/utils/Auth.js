@@ -2,9 +2,12 @@ import axios from 'axios'
 import {
   URL,
   LOGIN,
+  LOGOUT,
   USER,
-  REGISTER,
-  ACCOUNTS
+  ACCOUNTS,
+  ME,
+  CREATE,
+  UPDATE
 } from '../urls/API'
 import store from '../store'
 import {
@@ -47,32 +50,6 @@ export function login(Username, Password) {
   })
 }
 
-//Register user
-export function register(Username, Password, First_name, Last_name, User_type, Email) {
-
-  return axios({
-    method: 'post',
-    url: URL + REGISTER,
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data: {
-      username: Username,
-      password: Password,
-      first_name: First_name,
-      last_name: Last_name,
-      user_type: User_type,
-      email: Email
-    }
-  }).then(function(response) {
-    console.log(response.data)
-    alert("Sending request to admin")
-  }).catch((error) => {
-    alert(error)
-  })
-
-}
-
 export function loggedIn() {
   if (store.getState().token != null) {
     return true;
@@ -81,6 +58,16 @@ export function loggedIn() {
 }
 
 export function logout() {
-  store.dispatch(setToken(null))
-  store.dispatch(setUser({}))
+
+  return axios({
+    method: "post",
+    url: URL + LOGOUT
+  }).then( (response) => {
+    alert("Signing out...")
+    store.dispatch(setToken(null))
+    store.dispatch(setUser({}))
+  }).catch( (err) => {
+    alert(err)
+  })
+
 }
