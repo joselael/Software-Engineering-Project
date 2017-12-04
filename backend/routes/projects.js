@@ -4,6 +4,14 @@ const Project = require('../models/Project');
 const VerifyToken = require('../auth/VerifyToken');
 const VerifyAdmin = require('../auth/VerifyAdmin');
 
+// router.post('/bid/:id', VerifyToken, (req, res) =>
+// {
+//     Project.find({}, function (err, proj) {
+//         if (err) return res.status(500).send("There was a problem finding the projects.");
+//         var project = proj;
+//
+//     });})
+
 router.post('/create', (req, res) => {
     console.log(req.body);
     Project.create({
@@ -11,9 +19,10 @@ router.post('/create', (req, res) => {
         author: req.body.author,
         summary: req.body.summary,
         details: String,
-        bid_end: Date(req.body.bid_end),
+        bid_end: new Date(req.body.bid_end),
         min_budget: parseInt(req.body.min_budget),
         max_budget: parseInt(req.body.max_budget),
+        bidders: [],
         assignee: null,
         completed: false,
         problematic: false,
@@ -45,6 +54,16 @@ router.delete('/:id', VerifyAdmin, (req, res) => {
 router.put('/:id', VerifyAdmin, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         if (err) return res.status(500).send("There was a problem updating the user.");
+        res.status(200).send(project);
+    });
+});
+
+// find projects by specific user
+router.get('/search/:user', VerifyToken, (req, res) => {
+    Project.find({author: req.params.user}, function (err, project) {
+        if (err) return res.status(500).send("There was a problem finding the project.");
+        if (!project) return res.status(404).send("No project found.");
+
         res.status(200).send(project);
     });
 });
