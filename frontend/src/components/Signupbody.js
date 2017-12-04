@@ -80,7 +80,6 @@ class Signupbody extends Component {
           </div>
           */}
 
-
           <FormGroup>
             <Label> User type</Label>
             <select value={this.state.usertype} onChange={this.onChange} type="text" name="usertype" className="form-control">

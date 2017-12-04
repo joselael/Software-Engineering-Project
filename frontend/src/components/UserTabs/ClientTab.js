@@ -39,7 +39,8 @@ export class ClientTab extends Component {
       min_budget: 0,
       max_budget: 0,
       modal: false,
-      link: false
+      link: false,
+      dev_username: ""
     }
 
     this.toggleTab = this
@@ -144,6 +145,17 @@ export class ClientTab extends Component {
                 {project.summary}
               </ModalBody>
               <ModalFooter>
+                <FormGroup>
+                <select value={this.state.dev_username} 
+                  onChange={this.handleChange} 
+                  type="text" 
+                  name="dev_username" 
+                  className="form-control">
+                  <option value="" disabled> Choose your user type </option>
+                  <option value="developer"> Developer </option>
+                  <option value="client"> Client </option>
+                </select>
+                </FormGroup>
                 <Button color="danger" onClick={this.toggleLink}>
                   Choose
                 </Button>
