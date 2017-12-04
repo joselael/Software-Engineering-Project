@@ -52,7 +52,7 @@ export default class SearchProjects extends Component {
             id="searchProject"/>
         </FormGroup>
         {filteredProjects.map((project) => {
-          return <Project project={project} key={project.id}/>
+          return <Project project={project} key={project._id}/>
         })}
       </div>
     )

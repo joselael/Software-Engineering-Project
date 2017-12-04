@@ -21,7 +21,7 @@ import {
   ModalHeader
 } from 'reactstrap';
 import '../../css/usertab.css';
-import {createprojects} from '../../utils/Projects'
+import {myproject, createprojects} from '../../utils/Projects'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -54,16 +54,24 @@ export class ClientTab extends Component {
     this.updateTable = this.updateTable.bind(this)
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.updateTable()
+  }
 
   updateTable() {
-    console.log("Updating table...")
+    myproject(store.getState().user.username).then( (data) => {
+      console.log(data)
+    })
   }
 
   handleSubmitProject = event => {
+
     createprojects(
-      this.state.title, store.getState().username,
-      this.state.summary, this.state.date, this.state.min_budget,
+      this.state.title, 
+      store.getState().user.username,
+      this.state.summary, 
+      this.state.date, 
+      this.state.min_budget,
       this.state.max_budget
     ).then( (response) => {
       console.log(response)

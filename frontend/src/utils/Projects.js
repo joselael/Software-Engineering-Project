@@ -13,6 +13,13 @@ export function projects() {
   })
 }
 
+export function myproject(username) {
+  return axios({
+    method: "get",
+    url: URL + PROJECT + username
+  })
+}
+
 export function createprojects(title, username, summary, bid_end, min_budget, max_budget) {
   return axios({
     method: 'post',

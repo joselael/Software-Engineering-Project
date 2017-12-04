@@ -18,11 +18,13 @@ import {
   InputGroupAddon,
   InputGroup
 } from 'reactstrap';
+import store from '../store'
 import '../css/project.css'
 
 class Project extends Component {
 
   constructor(props) {
+    
     super(props)
     this.state = {
       modal: false,
@@ -63,9 +65,11 @@ class Project extends Component {
                   {this.props.project.summary}
                 </CardText>
               </CardBody>
+              {store.getState().user.user_type === "developer" ?
               <Button onClick={this.toggleModal}>
                 Expand for more details
-              </Button>
+              </Button> : null
+              }
               <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal}>{this.props.project.title}
                 </ModalHeader>
