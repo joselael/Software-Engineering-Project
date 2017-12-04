@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ProjectSchema = new mongoose.Schema({
     title: String,
-    author_username: String,
+    author: String,
     summary: String,
     details: String,
     post_date: { type: Date, default: Date.now },
