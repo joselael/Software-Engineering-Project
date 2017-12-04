@@ -159,12 +159,7 @@ export class AdminTab extends Component {
   }
 
   componentDidMount() {
-    accounts(store.getState().token).then(({data}) => {
-      var users = data.filter(this.notAdmin)
-      this.setState({users: users})
-    }).catch((err) => {
-      console.log(err)
-    })
+    this.updateTable()
   }
 
   render() {

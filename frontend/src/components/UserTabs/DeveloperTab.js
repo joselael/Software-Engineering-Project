@@ -9,7 +9,7 @@ import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
 
-export class ClientTab extends Component {
+export class DeveloperTab extends Component {
     constructor(props) {
         super(props)
 

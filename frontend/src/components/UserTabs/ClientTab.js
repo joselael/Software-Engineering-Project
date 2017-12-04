@@ -94,6 +94,9 @@ export class ClientTab extends Component {
   }
 
   render() {
+
+    let currentProject = this.state.projects
+
     return (
       <div>
         <Nav tabs>
