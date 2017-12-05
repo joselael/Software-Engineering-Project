@@ -5,6 +5,7 @@ import { Form, FormGroup,TabPane, Label,
   Modal, ModalHeader, ModalBody, ModalFooter
  } from 'reactstrap';
 import store from '../../../store'
+import {checkUser} from '../../../utils/Users'
 
 export default class SettingsTab extends Component {
   constructor(props){
@@ -19,7 +20,8 @@ export default class SettingsTab extends Component {
         collapse: false
       }
       this.onChange = this.onChange.bind(this);
-      this.onSubmit = this.onSubmit.bind(this);
+      this.onSubmit = this.onSubmit.bind(this)
+      this.onSubmitAuth = this.onSubmitAuth.bind(this)
       this.toggle = this.toggle.bind(this)
       this.toggleAuth = this.toggleAuth.bind(this)
   }
@@ -28,6 +30,16 @@ export default class SettingsTab extends Component {
     this.setState({
       auth: !this.state.auth
     })
+  }
+
+  onSubmitAuth(e) {
+    console.log(this.state.oldpassword)
+    checkUser(store.getState().token, this.state.oldpassword)
+      .then( (response) => {
+        console.log(response.data)
+      }).catch( (err) => {
+        console.log(err)
+      })
   }
 
   toggle() {
@@ -74,7 +86,7 @@ export default class SettingsTab extends Component {
             <ModalFooter>
               <Button
                 color="danger"
-                onClick={this.toggle}
+                onClick={this.onSubmitAuth}
               >
                 Submit Password
               </Button>

@@ -117,10 +117,13 @@ export function updateMe(token, github, linkedIn) {
 }
 
 //Check user password
-export function checkUser(password) {
+export function checkUser(token, password) {
     return axios({
         method: 'post',
         url: URL + USER + CHECK,
+        headers: {
+            'x-access-token': token
+        },
         data: {
             password: password
         }
