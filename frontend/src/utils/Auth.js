@@ -26,12 +26,20 @@ export function login(Username, Password) {
   }).then((response) => {
 
     const token = response.data.token
-    axios({
-      method: 'get',
-      url: URL + USER + ME,
-      headers: {
-        'x-access-token': token
-      }
+    userInfo(token)
+
+  }).catch((error) => {
+    alert(error)
+  })
+}
+
+export function userInfo(token) {
+  return axios({
+    method: 'get',
+    url: URL + USER + ME,
+    headers: {
+      'x-access-token': token
+    }
     }).then(((response) => {
       if (response.data.blacklisted && !response.data.enabled) {
         alert("You are rejected because " + response.data.admin_message)
@@ -44,10 +52,6 @@ export function login(Username, Password) {
         store.dispatch(setUser(response.data))
       }
     }))
-
-  }).catch((error) => {
-    alert(error)
-  })
 }
 
 export function loggedIn() {

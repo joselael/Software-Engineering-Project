@@ -47,8 +47,8 @@ class LandingHeader extends Component {
                 </div>
               </div>
             </header>
-            {/*
-            <Modal isOpen={store.getState().user.first_login} toggle={this.toggleModal} className={this.props.className}>
+            {
+            <Modal isOpen={store.getState().user.first_login} className={this.props.className}>
               <ModalHeader>
                 Header
               </ModalHeader>
@@ -56,10 +56,14 @@ class LandingHeader extends Component {
                 Body
               </ModalBody>
               <ModalFooter>
-                Footer
+                <Button
+                  onClick = {this.toggleModal}
+                >
+                  Submit
+                </Button>
               </ModalFooter>
             </Modal>
-            */}
+            }
           </div>
         ) : (
           <div className="LandingHeader">

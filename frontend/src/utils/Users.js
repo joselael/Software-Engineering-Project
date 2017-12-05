@@ -88,3 +88,16 @@ export function deleteUser(token, userID) {
         }
     })
 }
+
+export function firstLoggedIn(token, userID) {
+    return axios({
+        method: 'put',
+        url: URL + USER + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            first_login: false
+        }
+    })
+}
