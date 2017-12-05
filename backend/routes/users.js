@@ -70,21 +70,20 @@ router.delete('/:id', VerifyAdmin, (req, res) => {
 
 // update user profile in database, by user
 router.put('/me', VerifyToken, (req, res) => {
-    console.log(req.body);
-    console.log(req.userID);
-    User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
-        if (err) return res.status(500).send("There was a problem updating the user.");
-        res.status(200).send(user);
-    });
+    User.findByIdAndUpdate(req.userID, req.body, {password: bcrypt.hashSync(req.body.password, bcryptSaltRounds)},
+        {new: true}, function (err, user) {
+            if (err) return res.status(500).send("There was a problem updating the user.");
+            res.status(200).send(user);
+        });
 });
 
 // update user profile in database, by admin
 router.put('/:id', VerifyAdmin, (req, res) => {
     User.findByIdAndUpdate(req.params.id, req.body, {password: bcrypt.hashSync(req.body.password, bcryptSaltRounds)},
         {new: true}, function (err, user) {
-        if (err) return res.status(500).send("There was a problem updating the user.");
-        res.status(200).send(user);
-    });
+            if (err) return res.status(500).send("There was a problem updating the user.");
+            res.status(200).send(user);
+        });
 });
 
 
