@@ -59,26 +59,27 @@ export default class FirstLoginModal extends Component {
           Update Your Information
         </ModalHeader>
         <ModalBody>
-          <FormGroup>
-            <Label>Github URL</Label>
-            <Input
-              autoFocus
-              type="github"
-              name="github"
-              placeholder="github URL"
-              onChange={this.handleChange.bind(this)}
-              value={this.state.github}
-            />
-            <Label>LinkedIn URL</Label>
-            <Input
-              autoFocus
-              type="linkedIn"
-              name="linkedIn"
-              placeholder="linkedIn URL"
-              onChange={this.handleChange.bind(this)}
-              value={this.state.linkedIn}
-            />
-          </FormGroup>
+          <form onSubmit={this.toggleModal}>
+            <FormGroup>
+              <Label>Github URL</Label>
+              <Input
+                autoFocus
+                type="github"
+                name="github"
+                placeholder="github URL"
+                onChange={this.handleChange.bind(this)}
+                value={this.state.github}
+              />
+              <Label>LinkedIn URL</Label>
+              <Input
+                type="linkedIn"
+                name="linkedIn"
+                placeholder="linkedIn URL"
+                onChange={this.handleChange.bind(this)}
+                value={this.state.linkedIn}
+              />
+            </FormGroup>
+          </form>
         </ModalBody>
         <ModalFooter>
           <Button

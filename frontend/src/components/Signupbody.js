@@ -39,6 +39,7 @@ class Signupbody extends Component {
         fireRedirect: true
       })
     }else{
+      e.preventDefault()
       alert("Passwords do not match!")
     }
   }
@@ -68,19 +69,6 @@ class Signupbody extends Component {
             <Label> Email</Label>
             <input value={this.state.email} onChange={this.onChange} type="email" name="email" placeholder= "Email" className="form-control"/>
           </FormGroup>
-
-          {/* Add later to DB
-          <div className="form-group">
-            <label className="control-label"> LinkedIn Link</label>
-            <input value={this.state.linkedinURL} onChange={this.onChange} type="url" name="linkedinURL" placeholder= "LinkedIn link" className="form-control"/>
-          </div>
-
-          <div className="form-group">
-            <label className="control-label"> Github Link</label>
-            <input value={this.state.githubURL} onChange={this.onChange} type="url" name="githubURL" placeholder= "Github link" className="form-control"/>
-          </div>
-          */}
-
           <FormGroup>
             <Label> User type</Label>
             <select value={this.state.usertype} onChange={this.onChange} type="text" name="usertype" className="form-control">
