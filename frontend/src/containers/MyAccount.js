@@ -39,7 +39,7 @@ class MyAccount extends Component {
       case 'developer':
         return (
           <div className="accountsPage">
-            <ClientTab />
+            <DeveloperTab />
           </div>
         )
       default:

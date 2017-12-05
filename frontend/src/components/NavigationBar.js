@@ -28,7 +28,6 @@ class NavigationBar extends Component {
   signout(e) {
     e.preventDefault();
     logout()
-    alert("Signed out")
   }
 
   render() {

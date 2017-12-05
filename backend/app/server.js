@@ -23,6 +23,7 @@ var UserSchema = new mongoose.Schema({
   admin_message: String
 });
 var ProjectSchema = new mongoose.Schema({
+  title: String,
   project_id: mongoose.Schema.Types.ObjectId,
   author_username: String,
   summary: String,
@@ -113,8 +114,8 @@ app.post('/register'/*, [
 }) */
 
 app.post('/createproject', function(req, res) {
-  User.create({
-    project_id: new mongoose.Types.ObjectId,
+  Project.create({
+    title: req.body.title,
     author_username: req.body.author,
     summary: req.body.summary,
     bid_end: Date(req.body.bid_end),
@@ -123,12 +124,13 @@ app.post('/createproject', function(req, res) {
     assignee: null,
     completed: false,
     problematic: false,
-    admin_comments: null
-  }, function (err, user) {
+    admin_comments: null,
+    money: req.body.money
+  }, function (err, project) {
     // console.log("done creating user");
     if (err) return res.status(500).send("There was a problem creating the project.")
     // create a token
-    res.status(200).send({ created: true, id: project_id });
+    res.status(200).send({ created: true, id: _id });
   }); 
 });
 
@@ -155,9 +157,9 @@ app.post('/login', (req, res) => {
 
   // get all projects from the database
   app.get('/projects', function (req, res) {
-    Project.find({}, function (err, users) {
+    Project.find({}, function (err, projects) {
         if (err) return res.status(500).send("There was a problem finding the projects.");
-        res.status(200).send(users);
+        res.status(200).send(projects);
     });
 });
 

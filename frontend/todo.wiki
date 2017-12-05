@@ -3,16 +3,24 @@
 == Accounts Page ==
 
 - [X] Profile of any kind of user (First name, last name user name, account type)
+- [ ] Settings page to add more information about the user
 
 === Admin Tab ===
 
 - [X] Super User approve / disapprove users
-- [ ] Align column
+- [X] Align column
 
 === Clients Tab ===
 
-- [ ] List all projects with option to add projects
+- [o] Projects tab 
+  - [X] Option to add projects
+  - [ ] Table with all projects viewed
 
 === Dev Tab ===
 
-- [ ] List all working projects and Past projects 
+- [ ] List all working projects and past projects 
+
+=== Search Page ===
+
+- [X] Searching Projects
+- [ ] Searching Users

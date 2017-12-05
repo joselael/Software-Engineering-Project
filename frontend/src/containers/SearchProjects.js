@@ -1,89 +1,59 @@
-import React, { Component } from 'react'
-import { FormGroup, Input } from 'reactstrap'
-import Project from './Project'
+import React, {Component} from 'react'
+import {FormGroup, Input} from 'reactstrap'
+import {projects} from '../utils/Projects'
+import Project from '../components/Project'
 import '../css/search.css'
 
-const projects = [
-    {
-        id: 1,
-        name: "Project 1",
-        details: "THIS PROJECT ROCKS",
-        currentBid: 50
-    },
-    {
-        id: 2,
-        name: "Project 2",
-        details: "THIS PROJECT ROCKS",
-        currentBid: 100
-    },
-    {
-        id: 3,
-        name: "Project 3",
-        details: "THIS PROJECT ROCKS",
-        currentBid: 200
-    },
-    {
-        id: 4,
-        name: "Project 4",
-        details: "THIS PROJECT ROCKS",
-        currentBid: 300
-    },
-    {
-        id: 5,
-        name: "Project 5",
-        details: "THIS PROJECT ROCKS",
-        currentBid: 4000
+export default class SearchProjects extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      search: "",
+      projects: []
     }
-]
+    this.searchUpdate = this
+      .searchUpdate
+      .bind(this)
+  }
 
-class SearchProjects extends Component {
+  searchUpdate(event) {
+    this.setState({search: event.target.value})
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            search: "",
-            projects: projects
-        }
-        this.searchUpdate = this.searchUpdate.bind(this)
-    }
+  componentDidMount() {
+    projects().then((response) => {
+      this.setState({projects: response.data})
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 
-    searchUpdate(event) {
-        this.setState({
-            search: event.target.value
-        })
-    }
+  render() {
 
-    render() {
-        let filteredProjects = this.state.projects.filter(
-            (project) => {
-                return project.name.toLowerCase().indexOf(
-                    this.state.search.toLowerCase()) !== -1;
-            }
-        );
-        return(
-            <div className="SearchBackground">
-                <div className="SearchProjects">
-                    <FormGroup>
-                        <Input 
-                            placeholder="SEARCH ME!!!"
-                            onChange={this.searchUpdate}
-                            type="text"
-                            id="searchProject"
-                        >
-                        </Input>
-                    </FormGroup>
-                    {
-                        filteredProjects.map((project)=> {
-                            return <Project project={project} 
-                                key={project.id} 
-                            />
-                        })
-                    }
-                </div>
-            </div>
-        )
-    }
+    let filteredProjects = this
+      .state
+      .projects
+      .filter((project) => {
+        return project
+          .title
+          .toLowerCase()
+          .indexOf(this.state.search.toLowerCase()) !== -1;
+      });
 
+    return (
+      <div className="SearchProjects">
+        <FormGroup>
+          <Input
+            placeholder="SEARCH ME!!!"
+            onChange={this.searchUpdate}
+            type="text"
+            id="searchProject"/>
+        </FormGroup>
+        {filteredProjects.map((project) => {
+          return <Project project={project} key={project._id}/>
+        })}
+      </div>
+    )
+  }
 }
-
-export default SearchProjects
