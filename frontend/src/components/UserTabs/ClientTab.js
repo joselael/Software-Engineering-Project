@@ -36,7 +36,6 @@ export class ClientTab extends Component {
       summary: "",
       date: "",
       title: "",
-      min_budget: 0,
       max_budget: 0,
       modal: false,
       link: false,
@@ -89,7 +88,6 @@ export class ClientTab extends Component {
       store.getState().user.username,
       this.state.summary, 
       this.state.date, 
-      this.state.min_budget,
       this.state.max_budget
     ).then( (response) => {
       console.log(response)
@@ -126,13 +124,12 @@ export class ClientTab extends Component {
   }
 
   render() {
-    const currentProject = this.state.projects.
+    const biddingProjects = this.state.projects.
       filter(this.checkFinished)
       .map((project, index) => 
         <tr key={project._id}>
           <td scope="row">{index + 1}</td>
           <td>{project.title}</td>
-          <td>{project.mid_budget}</td>
           <td>{project.max_budget}</td>
           <td>
             <Button
@@ -291,15 +288,6 @@ export class ClientTab extends Component {
                         placeholder="date placeholder"
                         onChange={this.handleChange}
                         value={this.state.date}/>
-                      <Label>Min Budget</Label>
-                      <InputGroup>
-                        <InputGroupAddon>$</InputGroupAddon>
-                        <Input
-                          value={this.state.min_budget}
-                          name="min_budget"
-                          type="number"
-                          onChange={this.handleChange}/>
-                      </InputGroup>
                       <Label>Max Budget</Label>
                       <InputGroup>
                         <InputGroupAddon>$</InputGroupAddon>
@@ -322,19 +310,31 @@ export class ClientTab extends Component {
                 </Modal>
               </Row>
               <Row>
+                <h4>Bidding Projects</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Project Name</th>
+                      <th>Max Budget</th>
+                      <th>Link</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {biddingProjects}
+                  </tbody>
+                </Table>
                 <h4>Current Projects</h4>
                 <Table hover responsive striped>
                   <thead>
                     <tr>
                       <th>#</th>
                       <th>Project Name</th>
-                      <th>Min Budget</th>
                       <th>Max Budget</th>
                       <th>Link</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {currentProject}
                   </tbody>
                 </Table>
                 <h4>Past Project</h4>
@@ -343,7 +343,6 @@ export class ClientTab extends Component {
                     <tr>
                       <th>#</th>
                       <th>Project Name</th>
-                      <th>Min Budget</th>
                       <th>Max Budget</th>
                       <th>Link</th>
                     </tr>

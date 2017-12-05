@@ -24,7 +24,6 @@ export default class SearchProjects extends Component {
   componentDidMount() {
     projects().then((response) => {
       this.setState({projects: response.data})
-      console.log(this.state.projects)
     }).catch((err) => {
       console.log(err)
     })

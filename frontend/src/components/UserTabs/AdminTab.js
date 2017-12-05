@@ -6,6 +6,7 @@ import {
   NavItem,
   NavLink,
   Button,
+  ButtonGroup,
   Table,
   FormGroup,
   Row,
@@ -185,39 +186,41 @@ export class AdminTab extends Component {
           {user.username}
         </td>
         <td>
-          <Button
-            size="sm"
-            color="success"
-            value={user.token}
-            onClick={this.acceptUser(user._id)}>
-            Accept
-          </Button>
-          <Button size="sm" color="danger" onClick={this.toggleModal}>
-            Decline
-          </Button>
-          <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
-            <FormGroup>
-              <Label>Why are you rejecting {user.username}
-                ?</Label>
-              <Col sm={12}>
-                <Input
-                  autoFocus
-                  type="textarea"
-                  name="reject_reason"
-                  placeholder="Reason"
-                  onChange={this.handleChange}
-                  value={this.state.reject_reason}/>
-              </Col>
-            </FormGroup>
-            <ModalFooter>
-              <Button color="danger" onClick={this.rejectUser(user._id)}>
-                Reject
-              </Button>
-              <Button color="primary" onClick={this.toggleModal}>
-                Cancel
-              </Button>
-            </ModalFooter>
-          </Modal>
+          <ButtonGroup>
+            <Button
+              size="sm"
+              color="success"
+              value={user.token}
+              onClick={this.acceptUser(user._id)}>
+              Accept
+            </Button>
+            <Button size="sm" color="danger" onClick={this.toggleModal}>
+              Decline
+            </Button>
+            <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+              <FormGroup>
+                <Label>Why are you rejecting {user.username}
+                  ?</Label>
+                <Col sm={12}>
+                  <Input
+                    autoFocus
+                    type="textarea"
+                    name="reject_reason"
+                    placeholder="Reason"
+                    onChange={this.handleChange}
+                    value={this.state.reject_reason}/>
+                </Col>
+              </FormGroup>
+              <ModalFooter>
+                <Button color="danger" onClick={this.rejectUser(user._id)}>
+                  Reject
+                </Button>
+                <Button color="primary" onClick={this.toggleModal}>
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </ButtonGroup>
         </td>
         <td>
           {user.enabled
