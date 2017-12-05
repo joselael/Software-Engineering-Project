@@ -30,6 +30,7 @@ export function register(Username, Password, First_name, Last_name, User_type, E
 
 //Accept user from admin
 export function acceptUser(token,userID) {
+    console.log(userID, token)
     return axios({
         method: 'put',
         url: URL + USER + userID,

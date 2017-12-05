@@ -177,8 +177,6 @@ export default class SettingsTab extends Component {
                       name="email"
                     />
                   </FormGroup>
-                  {
-                    /*
                   <FormGroup>
                     <Label> New password </Label>
                     <Input 
@@ -199,8 +197,6 @@ export default class SettingsTab extends Component {
                       placeholder= "confirm new passwrod" 
                     />
                   </FormGroup>
-                    */
-                  }
                   <Button 
                     type="submit" 
                     color="info" 
