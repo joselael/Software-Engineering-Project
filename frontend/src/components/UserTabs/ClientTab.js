@@ -91,6 +91,7 @@ export class ClientTab extends Component {
     ).then( (response) => {
       console.log(response)
       alert("Submitting Project!!!")
+      this.updateTable()
       this.toggleModal()
     }).catch( (err) => {
       console.log(err)
