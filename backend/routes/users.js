@@ -17,6 +17,15 @@ router.get('/accounts', VerifyAdmin, (req, res) => {
     });
 });
 
+// router.post('/check', VerifyToken, (req, res) => {
+//     User.findById(req.userID, {password: 0}, function (err, user) {
+//         if (err) return res.status(500).send("There was a problem finding the user.");
+//         if (!user) return res.status(404).send("No user found.");
+//
+//         res.status(200).send(user);
+//     });
+// });
+
 router.post('/create', (req, res) => {
     console.log(req.body);
     User.create({
@@ -26,6 +35,7 @@ router.post('/create', (req, res) => {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
         user_type: req.body.user_type,
+        account_balance: req.body.account_balance,
         warnings: 0,
         enabled: false,
         blacklisted: false,
@@ -33,7 +43,6 @@ router.post('/create', (req, res) => {
         linkedIn: "",
         github: "",
         first_login: true,
-        money: req.body.money
     }, function (err, user) {
         // console.log("done creating user");
         if (err) return res.status(500).send("There was a problem registering the user.");
