@@ -5,7 +5,7 @@ import { Form, FormGroup,TabPane, Label,
   Modal, ModalHeader, ModalBody, ModalFooter
  } from 'reactstrap';
 import store from '../../../store'
-import {checkUser} from '../../../utils/Users'
+import {checkUser, updateSettings} from '../../../utils/Users'
 
 export default class SettingsTab extends Component {
   constructor(props){
@@ -16,6 +16,7 @@ export default class SettingsTab extends Component {
         newpasswordconfirmation: '',
         github: '',
         linkedIn: '',
+        email: '',
         auth: false,
         collapse: false
       }
@@ -24,6 +25,13 @@ export default class SettingsTab extends Component {
       this.onSubmitAuth = this.onSubmitAuth.bind(this)
       this.toggle = this.toggle.bind(this)
       this.toggleAuth = this.toggleAuth.bind(this)
+      this.clearPass = this.clearPass.bind(this)
+  }
+
+  clearPass() {
+    this.setState({
+      oldpassword: ''
+    })
   }
 
   toggleAuth() {
@@ -33,12 +41,22 @@ export default class SettingsTab extends Component {
   }
 
   onSubmitAuth(e) {
-    console.log(this.state.oldpassword)
     checkUser(store.getState().token, this.state.oldpassword)
       .then( (response) => {
         console.log(response.data)
+        if(response.data) {
+          this.toggleAuth()
+          this.clearPass()
+          this.toggle()
+        } else {
+          alert("You're not authorized")
+          this.clearPass()
+          this.toggleAuth()
+        }
       }).catch( (err) => {
-        console.log(err)
+        alert("You're not authorized")
+        this.toggleAuth()
+        this.clearPass()
       })
   }
 
@@ -53,13 +71,33 @@ export default class SettingsTab extends Component {
   }
 
   onSubmit(e) {
+
+    var data = {}
     if(this.state.newpassword === this.state.newpasswordconfirmation ){ //still need to check if old password is correct
-      //Enter code here to post new password
-      console.log(this.state);
       e.preventDefault();
+      if(this.state.newpassword.length > 8) {
+        data.password = this.state.newpassword
+      }
     }else{
       alert("Passwords do not match")
     }
+    if(this.state.linkedIn.length > 1) {
+      data.linkedIn = this.state.linkedIn
+    }
+    if(this.state.github.length > 1) {
+      data.github = this.state.linkedIn
+    }
+    if(this.state.email.length > 1) {
+      data.email = this.state.email
+    }
+
+    console.log(data)
+    updateSettings(store.getState().token, data)
+      .then( (response) => {
+        console.log(response)
+      }).catch( (err) => {
+        console.log(err)
+      })
   }
 
   render() {
@@ -104,7 +142,7 @@ export default class SettingsTab extends Component {
               <CardBody>
                 <form onSubmit={this.onSubmit}>
                   <FormGroup>
-                    <Label> New Email </Label>
+                    <Label> New LinkedIn </Label>
                     <Input
                       value={this.state.linkedIn}
                       onChange={this.onChange}
@@ -122,8 +160,13 @@ export default class SettingsTab extends Component {
                     />
                   </FormGroup>
                   <FormGroup>
-                    <Label> New LinkedIn </Label>
-                    <Input/>
+                    <Label> New Email </Label>
+                    <Input
+                      value={this.state.email}
+                      onChange={this.onChange}
+                      type="email"
+                      name="email"
+                    />
                   </FormGroup>
                   <FormGroup>
                     <Label> New password </Label>
@@ -145,7 +188,12 @@ export default class SettingsTab extends Component {
                       placeholder= "confirm new passwrod" 
                     />
                   </FormGroup>
-                  <Button type="submit" color="info" size="md">
+                  <Button 
+                    type="submit" 
+                    color="info" 
+                    size="md"
+                    onClick={this.onSubmit}
+                  >
                   Submit
                   </Button>
                 </form>

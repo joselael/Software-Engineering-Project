@@ -102,6 +102,7 @@ export function firstLoggedIn(token, userID) {
     })
 }
 
+//Check first login
 export function updateMe(token, github, linkedIn) {
     return axios({
         method: 'put',
@@ -113,6 +114,17 @@ export function updateMe(token, github, linkedIn) {
             github: github,
             linkedIn: linkedIn
         }
+    })
+}
+
+export function updateSettings(token, data) {
+    return axios({
+        method: 'put',
+        url: URL + USER + ME,
+        headers: {
+            'x-access-token': token
+        },
+        data: data
     })
 }
 
