@@ -31,7 +31,7 @@ export default class SettingsTab extends Component {
 
     render() {
         return(
-            <TabPane tabId="3" className="Setting-Tab">
+            <TabPane tabId={this.props.tabId} className="Setting-Tab">
             <br/>
               <Row>
                 <Col sm="12" md={{ size: 8, offset: 2 }}>

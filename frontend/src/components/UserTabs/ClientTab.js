@@ -91,11 +91,11 @@ export class ClientTab extends Component {
       this.state.max_budget
     ).then( (response) => {
       console.log(response)
+      alert("Submitting Project!!!")
+      this.toggleModal()
     }).catch( (err) => {
       console.log(err)
     })
-    alert("Submitting Project!!!")
-    this.toggleModal()
     console.log(this.state)
   }
 
@@ -353,8 +353,8 @@ export class ClientTab extends Component {
                 </Table>
               </Row>
             </TabPane>
-            <ProfileTab/>
-            <SettingsTab/>
+            <ProfileTab tabId={"2"}/>
+            <SettingsTab tabId={"3"}/>
           </TabContent>
         </div>
       </div>

@@ -21,7 +21,7 @@ import store from '../../../store'
 export default class ProfileTab extends Component {
   render() {
     return (
-      <TabPane tabId="2" className="Profile-Tab">
+      <TabPane tabId={this.props.tabId} className="Profile-Tab">
         <Row>
           <Col>
             <Media>

@@ -99,8 +99,8 @@ export class DeveloperTab extends Component {
                     </Table>
                 </Row>
                 </TabPane>
-                <ProfileTab />
-                <SettingsTab />
+                <ProfileTab tabId={"2"}/>
+                <SettingsTab tabId={"3"}/>
             </TabContent>
             </div>
         </div>

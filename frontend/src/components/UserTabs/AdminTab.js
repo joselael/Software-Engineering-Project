@@ -21,6 +21,7 @@ import {
 } from 'reactstrap';
 import '../../css/usertab.css';
 import {accounts, acceptUser, blacklistUser, deleteUser, rejectUser} from '../../utils/Users'
+import {projects} from '../../utils/Projects'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -37,7 +38,9 @@ export class AdminTab extends Component {
       activeTab: '1',
       modal: false,
       reject_reason: "",
-      users: []
+      link: false,
+      users: [],
+      projects: []
     };
     //this.renderAccounts = this.renderAccounts.bind(this)
     this.notAdmin = this
@@ -76,6 +79,14 @@ export class AdminTab extends Component {
     this.rejectUser = this
       .rejectUser
       .bind(this)
+    this.toggleLink = this.toggleLink.bind(this)
+  }
+
+  toggleLink = event => {
+    this.setState({
+      link: !this.state.link
+    })
+    console.log("link..")
   }
 
   handleChange = event => {
@@ -96,6 +107,15 @@ export class AdminTab extends Component {
       this.setState({users: users})
       console.log(this.state.users)
     }).catch((err) => {
+      console.log(err)
+    })
+    projects().then( (response) => {
+      this.setState({
+        projects: response.data
+      })
+      console.log(this.state.projects)
+      console.log("Updating table...")
+    }).catch( (err) => {
       console.log(err)
     })
   }
@@ -293,6 +313,51 @@ export class AdminTab extends Component {
         </td>
       </tr>)
 
+    const allProjects = this.state.projects
+      .map((project, index) => 
+        <tr key={project._id}>
+          <td scope="row">{index + 1}</td>
+          <td>{project.title}</td>
+          <td>{project.max_budget}</td>
+          <td>I am status</td>
+          <td>
+            <Button
+              size="sm"
+              color="primary"
+              onClick={this.toggleLink}
+            >
+              Link
+            </Button>
+            <Modal isOpen={this.state.link} toggle={this.toggleLink}>
+              <ModalHeader>
+                {project.title}
+              </ModalHeader>
+              <ModalBody>
+                {project.summary}
+              </ModalBody>
+              <ModalFooter>
+                <FormGroup>
+                <select value={this.state.dev_username} 
+                  onChange={this.handleChange} 
+                  type="text" 
+                  name="dev_username" 
+                  className="form-control">
+                  <option value="" disabled> Choose your user type </option>
+                  <option value="developer"> Developer </option>
+                  <option value="client"> Client </option>
+                </select>
+                </FormGroup>
+                <Button color="danger" onClick={this.toggleLink}>
+                  Choose
+                </Button>
+                <Button color="primary" onClick={this.toggleLink}>
+                  Cancel
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </td>
+        </tr>
+    )
     return (
       <div>
         <Nav tabs>
@@ -315,7 +380,7 @@ export class AdminTab extends Component {
               onClick={() => {
               this.toggle('2');
             }}>
-              Profile
+              Projects
             </NavLink>
           </NavItem>
           <NavItem>
@@ -325,6 +390,17 @@ export class AdminTab extends Component {
             })}
               onClick={() => {
               this.toggle('3');
+            }}>
+              Profile
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({
+              active: this.state.activeTab === '4'
+            })}
+              onClick={() => {
+              this.toggle('4');
             }}>
               Settings
             </NavLink>
@@ -387,8 +463,28 @@ export class AdminTab extends Component {
                 </Table>
               </Row>
             </TabPane>
-            <ProfileTab/>
-            <SettingsTab/>
+            <TabPane tabId="2">
+              <Row>
+                <h4>All Projects</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Project Name</th>
+                      <th>Max Bid</th>
+                      <th>Status</th>
+                      <th>Link</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allProjects}
+                  </tbody>
+                </Table>
+              </Row>
+            </TabPane>
+            <ProfileTab tabId={"3"}/>
+            <SettingsTab tabId={"4"}/>
           </TabContent>
         </div>
       </div>
