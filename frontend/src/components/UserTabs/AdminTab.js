@@ -20,7 +20,7 @@ import {
   ModalHeader
 } from 'reactstrap';
 import '../../css/usertab.css';
-import {accounts, acceptUser, blacklistUser, deleteUser, rejectUser} from '../../utils/Users'
+import {accounts, acceptUser, rejectUser} from '../../utils/Users'
 import {projects} from '../../utils/Projects'
 import store from '../../store'
 import classnames from 'classnames'
@@ -58,12 +58,6 @@ export class AdminTab extends Component {
       .bind(this)
     this.acceptUser = this
       .acceptUser
-      .bind(this)
-    this.declineUser = this
-      .declineUser
-      .bind(this)
-    this.blacklistUser = this
-      .blacklistUser
       .bind(this)
     this.updateTable = this
       .updateTable
@@ -122,21 +116,8 @@ export class AdminTab extends Component {
     })
   }
 
-  blacklistUser = id => event => {
-    console.log("Blacklisting user")
-    blacklistUser(store.getState().token, id).then((response) => {
-      this.updateTable()
-    })
-  }
-
-  declineUser = id => event => {
-    console.log("Disabling user")
-    console.log(id)
-  }
-
   acceptUser = id => event => {
     console.log("Accepting user")
-    console.log(id)
     acceptUser(store.getState().token, id).then((response) => {
       this.updateTable()
     })
@@ -238,7 +219,7 @@ export class AdminTab extends Component {
       .users
       .filter(this.checkAccept)
       .map((user, index) => 
-        <AdminUser key={user._id} user={user} index={index} type={"accepted"} updateTable = {() => this.updateTable()} />
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()} />
       )
 
     const blacklistedUsers = this
@@ -246,7 +227,7 @@ export class AdminTab extends Component {
       .users
       .filter(this.checkBlacklist)
       .map((user, index) => 
-        <AdminUser key={user._id} user={user} index={index} type={"blacklisted"} updateTable = {() => this.updateTable()}/>
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
 
     const allProjects = this.state.projects

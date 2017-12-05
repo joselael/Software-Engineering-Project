@@ -29,51 +29,27 @@ export default class AdminUsers extends Component {
     console.log(this.props.user._id)
     this.deleteUser = this.deleteUser.bind(this)
     this.blacklistUser = this.blacklistUser.bind(this)
-    this.typeButton = this.typeButton.bind(this)
   }
 
-  deleteUser = event => {
-    console.log("Deleting user")
-    deleteUser(store.getState().token, this.props.user._id).then((response) => {
-      this.props.updateTable()
-    }).catch( (err) => {
-      console.log(err)
-    })
+  deleteUser = id => event => {
+    console.log("Deleting user...")
+    deleteUser(store.getState().token, this.props.user._id)
+      .then( (response) => {
+        this.props.updateTable()
+      }).catch( (err) => {
+        console.log(err)
+      })
   }
+
 
   blacklistUser = id => event => {
-    console.log(id)
-    blacklistUser(store.getState().token, this.props.user._id).then((response) => {
+    console.log("Blacklisting user...")
+    blacklistUser(store.getState().token, this.props.user._id)
+      .then((response) => {
       this.props.updateTable()
     }).catch( (err) => {
       console.log(err)
     })
-  }
-
-  typeButton() {
-    if(this.props.type === "blacklisted") {
-      return(
-        <Button
-          size="sm"
-          color="danger"
-          value={this.props.user.token}
-          onClick={this.deleteUser()}>
-          Delete
-        </Button>
-      )
-    } else if(this.props.type === "accepted") {
-      return(
-        <Button
-          size="sm"
-          color="danger"
-          value={this.props.user.token}
-          onClick={this.blacklistUser()}
-        >
-        Blacklist
-        </Button>
-      )
-    }
-      
   }
 
   render() {
@@ -87,8 +63,23 @@ export default class AdminUsers extends Component {
     } else if(!this.props.user.enabled){
       status = "DISABLED"
     }
+    
+    const deleteButton =  <Button
+          size="sm"
+          color="danger"
+          value={this.props.user.token}
+          onClick={this.deleteUser()}>
+          Delete
+        </Button>
 
-    const buttonType = this.typeButton()
+    const blacklistButton =  <Button
+          size="sm"
+          color="danger"
+          value={this.props.user.token}
+          onClick={this.blacklistUser()}
+        >
+        Blacklist
+        </Button>
 
     return(
       <tr>
@@ -106,7 +97,7 @@ export default class AdminUsers extends Component {
           {this.props.user.username}
         </td>
         <td>
-          {buttonType}
+          {this.props.user.blacklisted ? deleteButton : blacklistButton}
         </td>
         <td>
           {status}
