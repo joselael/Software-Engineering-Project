@@ -35,7 +35,7 @@ export function myproject(username) {
   })
 }
 
-export function createprojects(title, username, summary, bid_end, max_budget) {
+export function createprojects(title, username, summary, details, bid_end, max_budget) {
   return axios({
     method: 'post',
     url: URL + PROJECT + CREATE,
@@ -46,6 +46,7 @@ export function createprojects(title, username, summary, bid_end, max_budget) {
       title: title,
       author: username,
       summary: summary,
+      details: details,
       bid_end: bid_end,
       max_budget: max_budget
     }

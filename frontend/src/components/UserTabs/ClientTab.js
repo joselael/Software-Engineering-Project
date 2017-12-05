@@ -35,6 +35,7 @@ export class ClientTab extends Component {
       activeTab: '1',
       projects: [],
       summary: "",
+      details: "",
       date: "",
       title: "",
       max_budget: 0,
@@ -43,19 +44,24 @@ export class ClientTab extends Component {
       dev_username: ""
     }
 
-    this.toggleTab = this
-      .toggleTab
-      .bind(this);
-    this.toggleModal = this
-      .toggleModal
-      .bind(this);
-    this.handleChange = this
-      .handleChange
-      .bind(this)
+    this.toggleTab = this.toggleTab.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.handleChange = this.handleChange.bind(this)
     this.handleSubmitProject = this.handleSubmitProject.bind(this)
     this.updateTable = this.updateTable.bind(this)
     this.checkFinished = this.checkFinished.bind(this)
     this.checkDone = this.checkDone.bind(this)
+    this.clearStates = this.clearStates.bind(this)
+  }
+
+  clearStates() {
+    this.setState({
+      summary: "",
+      date: "",
+      title: "",
+      details: "",
+      max_budget: 0,
+    })
   }
 
   checkFinished(project) {
@@ -75,6 +81,7 @@ export class ClientTab extends Component {
       this.setState({
         projects: response.data
       })
+      console.log(response.data)
       console.log("Updating table...")
     }).catch( (err) => {
       console.log(err)
@@ -86,11 +93,13 @@ export class ClientTab extends Component {
       this.state.title, 
       store.getState().user.username,
       this.state.summary, 
+      this.state.details,
       this.state.date, 
       this.state.max_budget
     ).then( (response) => {
       console.log(response)
       alert("Submitting Project!!!")
+      this.clearStates()
       this.updateTable()
       this.toggleModal()
     }).catch( (err) => {
@@ -109,12 +118,14 @@ export class ClientTab extends Component {
     if (this.state.activeTab !== tab) {
       this.setState({activeTab: tab});
     }
+    this.clearStates()
   }
 
   toggleModal() {
     this.setState({
       modal: !this.state.modal
     })
+    this.clearStates()
   }
 
   render() {
@@ -234,6 +245,14 @@ export class ClientTab extends Component {
                         name="summary"
                         bsSize="sm"
                         value={this.state.summary}
+                        onChange={this.handleChange}/>
+                      <Label>Details of Project</Label>
+                      <Input
+                        placeholder="Details of Project"
+                        type="textarea"
+                        name="details"
+                        bsSize="sm"
+                        value={this.state.details}
                         onChange={this.handleChange}/>
                       <Label>Date of End</Label>
                       <Input

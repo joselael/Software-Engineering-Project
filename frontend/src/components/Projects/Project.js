@@ -74,12 +74,14 @@ class Project extends Component {
                 <ModalHeader toggle={this.toggleModal}>{this.props.project.title}
                 </ModalHeader>
                 <ModalBody>
-                  <Label>Project Summary</Label><br/>
-                    {this.props.project.summary}<br/>
-                  <Label>Bid Start Date</Label><br/>
-                    {this.props.project.bid_start}<br/>
-                  <Label>Bid End Date</Label><br/>
-                    {this.props.project.bid_end}<br/>
+                  <Label>Project Summary</Label>
+                    {this.props.project.summary}
+                  <Label>Project Details</Label>
+                    {this.props.project.details}
+                  <Label>Bid Start Date</Label>
+                    {this.props.project.bid_start}
+                  <Label>Bid End Date</Label>
+                    {this.props.project.bid_end}
                   <Label>Enter Bid</Label>
                   <InputGroup>
                     <InputGroupAddon>$</InputGroupAddon>
