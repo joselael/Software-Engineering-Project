@@ -14,8 +14,6 @@ class Signupbody extends Component {
       email: '',
       password: '',
       passwordconfirmation: '',
-      linkedinURL: '',
-      githubURL: '',
       usertype: '',
       money: 0,
       fireRedirect: false
@@ -30,14 +28,21 @@ class Signupbody extends Component {
 
   onSubmit(e){
     if (this.state.password === this.state.passwordconfirmation){
-      console.log(this.state);
-      e.preventDefault();
-      //after checking that the passwords are equal, this is where we get put the requests
-      register(this.state.username, this.state.password, this.state.firstname,
-      this.state.lastname, this.state.usertype, this.state.email, this.state.money)
-      this.setState({
-        fireRedirect: true
-      })
+      if (this.state.username.length < 2 || this.state.firstname.length < 2 ||
+      this.state.lastname.length < 2 || this.state.email.length < 2 ||
+      this.state.usertype === '') {
+        e.preventDefault();
+        alert("Wrong credentials")
+      } else {
+        console.log(this.state);
+        e.preventDefault();
+        //after checking that the passwords are equal, this is where we get put the requests
+        register(this.state.username, this.state.password, this.state.firstname,
+        this.state.lastname, this.state.usertype, this.state.email, this.state.money)
+        this.setState({
+          fireRedirect: true
+        })
+      }
     }else{
       e.preventDefault()
       alert("Passwords do not match!")
