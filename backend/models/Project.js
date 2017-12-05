@@ -1,12 +1,12 @@
-const mongoose = require('mongoose');  
+const mongoose = require('mongoose');
 
 const ProjectSchema = new mongoose.Schema({
     title: String,
     author: String,
     summary: String,
     details: String,
-    post_date: { type: Date, default: Date.now },
-    bid_start: { type: Date, default: Date.now },
+    post_date: {type: Date, default: Date.now},
+    bid_start: {type: Date, default: Date.now},
     bid_end: Date,
     min_budget: Number,
     max_budget: Number,
@@ -14,7 +14,7 @@ const ProjectSchema = new mongoose.Schema({
     completed: Boolean,
     problematic: Boolean,
     admin_comments: String
-  });
+});
 
 const Project = mongoose.model('Project', ProjectSchema);
 

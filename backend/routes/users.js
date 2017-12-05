@@ -26,6 +26,7 @@ router.post('/create', (req, res) => {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
         user_type: req.body.user_type,
+        warnings: 0,
         enabled: false,
         blacklisted: false,
         admin_message: null
@@ -68,7 +69,6 @@ router.put('/:id', VerifyAdmin, (req, res) => {
 });
 
 
-
 router.get('/me', VerifyToken, (req, res) => {
     console.log("received request");
     User.findById(req.userID, {password: 0}, function (err, user) {
@@ -88,7 +88,6 @@ router.get('/:name', VerifyAdmin, (req, res) => {
         res.status(200).send(user);
     });
 });
-
 
 
 module.exports = router;
