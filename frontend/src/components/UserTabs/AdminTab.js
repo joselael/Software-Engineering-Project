@@ -155,7 +155,7 @@ export class AdminTab extends Component {
       .state
       .users
       .filter(this.checkPending)
-      .map((user, index) => 
+      .map((user, index) =>
       <tr key={user._id}>
         <th scope="row">{index + 1}</th>
         <td>

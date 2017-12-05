@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabContent, TabPane, Nav, NavItem, 
+import { TabContent, TabPane, Nav, NavItem,
   NavLink, Button, Table,
   Row, Col, Media } from 'reactstrap';
 import '../../css/usertab.css';

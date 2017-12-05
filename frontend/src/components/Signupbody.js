@@ -34,7 +34,7 @@ class Signupbody extends Component {
       e.preventDefault();
       //after checking that the passwords are equal, this is where we get put the requests
       register(this.state.username, this.state.password, this.state.firstname,
-      this.state.lastname, this.state.usertype, this.state.email, this.state.money) 
+      this.state.lastname, this.state.usertype, this.state.email, this.state.money)
       this.setState({
         fireRedirect: true
       })
@@ -69,7 +69,7 @@ class Signupbody extends Component {
             <input value={this.state.email} onChange={this.onChange} type="email" name="email" placeholder= "Email" className="form-control"/>
           </FormGroup>
 
-          {/* Add later to DB 
+          {/* Add later to DB
           <div className="form-group">
             <label className="control-label"> LinkedIn Link</label>
             <input value={this.state.linkedinURL} onChange={this.onChange} type="url" name="linkedinURL" placeholder= "LinkedIn link" className="form-control"/>
@@ -123,7 +123,7 @@ class Signupbody extends Component {
             </InputGroup>
           </FormGroup>
 
-            <Button 
+            <Button
               type="submit"
               color="primary"
               size="lg"
