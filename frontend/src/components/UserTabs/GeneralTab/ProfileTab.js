@@ -82,9 +82,7 @@ export default class ProfileTab extends Component {
               <CardBody>
                 <CardText>
                   {store
-                    .getState()
-                    .user
-                    .linkedinURL}
+                    .getState().user.linkedIn}
                 </CardText>
               </CardBody>
             </Card>
@@ -97,7 +95,7 @@ export default class ProfileTab extends Component {
                   {store
                     .getState()
                     .user
-                    .githubURL}
+                    .github}
                 </CardText>
               </CardBody>
             </Card>

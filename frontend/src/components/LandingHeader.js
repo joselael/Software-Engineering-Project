@@ -7,6 +7,7 @@ import { Button,
  } from 'reactstrap'
 import { NavLink as RRNavLink } from 'react-router-dom'
 import { loggedIn } from '../utils/Auth'
+import FirstLoginModal from './Users/FirstLoginModal'
 import store from '../store'
 import '../css/landing.css'
 
@@ -21,7 +22,6 @@ class LandingHeader extends Component {
       modal: store.getState().user.first_login
     }
     this.toggleModal = this.toggleModal.bind(this)
-    console.log(this.state.modal)
   }
   toggleModal() {
     this.setState({
@@ -47,23 +47,7 @@ class LandingHeader extends Component {
                 </div>
               </div>
             </header>
-            {
-            <Modal isOpen={store.getState().user.first_login} className={this.props.className}>
-              <ModalHeader>
-                Header
-              </ModalHeader>
-              <ModalBody>
-                Body
-              </ModalBody>
-              <ModalFooter>
-                <Button
-                  onClick = {this.toggleModal}
-                >
-                  Submit
-                </Button>
-              </ModalFooter>
-            </Modal>
-            }
+            <FirstLoginModal />
           </div>
         ) : (
           <div className="LandingHeader">

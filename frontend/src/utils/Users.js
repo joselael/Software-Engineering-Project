@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {URL, USER, ACCOUNTS, CREATE} from '../urls/API'
+import {URL, USER, ACCOUNTS, CREATE, ME} from '../urls/API'
 
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
@@ -92,12 +92,26 @@ export function deleteUser(token, userID) {
 export function firstLoggedIn(token, userID) {
     return axios({
         method: 'put',
-        url: URL + USER + userID,
+        url: URL + USER + ME,
         headers: {
             'x-access-token': token
         },
         data: {
             first_login: false
+        }
+    })
+}
+
+export function updateMe(token, github, linkedIn) {
+    return axios({
+        method: 'put',
+        url: URL + USER + ME,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            github: github,
+            linkedIn: linkedIn
         }
     })
 }

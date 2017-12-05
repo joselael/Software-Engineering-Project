@@ -215,17 +215,13 @@ export class AdminTab extends Component {
       </tr>)
 
     const acceptedUsers = this
-      .state
-      .users
-      .filter(this.checkAccept)
+      .state.users.filter(this.checkAccept)
       .map((user, index) => 
         <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()} />
       )
 
     const blacklistedUsers = this
-      .state
-      .users
-      .filter(this.checkBlacklist)
+      .state.users.filter(this.checkBlacklist)
       .map((user, index) => 
         <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
