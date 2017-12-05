@@ -3,13 +3,11 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-
 const VerifyAdmin = require('../auth/VerifyAdmin');
 const VerifyToken = require('../auth/VerifyToken');
 
 const bcryptSaltRounds = 10;
 const config = require('../config');
-
 
 // get all users from the database
 router.get('/accounts', VerifyAdmin, (req, res) => {
@@ -19,7 +17,8 @@ router.get('/accounts', VerifyAdmin, (req, res) => {
     });
 });
 
-router.post('/register', (req, res) => {
+router.post('/create', (req, res) => {
+    console.log(req.body);
     User.create({
         username: req.body.username,
         first_name: req.body.first_name,
@@ -58,9 +57,18 @@ router.put('/:id', VerifyAdmin, (req, res) => {
     });
 });
 
+router.get('/me', VerifyToken, (req, res) => {
+    console.log("received request");
+    User.findById(req.userID, {password: 0}, function (err, user) {
+        if (err) return res.status(500).send("There was a problem finding the user.");
+        if (!user) return res.status(404).send("No user found.");
+
+        res.status(200).send(user);
+    });
+});
+
 // get a particular user by name
 router.get('/:name', VerifyAdmin, (req, res) => {
-    console.log("param is ", req.params.name);
     User.find({username: req.params.name}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user) return res.status(404).send("No user found.");
@@ -69,13 +77,6 @@ router.get('/:name', VerifyAdmin, (req, res) => {
     });
 });
 
-router.get('/me', VerifyToken, (req, res) => {
-    User.findById(req.userID, {password: 0}, function (err, user) {
-        if (err) return res.status(500).send("There was a problem finding the user.");
-        if (!user) return res.status(404).send("No user found.");
 
-        res.status(200).send(user);
-    });
-});
 
 module.exports = router;

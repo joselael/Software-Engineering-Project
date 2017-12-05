@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, Button, Label } from 'reactstrap'
-import { register } from '../utils/Auth'
+import { register } from '../utils/Users'
 import { Redirect } from 'react-router-dom'
 import '../css/signup.css'
 
@@ -79,7 +79,6 @@ class Signupbody extends Component {
             <input value={this.state.githubURL} onChange={this.onChange} type="url" name="githubURL" placeholder= "Github link" className="form-control"/>
           </div>
           */}
-
 
           <FormGroup>
             <Label> User type</Label>
