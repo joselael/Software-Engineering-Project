@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {URL, USER, ACCOUNTS, CREATE, ME} from '../urls/API'
+import {URL, USER, ACCOUNTS, CREATE, ME, CHECK} from '../urls/API'
 
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
@@ -112,6 +112,17 @@ export function updateMe(token, github, linkedIn) {
         data: {
             github: github,
             linkedIn: linkedIn
+        }
+    })
+}
+
+//Check user password
+export function checkUser(password) {
+    return axios({
+        method: 'post',
+        url: URL + USER + CHECK,
+        data: {
+            password: password
         }
     })
 }

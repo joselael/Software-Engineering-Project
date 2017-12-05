@@ -67,6 +67,7 @@ export default class SettingsTab extends Component {
                   onChange={this.onChange}
                   type="password"
                   name="oldpassword"
+                  placeholder="Password"
                 />
               </FormGroup>
             </ModalBody>
@@ -76,6 +77,12 @@ export default class SettingsTab extends Component {
                 onClick={this.toggle}
               >
                 Submit Password
+              </Button>
+              <Button
+                color="primary"
+                onClick={this.toggleAuth}
+              >
+                Cancel
               </Button>
             </ModalFooter>
           </Modal>
