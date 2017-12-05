@@ -12,6 +12,7 @@ const ProjectSchema = new mongoose.Schema({
     bidders: [],
     assignee: String,
     completed: Boolean,
+    rating: Number,
     problematic: Boolean,
     admin_comments: String
 });
