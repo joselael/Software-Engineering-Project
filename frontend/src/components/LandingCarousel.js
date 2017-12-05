@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { UncontrolledCarousel } from 'reactstrap';
-//import '../css/carousel.css'
-import Image from '../images/Yong.png'
+import Image1 from '../images/project-example1.jpg'
+import Image2 from '../images/project-example2.png'
+import Image3 from '../images/project-example3.jpg'
 
 var styles = {
   backgroundColor:'grey',
@@ -9,29 +10,44 @@ var styles = {
   alignItems: 'center',
 };
 
+const pStyle = {
+  display: 'flex',
+  margin: 'auto',
+  justifyContent: 'center'
+}
+
+
 class LandingCarousel extends Component {
   render() {
 
     const items = [
       {
-        src: Image,
-        altText: 'Slide 1',
-        caption: 'Slide 1'
+        src: Image1,
+        styles: pStyle,
+        altText: '',
+        caption: ''
       },
       {
-        src: Image,
-        altText: 'Slide 2',
-        caption: 'Slide 2'
+        src: Image2,
+        altText: '',
+        caption: ''
       },
       {
-        src: Image,
-        altText: 'Slide 3',
-        caption: 'Slide 3'
+        src: Image3,
+        altText: '',
+        caption: ''
       }
     ];
     return(
-      <div className="LandingCarousel" style={styles}>
-        <UncontrolledCarousel items={items}/>
+      <div>
+      <br/>
+      <div style={{display: 'flex', justifyContent: 'center'}} class="row">
+      <div class="col-md-7 col-md-offset-3">
+        <div className="LandingCarousel" style={styles}>
+          <UncontrolledCarousel items={items} />
+        </div>
+        </div>
+      </div>
       </div>
     )
   }
