@@ -27,6 +27,7 @@ import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
 import ProjectModal from '../Projects/AdminProjectModal'
+import AdminUser from '../Users/AdminUsers'
 
 export class AdminTab extends Component {
   constructor(props) {
@@ -66,9 +67,6 @@ export class AdminTab extends Component {
       .bind(this)
     this.updateTable = this
       .updateTable
-      .bind(this)
-    this.deleteUser = this
-      .deleteUser
       .bind(this)
     this.toggleModal = this
       .toggleModal
@@ -127,13 +125,6 @@ export class AdminTab extends Component {
   blacklistUser = id => event => {
     console.log("Blacklisting user")
     blacklistUser(store.getState().token, id).then((response) => {
-      this.updateTable()
-    })
-  }
-
-  deleteUser = id => event => {
-    console.log("Deleting user")
-    deleteUser(store.getState().token, id).then((response) => {
       this.updateTable()
     })
   }
@@ -246,69 +237,21 @@ export class AdminTab extends Component {
       .state
       .users
       .filter(this.checkAccept)
-      .map((user, index) => <tr key={user._id}>
-        <th scope="row">{index + 1}</th>
-        <td>
-          {user.user_type}
-        </td>
-        <td>
-          {user.first_name}
-        </td>
-        <td>
-          {user.last_name}
-        </td>
-        <td>
-          {user.username}
-        </td>
-        <td>
-          <Button size="sm" color="danger" onClick={this.blacklistUser(user._id)}>
-            Blacklist
-          </Button>
-        </td>
-        <td>
-          {user.enabled
-            ? "Enabled"
-            : "Disabled"}
-        </td>
-      </tr>)
+      .map((user, index) => 
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()} />
+      )
 
     const blacklistedUsers = this
       .state
       .users
       .filter(this.checkBlacklist)
-      .map((user, index) => <tr key={user._id}>
-        <th scope="row">{index + 1}</th>
-        <td>
-          {user.user_type}
-        </td>
-        <td>
-          {user.first_name}
-        </td>
-        <td>
-          {user.last_name}
-        </td>
-        <td>
-          {user.username}
-        </td>
-        <td>
-          <Button
-            size="sm"
-            color="danger"
-            value={user.token}
-            onClick={this.deleteUser(user._id)}>
-            Delete
-          </Button>
-        </td>
-        <td>
-          {user.blacklisted
-            ? "Blacklisted"
-            : "Not blacklisted"}
-        </td>
-      </tr>)
+      .map((user, index) => 
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+      )
 
     const allProjects = this.state.projects
       .map((project, index) => 
-        <ProjectModal key={project._id} project={project} index={index}/>
+        <ProjectModal key={project._id} project={project} index={index} updateTable = {() => this.updateTable()}/>
     )
     return (
       <div>

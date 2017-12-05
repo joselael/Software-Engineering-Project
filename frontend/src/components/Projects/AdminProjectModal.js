@@ -38,6 +38,7 @@ export default class ProjectModal extends Component {
     deleteProject(this.props.project._id)
       .then( (response) => {
         console.log(response)
+        this.props.updateTable()
       })
       .catch( (err) => {
         console.log(err)
