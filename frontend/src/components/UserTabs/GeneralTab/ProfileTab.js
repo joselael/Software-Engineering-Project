@@ -82,7 +82,7 @@ export default class ProfileTab extends Component {
               <Card body inverse color="success" >
                 <CardTitle>Current Balance</CardTitle>
                   <CardText> $
-                    {store.getState().user.account_balance}
+                    {store.getState().user.money}
                   </CardText>
               </Card>
               <br/>

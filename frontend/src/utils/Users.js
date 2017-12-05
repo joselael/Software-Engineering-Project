@@ -16,7 +16,7 @@ export function register(Username, Password, First_name, Last_name, User_type, E
                 last_name: Last_name,
                 user_type: User_type,
                 email: Email,
-                account_balance: money
+                money: money
             }
         })
         .then(function (response) {
