@@ -9,7 +9,8 @@ const mongoose = require('mongoose');
   user_type: String,
   enabled: Boolean,
   blacklisted: Boolean,
-  admin_message: String
+  admin_message: String,
+  money: Number
 });
 
 const User = mongoose.model('User', UserSchema);

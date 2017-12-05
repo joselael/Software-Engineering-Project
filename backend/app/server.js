@@ -124,7 +124,8 @@ app.post('/createproject', function(req, res) {
     assignee: null,
     completed: false,
     problematic: false,
-    admin_comments: null
+    admin_comments: null,
+    money: req.body.money
   }, function (err, project) {
     // console.log("done creating user");
     if (err) return res.status(500).send("There was a problem creating the project.")

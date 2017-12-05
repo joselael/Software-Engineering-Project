@@ -28,7 +28,8 @@ router.post('/create', (req, res) => {
         user_type: req.body.user_type,
         enabled: false,
         blacklisted: false,
-        admin_message: null
+        admin_message: null,
+        money: req.body.money
     }, function (err, user) {
         // console.log("done creating user");
         if (err) return res.status(500).send("There was a problem registering the user.");

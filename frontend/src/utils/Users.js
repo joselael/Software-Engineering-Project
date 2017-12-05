@@ -2,7 +2,7 @@ import axios from 'axios'
 import {URL, USER, ACCOUNTS, CREATE} from '../urls/API'
 
 //Register user
-export function register(Username, Password, First_name, Last_name, User_type, Email) {
+export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
     return axios({
         method: 'post',
         url: URL + USER + CREATE,
@@ -15,7 +15,8 @@ export function register(Username, Password, First_name, Last_name, User_type, E
                 first_name: First_name,
                 last_name: Last_name,
                 user_type: User_type,
-                email: Email
+                email: Email,
+                money: money
             }
         })
         .then(function (response) {

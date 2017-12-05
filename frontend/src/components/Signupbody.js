@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, Button, Label } from 'reactstrap'
+import { FormGroup, Button, Label, Input, InputGroupAddon, InputGroup } from 'reactstrap'
 import { register } from '../utils/Users'
 import { Redirect } from 'react-router-dom'
 import '../css/signup.css'
@@ -17,6 +17,7 @@ class Signupbody extends Component {
       linkedinURL: '',
       githubURL: '',
       usertype: '',
+      money: 0,
       fireRedirect: false
     }
     this.onChange = this.onChange.bind(this);
@@ -33,7 +34,7 @@ class Signupbody extends Component {
       e.preventDefault();
       //after checking that the passwords are equal, this is where we get put the requests
       register(this.state.username, this.state.password, this.state.firstname,
-      this.state.lastname, this.state.usertype, this.state.email) 
+      this.state.lastname, this.state.usertype, this.state.email, this.state.money) 
       this.setState({
         fireRedirect: true
       })
@@ -104,6 +105,22 @@ class Signupbody extends Component {
               Confirm password
             </Label>
             <input value={this.state.passwordconfirmation} onChange={this.onChange} type="password" name="passwordconfirmation" placeholder= "Confirm password" className="form-control"/>
+          </FormGroup>
+
+          <FormGroup>
+            <Label>
+              Money Amount
+            </Label>
+            <InputGroup>
+              <InputGroupAddon>$</InputGroupAddon>
+              <Input
+                value={this.state.money}
+                onChange={this.onChange}
+                type="money"
+                name="money"
+                placeholder="GIVE ME MONEY"
+              />
+            </InputGroup>
           </FormGroup>
 
             <Button 
