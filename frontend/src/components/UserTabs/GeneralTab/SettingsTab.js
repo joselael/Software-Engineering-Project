@@ -18,47 +18,70 @@ export default class SettingsTab extends Component {
         github: '',
         linkedIn: '',
         email: '',
+        first_name: '',
+        last_name: '',
         auth: false,
-        collapse: false
+        collapse: false,
+        delete: false
       }
       this.onChange = this.onChange.bind(this);
       this.onSubmit = this.onSubmit.bind(this)
       this.onSubmitAuth = this.onSubmitAuth.bind(this)
       this.toggle = this.toggle.bind(this)
       this.toggleAuth = this.toggleAuth.bind(this)
-      this.clearPass = this.clearPass.bind(this)
+      this.toggleDelete = this.toggleDelete.bind(this)
+      this.clearState = this.clearState.bind(this)
+      this.submitDelete = this.submitDelete.bind(this)
   }
 
-  clearPass() {
+  submitDelete() {
+    console.log("Sending delete request to user...")
+    this.toggleDelete()
+  }
+
+  clearState() {
     this.setState({
-      oldpassword: ''
+      oldpassword: '',
+      newpassword: '',
+      newpasswordconfirmation: '',
+      github: '',
+      linkedIn: '',
+      email: '',
+      first_name: '',
+      last_name: ''
     })
   }
 
+  onSubmitAuth = e => {
+    e.preventDefault()
+    checkUser(store.getState().token, this.state.oldpassword)
+      .then( (response) => {
+        console.log(response.data)
+        if(response.data) {
+          this.toggleAuth()
+          this.clearState()
+          this.toggle()
+        } else {
+          alert("You're not authorized")
+          this.clearState()
+          this.toggleAuth()
+        }
+      }).catch( (err) => {
+        alert("You're not authorized")
+        this.toggleAuth()
+        this.clearState()
+      })
+  }
   toggleAuth() {
     this.setState({
       auth: !this.state.auth
     })
   }
 
-  onSubmitAuth(e) {
-    checkUser(store.getState().token, this.state.oldpassword)
-      .then( (response) => {
-        console.log(response.data)
-        if(response.data) {
-          this.toggleAuth()
-          this.clearPass()
-          this.toggle()
-        } else {
-          alert("You're not authorized")
-          this.clearPass()
-          this.toggleAuth()
-        }
-      }).catch( (err) => {
-        alert("You're not authorized")
-        this.toggleAuth()
-        this.clearPass()
-      })
+  toggleDelete() {
+    this.setState({
+      delete: !this.state.delete
+    })
   }
 
   toggle() {
@@ -74,7 +97,7 @@ export default class SettingsTab extends Component {
   onSubmit(e) {
 
     var data = {}
-    if(this.state.newpassword.lengh > 0) {
+    if(this.state.newpassword.length > 0) {
       if(this.state.newpassword === this.state.newpasswordconfirmation ){ //still need to check if old password is correct
         e.preventDefault();
         if(this.state.newpassword.length > 8) {
@@ -82,30 +105,36 @@ export default class SettingsTab extends Component {
         }
       }else{
         alert("Passwords do not match")
+      }
     }
+    if(this.state.first_name.length > 2) {
+      data.first_name = this.state.first_name
     }
-    if(this.state.linkedIn.length > 1) {
+    if(this.state.last_name.length > 2) {
+      data.last_name = this.state.last_name
+    }
+    if(this.state.linkedIn.length > 2) {
       data.linkedIn = this.state.linkedIn
     }
-    if(this.state.github.length > 1) {
+    if(this.state.github.length > 2) {
       data.github = this.state.linkedIn
     }
-    if(this.state.email.length > 1) {
+    if(this.state.email.length > 2) {
       data.email = this.state.email
     }
-
-    console.log(data)
     updateSettings(store.getState().token, data)
       .then( (response) => {
         userInfo(store.getState().token)
           .then( (response) => {
+            alert("Information changed!!!")
+            this.toggle()
+            this.clearState()
           }).catch( (err) => {
             console.log(err)
           })
       }).catch( (err) => {
         console.log(err)
       })
-
     e.preventDefault(e)
   }
 
@@ -119,16 +148,19 @@ export default class SettingsTab extends Component {
           <Modal isOpen={this.state.auth} toggle={this.toggleAuth}>
             <ModalHeader>Confirm your password</ModalHeader>
             <ModalBody>
-              <FormGroup>
-                <Label> Password </Label>
-                <Input
-                  value={this.state.oldpassword}
-                  onChange={this.onChange}
-                  type="password"
-                  name="oldpassword"
-                  placeholder="Password"
-                />
-              </FormGroup>
+              <form onSubmit={this.onSubmitAuth}>
+                <FormGroup>
+                  <Label> Password </Label>
+                  <Input
+                    value={this.state.oldpassword}
+                    onChange={this.onChange}
+                    type="password"
+                    name="oldpassword"
+                    placeholder="Password"
+                    autoFocus
+                  />
+                </FormGroup>
+              </form>
             </ModalBody>
             <ModalFooter>
               <Button
@@ -150,6 +182,24 @@ export default class SettingsTab extends Component {
             <Card>
               <CardBody>
                 <form onSubmit={this.onSubmit}>
+                  <FormGroup>
+                    <Label> New FirstName </Label>
+                    <Input
+                      value={this.state.first_name}
+                      onChange={this.onChange}
+                      type="first_name"
+                      name="first_name"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label> New LastName </Label>
+                    <Input
+                      value={this.state.last_name}
+                      onChange={this.onChange}
+                      type="last_name"
+                      name="last_name"
+                    />
+                  </FormGroup>
                   <FormGroup>
                     <Label> New LinkedIn </Label>
                     <Input
@@ -199,16 +249,35 @@ export default class SettingsTab extends Component {
                   </FormGroup>
                   <Button 
                     type="submit" 
-                    color="info" 
-                    size="md"
                     onClick={this.onSubmit}
                   >
-                  Submit
+                    Submit
+                  </Button>
+                  <Button
+                    onClick={this.toggle}
+                  >
+                    Cancel
                   </Button>
                 </form>
               </CardBody>
             </Card>
             </Collapse>
+          <Button color="danger" onClick={this.toggleDelete}>
+            Delete Account
+          </Button>
+          <Modal isOpen={this.state.delete} toggle={this.toggleDelete}>
+            <ModalBody>
+              <h4>Are you sure you want to delete?</h4>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="danger" onClick={this.submitDelete}>
+                YES
+              </Button>
+              <Button onClick={this.toggleDelete}>
+                NO
+              </Button>
+            </ModalFooter>
+          </Modal>
         </TabPane>
       )
   }
