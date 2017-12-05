@@ -26,6 +26,7 @@ import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
+import ProjectModal from '../Projects/AdminProjectModal'
 
 export class AdminTab extends Component {
   constructor(props) {
@@ -42,7 +43,6 @@ export class AdminTab extends Component {
       users: [],
       projects: []
     };
-    //this.renderAccounts = this.renderAccounts.bind(this)
     this.notAdmin = this
       .notAdmin
       .bind(this)
@@ -79,15 +79,8 @@ export class AdminTab extends Component {
     this.rejectUser = this
       .rejectUser
       .bind(this)
-    this.toggleLink = this.toggleLink.bind(this)
   }
 
-  toggleLink = event => {
-    this.setState({
-      link: !this.state.link
-    })
-    console.log("link..")
-  }
 
   handleChange = event => {
     this.setState({
@@ -315,48 +308,7 @@ export class AdminTab extends Component {
 
     const allProjects = this.state.projects
       .map((project, index) => 
-        <tr key={project._id}>
-          <td scope="row">{index + 1}</td>
-          <td>{project.title}</td>
-          <td>{project.max_budget}</td>
-          <td>I am status</td>
-          <td>
-            <Button
-              size="sm"
-              color="primary"
-              onClick={this.toggleLink}
-            >
-              Link
-            </Button>
-            <Modal isOpen={this.state.link} toggle={this.toggleLink}>
-              <ModalHeader>
-                {project.title}
-              </ModalHeader>
-              <ModalBody>
-                {project.summary}
-              </ModalBody>
-              <ModalFooter>
-                <FormGroup>
-                <select value={this.state.dev_username} 
-                  onChange={this.handleChange} 
-                  type="text" 
-                  name="dev_username" 
-                  className="form-control">
-                  <option value="" disabled> Choose your user type </option>
-                  <option value="developer"> Developer </option>
-                  <option value="client"> Client </option>
-                </select>
-                </FormGroup>
-                <Button color="danger" onClick={this.toggleLink}>
-                  Choose
-                </Button>
-                <Button color="primary" onClick={this.toggleLink}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </td>
-        </tr>
+        <ProjectModal key={project._id} project={project} index={index}/>
     )
     return (
       <div>

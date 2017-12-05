@@ -18,8 +18,8 @@ import {
   InputGroupAddon,
   InputGroup
 } from 'reactstrap';
-import store from '../store'
-import '../css/project.css'
+import store from '../../store'
+import '../../css/project.css'
 
 class Project extends Component {
 
@@ -75,11 +75,11 @@ class Project extends Component {
                 </ModalHeader>
                 <ModalBody>
                   <Label>Project Summary</Label><br/>
-                  {this.props.project.summary}<br/>
+                    {this.props.project.summary}<br/>
                   <Label>Bid Start Date</Label><br/>
-                  {this.props.project.bid_start}<br/>
+                    {this.props.project.bid_start}<br/>
                   <Label>Bid End Date</Label><br/>
-                  {this.props.project.bid_end}<br/>
+                    {this.props.project.bid_end}<br/>
                   <Label>Enter Bid</Label>
                   <InputGroup>
                     <InputGroupAddon>$</InputGroupAddon>

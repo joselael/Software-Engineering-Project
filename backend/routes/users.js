@@ -29,6 +29,9 @@ router.post('/create', (req, res) => {
         enabled: false,
         blacklisted: false,
         admin_message: null,
+        linkedIn: "",
+        github: "",
+        first_login: true,
         money: req.body.money
     }, function (err, user) {
         // console.log("done creating user");

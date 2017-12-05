@@ -10,6 +10,9 @@ const mongoose = require('mongoose');
   enabled: Boolean,
   blacklisted: Boolean,
   admin_message: String,
+  linkedIn: String,
+  github: String,
+  first_login: Boolean,
   money: Number
 });
 

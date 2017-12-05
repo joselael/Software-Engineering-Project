@@ -8,6 +8,16 @@ import {
 } from '../urls/API'
 import store from '../store'
 
+export function deleteProject(PROJECT_ID) {
+  return axios({
+    method: "delete",
+    url: URL + PROJECT + PROJECT_ID,
+    headers: {
+      "x-access-token": store.getState().token
+    }
+  })
+}
+
 export function projects() {
   return axios({
     method: "get",

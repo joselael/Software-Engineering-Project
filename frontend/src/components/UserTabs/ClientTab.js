@@ -22,6 +22,7 @@ import {
 } from 'reactstrap';
 import '../../css/usertab.css';
 import {myproject, createprojects} from '../../utils/Projects'
+import ProjectModal from '../Projects/ClientProjectModal'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -55,7 +56,6 @@ export class ClientTab extends Component {
     this.updateTable = this.updateTable.bind(this)
     this.checkFinished = this.checkFinished.bind(this)
     this.checkDone = this.checkDone.bind(this)
-    this.toggleLink = this.toggleLink.bind(this)
   }
 
   checkFinished(project) {
@@ -75,7 +75,6 @@ export class ClientTab extends Component {
       this.setState({
         projects: response.data
       })
-      console.log(this.state.projects)
       console.log("Updating table...")
     }).catch( (err) => {
       console.log(err)
@@ -111,12 +110,6 @@ export class ClientTab extends Component {
     }
   }
 
-  toggleLink() {
-    this.setState({
-      link: !this.state.link
-    })
-  }
-
   toggleModal() {
     this.setState({
       modal: !this.state.modal
@@ -127,47 +120,7 @@ export class ClientTab extends Component {
     const biddingProjects = this.state.projects.
       filter(this.checkFinished)
       .map((project, index) => 
-        <tr key={project._id}>
-          <td scope="row">{index + 1}</td>
-          <td>{project.title}</td>
-          <td>{project.max_budget}</td>
-          <td>
-            <Button
-              size="sm"
-              color="primary"
-              onClick={this.toggleLink}
-            >
-              Link
-            </Button>
-            <Modal isOpen={this.state.link} toggle={this.toggleLink}>
-              <ModalHeader>
-                {project.title}
-              </ModalHeader>
-              <ModalBody>
-                {project.summary}
-              </ModalBody>
-              <ModalFooter>
-                <FormGroup>
-                <select value={this.state.dev_username} 
-                  onChange={this.handleChange} 
-                  type="text" 
-                  name="dev_username" 
-                  className="form-control">
-                  <option value="" disabled> Choose your user type </option>
-                  <option value="developer"> Developer </option>
-                  <option value="client"> Client </option>
-                </select>
-                </FormGroup>
-                <Button color="danger" onClick={this.toggleLink}>
-                  Choose
-                </Button>
-                <Button color="primary" onClick={this.toggleLink}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </td>
-        </tr>
+        <ProjectModal key={project._id} project={project} index={index}/>
     )
 
     const pastProjects = this.state.projects.
