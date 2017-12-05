@@ -6,6 +6,7 @@ import { Form, FormGroup,TabPane, Label,
  } from 'reactstrap';
 import store from '../../../store'
 import {checkUser, updateSettings} from '../../../utils/Users'
+import {userInfo} from '../../../utils/Auth'
 
 export default class SettingsTab extends Component {
   constructor(props){
@@ -73,13 +74,15 @@ export default class SettingsTab extends Component {
   onSubmit(e) {
 
     var data = {}
-    if(this.state.newpassword === this.state.newpasswordconfirmation ){ //still need to check if old password is correct
-      e.preventDefault();
-      if(this.state.newpassword.length > 8) {
-        data.password = this.state.newpassword
-      }
-    }else{
-      alert("Passwords do not match")
+    if(this.state.newpassword.lengh > 0) {
+      if(this.state.newpassword === this.state.newpasswordconfirmation ){ //still need to check if old password is correct
+        e.preventDefault();
+        if(this.state.newpassword.length > 8) {
+          data.password = this.state.newpassword
+        }
+      }else{
+        alert("Passwords do not match")
+    }
     }
     if(this.state.linkedIn.length > 1) {
       data.linkedIn = this.state.linkedIn
@@ -94,10 +97,16 @@ export default class SettingsTab extends Component {
     console.log(data)
     updateSettings(store.getState().token, data)
       .then( (response) => {
-        console.log(response)
+        userInfo(store.getState().token)
+          .then( (response) => {
+          }).catch( (err) => {
+            console.log(err)
+          })
       }).catch( (err) => {
         console.log(err)
       })
+
+    e.preventDefault(e)
   }
 
   render() {
@@ -168,6 +177,8 @@ export default class SettingsTab extends Component {
                       name="email"
                     />
                   </FormGroup>
+                  {
+                    /*
                   <FormGroup>
                     <Label> New password </Label>
                     <Input 
@@ -188,6 +199,8 @@ export default class SettingsTab extends Component {
                       placeholder= "confirm new passwrod" 
                     />
                   </FormGroup>
+                    */
+                  }
                   <Button 
                     type="submit" 
                     color="info" 
