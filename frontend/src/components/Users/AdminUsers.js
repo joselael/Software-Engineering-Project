@@ -26,14 +26,15 @@ export default class AdminUsers extends Component {
 
   constructor(props) {
     super(props)
+    console.log(this.props.user._id)
     this.deleteUser = this.deleteUser.bind(this)
     this.blacklistUser = this.blacklistUser.bind(this)
     this.typeButton = this.typeButton.bind(this)
   }
 
-  deleteUser = id => event => {
+  deleteUser = event => {
     console.log("Deleting user")
-    deleteUser(store.getState().token, id).then((response) => {
+    deleteUser(store.getState().token, this.props.user._id).then((response) => {
       this.props.updateTable()
     }).catch( (err) => {
       console.log(err)
@@ -41,9 +42,9 @@ export default class AdminUsers extends Component {
   }
 
   blacklistUser = id => event => {
-    console.log("Blacklisting user")
-    blacklistUser(store.getState().token, id).then((response) => {
-      this.updateTable()
+    console.log(id)
+    blacklistUser(store.getState().token, this.props.user._id).then((response) => {
+      this.props.updateTable()
     }).catch( (err) => {
       console.log(err)
     })
@@ -56,7 +57,7 @@ export default class AdminUsers extends Component {
           size="sm"
           color="danger"
           value={this.props.user.token}
-          onClick={this.deleteUser(this.props.user._id)}>
+          onClick={this.deleteUser()}>
           Delete
         </Button>
       )
@@ -66,7 +67,7 @@ export default class AdminUsers extends Component {
           size="sm"
           color="danger"
           value={this.props.user.token}
-          onClick={this.blacklistUser(this.props.user_id)}
+          onClick={this.blacklistUser()}
         >
         Blacklist
         </Button>
