@@ -78,5 +78,5 @@ POST localhost:3001/user/check
 Sent:
     Header[x-access-token] : <token> // otherwise 401
 Received:
-true //or false if check fails
+true //or 401 with false if check fails
 
