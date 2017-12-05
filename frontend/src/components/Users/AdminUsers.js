@@ -28,12 +28,15 @@ export default class AdminUsers extends Component {
     super(props)
     this.deleteUser = this.deleteUser.bind(this)
     this.blacklistUser = this.blacklistUser.bind(this)
+    this.typeButton = this.typeButton.bind(this)
   }
 
   deleteUser = id => event => {
     console.log("Deleting user")
     deleteUser(store.getState().token, id).then((response) => {
       this.props.updateTable()
+    }).catch( (err) => {
+      console.log(err)
     })
   }
 
@@ -41,7 +44,35 @@ export default class AdminUsers extends Component {
     console.log("Blacklisting user")
     blacklistUser(store.getState().token, id).then((response) => {
       this.updateTable()
+    }).catch( (err) => {
+      console.log(err)
     })
+  }
+
+  typeButton() {
+    if(this.props.type === "blacklisted") {
+      return(
+        <Button
+          size="sm"
+          color="danger"
+          value={this.props.user.token}
+          onClick={this.deleteUser(this.props.user._id)}>
+          Delete
+        </Button>
+      )
+    } else if(this.props.type === "accepted") {
+      return(
+        <Button
+          size="sm"
+          color="danger"
+          value={this.props.user.token}
+          onClick={this.blacklistUser(this.props.user_id)}
+        >
+        Blacklist
+        </Button>
+      )
+    }
+      
   }
 
   render() {
@@ -55,6 +86,8 @@ export default class AdminUsers extends Component {
     } else if(!this.props.user.enabled){
       status = "DISABLED"
     }
+
+    const buttonType = this.typeButton()
 
     return(
       <tr>
@@ -72,13 +105,7 @@ export default class AdminUsers extends Component {
           {this.props.user.username}
         </td>
         <td>
-          <Button
-            size="sm"
-            color="danger"
-            value={this.props.user.token}
-            onClick={this.deleteUser(this.props.user._id)}>
-            Delete
-          </Button>
+          {buttonType}
         </td>
         <td>
           {status}

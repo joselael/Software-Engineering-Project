@@ -238,7 +238,7 @@ export class AdminTab extends Component {
       .users
       .filter(this.checkAccept)
       .map((user, index) => 
-        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()} />
+        <AdminUser key={user._id} user={user} index={index} type={"accepted"} updateTable = {() => this.updateTable()} />
       )
 
     const blacklistedUsers = this
@@ -246,7 +246,7 @@ export class AdminTab extends Component {
       .users
       .filter(this.checkBlacklist)
       .map((user, index) => 
-        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+        <AdminUser key={user._id} user={user} index={index} type={"blacklisted"} updateTable = {() => this.updateTable()}/>
       )
 
     const allProjects = this.state.projects
