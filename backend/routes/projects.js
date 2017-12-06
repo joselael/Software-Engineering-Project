@@ -20,7 +20,6 @@ router.post('/create', (req, res) => {
         summary: req.body.summary,
         details: String,
         bid_end: new Date(req.body.bid_end),
-        min_budget: parseInt(req.body.min_budget),
         max_budget: parseInt(req.body.max_budget),
         bidders: [],
         assignee: null,
@@ -33,6 +32,11 @@ router.post('/create', (req, res) => {
         res.status(200).send({created: true, id: project._id});
     });
 });
+
+// router.post('/bid/:id', VerifyToken, (req, res) => {
+//
+// });
+
 
 // get all projects from the database
 router.get('/projects', function (req, res) {

@@ -21,7 +21,7 @@ import store from '../../../store'
 export default class ProfileTab extends Component {
   render() {
     return (
-      <TabPane tabId="2" className="Profile-Tab">
+      <TabPane tabId={this.props.tabId} className="Profile-Tab">
         <Row>
           <Col>
             <Media>
@@ -63,7 +63,7 @@ export default class ProfileTab extends Component {
                 <CardHeader>LinkedIn</CardHeader>
                 <CardBody>
                   <CardText>
-                    {store.getState().user.linkedinURL}
+                    {store.getState().user.linkedIn}
                   </CardText>
                 </CardBody>
               </Card>
@@ -73,7 +73,7 @@ export default class ProfileTab extends Component {
                 </CardHeader>
                 <CardBody>
                   <CardText>
-                    {store.getState().user.githubURL}
+                    {store.getState().user.github}
                   </CardText>
                 </CardBody>
               </Card>
@@ -81,7 +81,8 @@ export default class ProfileTab extends Component {
 
               <Card body inverse color="success" >
                 <CardTitle>Current Balance</CardTitle>
-                  <CardText> $ {store.getState().user.money}
+                  <CardText> $
+                    {store.getState().user.account_balance}
                   </CardText>
               </Card>
               <br/>

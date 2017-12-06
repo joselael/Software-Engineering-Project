@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {URL, USER, ACCOUNTS, CREATE} from '../urls/API'
+import {URL, USER, ACCOUNTS, CREATE, ME, CHECK} from '../urls/API'
 
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
@@ -16,7 +16,7 @@ export function register(Username, Password, First_name, Last_name, User_type, E
                 last_name: Last_name,
                 user_type: User_type,
                 email: Email,
-                money: money
+                account_balance: money
             }
         })
         .then(function (response) {
@@ -30,6 +30,7 @@ export function register(Username, Password, First_name, Last_name, User_type, E
 
 //Accept user from admin
 export function acceptUser(token,userID) {
+    console.log(userID, token)
     return axios({
         method: 'put',
         url: URL + USER + userID,
@@ -85,6 +86,59 @@ export function deleteUser(token, userID) {
         url: URL + USER + userID,
         headers: {
             'x-access-token': token
+        }
+    })
+}
+
+export function firstLoggedIn(token, userID) {
+    return axios({
+        method: 'put',
+        url: URL + USER + ME,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            first_login: false
+        }
+    })
+}
+
+//Check first login
+export function updateMe(token, github, linkedIn) {
+    return axios({
+        method: 'put',
+        url: URL + USER + ME,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            github: github,
+            linkedIn: linkedIn
+        }
+    })
+}
+
+export function updateSettings(token, data) {
+    return axios({
+        method: 'put',
+        url: URL + USER + ME,
+        headers: {
+            'x-access-token': token
+        },
+        data: data
+    })
+}
+
+//Check user password
+export function checkUser(token, password) {
+    return axios({
+        method: 'post',
+        url: URL + USER + CHECK,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            password: password
         }
     })
 }

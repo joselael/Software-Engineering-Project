@@ -20,11 +20,14 @@ import {
   ModalHeader
 } from 'reactstrap';
 import '../../css/usertab.css';
-import {accounts, acceptUser, blacklistUser, deleteUser, rejectUser} from '../../utils/Users'
+import {accounts, acceptUser, rejectUser} from '../../utils/Users'
+import {projects} from '../../utils/Projects'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
+import ProjectModal from '../Projects/AdminProjectModal'
+import AdminUser from '../Users/AdminUsers'
 
 export class AdminTab extends Component {
   constructor(props) {
@@ -37,9 +40,10 @@ export class AdminTab extends Component {
       activeTab: '1',
       modal: false,
       reject_reason: "",
-      users: []
+      link: false,
+      users: [],
+      projects: []
     };
-    //this.renderAccounts = this.renderAccounts.bind(this)
     this.notAdmin = this
       .notAdmin
       .bind(this)
@@ -55,17 +59,8 @@ export class AdminTab extends Component {
     this.acceptUser = this
       .acceptUser
       .bind(this)
-    this.declineUser = this
-      .declineUser
-      .bind(this)
-    this.blacklistUser = this
-      .blacklistUser
-      .bind(this)
     this.updateTable = this
       .updateTable
-      .bind(this)
-    this.deleteUser = this
-      .deleteUser
       .bind(this)
     this.toggleModal = this
       .toggleModal
@@ -77,6 +72,7 @@ export class AdminTab extends Component {
       .rejectUser
       .bind(this)
   }
+
 
   handleChange = event => {
     this.setState({
@@ -98,6 +94,15 @@ export class AdminTab extends Component {
     }).catch((err) => {
       console.log(err)
     })
+    projects().then( (response) => {
+      this.setState({
+        projects: response.data
+      })
+      console.log(this.state.projects)
+      console.log("Updating table...")
+    }).catch( (err) => {
+      console.log(err)
+    })
   }
 
   rejectUser = id => event => {
@@ -111,28 +116,8 @@ export class AdminTab extends Component {
     })
   }
 
-  blacklistUser = id => event => {
-    console.log("Blacklisting user")
-    blacklistUser(store.getState().token, id).then((response) => {
-      this.updateTable()
-    })
-  }
-
-  deleteUser = id => event => {
-    console.log("Deleting user")
-    deleteUser(store.getState().token, id).then((response) => {
-      this.updateTable()
-    })
-  }
-
-  declineUser = id => event => {
-    console.log("Disabling user")
-    console.log(id)
-  }
-
   acceptUser = id => event => {
     console.log("Accepting user")
-    console.log(id)
     acceptUser(store.getState().token, id).then((response) => {
       this.updateTable()
     })
@@ -230,69 +215,21 @@ export class AdminTab extends Component {
       </tr>)
 
     const acceptedUsers = this
-      .state
-      .users
-      .filter(this.checkAccept)
-      .map((user, index) => <tr key={user._id}>
-        <th scope="row">{index + 1}</th>
-        <td>
-          {user.user_type}
-        </td>
-        <td>
-          {user.first_name}
-        </td>
-        <td>
-          {user.last_name}
-        </td>
-        <td>
-          {user.username}
-        </td>
-        <td>
-          <Button size="sm" color="danger" onClick={this.blacklistUser(user._id)}>
-            Blacklist
-          </Button>
-        </td>
-        <td>
-          {user.enabled
-            ? "Enabled"
-            : "Disabled"}
-        </td>
-      </tr>)
+      .state.users.filter(this.checkAccept)
+      .map((user, index) => 
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()} />
+      )
 
     const blacklistedUsers = this
-      .state
-      .users
-      .filter(this.checkBlacklist)
-      .map((user, index) => <tr key={user._id}>
-        <th scope="row">{index + 1}</th>
-        <td>
-          {user.user_type}
-        </td>
-        <td>
-          {user.first_name}
-        </td>
-        <td>
-          {user.last_name}
-        </td>
-        <td>
-          {user.username}
-        </td>
-        <td>
-          <Button
-            size="sm"
-            color="danger"
-            value={user.token}
-            onClick={this.deleteUser(user._id)}>
-            Delete
-          </Button>
-        </td>
-        <td>
-          {user.blacklisted
-            ? "Blacklisted"
-            : "Not blacklisted"}
-        </td>
-      </tr>)
+      .state.users.filter(this.checkBlacklist)
+      .map((user, index) => 
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+      )
 
+    const allProjects = this.state.projects
+      .map((project, index) => 
+        <ProjectModal key={project._id} project={project} index={index} updateTable = {() => this.updateTable()}/>
+    )
     return (
       <div>
         <Nav tabs>
@@ -315,7 +252,7 @@ export class AdminTab extends Component {
               onClick={() => {
               this.toggle('2');
             }}>
-              Profile
+              Projects
             </NavLink>
           </NavItem>
           <NavItem>
@@ -325,6 +262,17 @@ export class AdminTab extends Component {
             })}
               onClick={() => {
               this.toggle('3');
+            }}>
+              Profile
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({
+              active: this.state.activeTab === '4'
+            })}
+              onClick={() => {
+              this.toggle('4');
             }}>
               Settings
             </NavLink>
@@ -387,8 +335,28 @@ export class AdminTab extends Component {
                 </Table>
               </Row>
             </TabPane>
-            <ProfileTab/>
-            <SettingsTab/>
+            <TabPane tabId="2">
+              <Row>
+                <h4>All Projects</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Project Name</th>
+                      <th>Max Bid</th>
+                      <th>Status</th>
+                      <th>Link</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allProjects}
+                  </tbody>
+                </Table>
+              </Row>
+            </TabPane>
+            <ProfileTab tabId={"3"}/>
+            <SettingsTab tabId={"4"}/>
           </TabContent>
         </div>
       </div>

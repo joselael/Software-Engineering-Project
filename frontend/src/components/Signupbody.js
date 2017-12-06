@@ -14,8 +14,6 @@ class Signupbody extends Component {
       email: '',
       password: '',
       passwordconfirmation: '',
-      linkedinURL: '',
-      githubURL: '',
       usertype: '',
       money: 0,
       fireRedirect: false
@@ -29,16 +27,27 @@ class Signupbody extends Component {
   }
 
   onSubmit(e){
+
+    const username = this.state.username.toLowerCase()
+
     if (this.state.password === this.state.passwordconfirmation){
-      console.log(this.state);
-      e.preventDefault();
-      //after checking that the passwords are equal, this is where we get put the requests
-      register(this.state.username, this.state.password, this.state.firstname,
-      this.state.lastname, this.state.usertype, this.state.email, this.state.money)
-      this.setState({
-        fireRedirect: true
-      })
+      if (username.length <= 2 || this.state.firstname.length <= 2 ||
+      this.state.lastname.length <= 2 || this.state.email.length <= 2 ||
+      this.state.usertype === '' || username === "accounts" ||
+      username === "create" || username === "check") {
+        e.preventDefault();
+        alert("Wrong credentials")
+      } else {
+        console.log(this.state);
+        e.preventDefault();
+        register(username, this.state.password, this.state.firstname,
+        this.state.lastname, this.state.usertype, this.state.email, this.state.money)
+        this.setState({
+          fireRedirect: true
+        })
+      }
     }else{
+      e.preventDefault()
       alert("Passwords do not match!")
     }
   }
@@ -68,19 +77,6 @@ class Signupbody extends Component {
             <Label> Email</Label>
             <input value={this.state.email} onChange={this.onChange} type="email" name="email" placeholder= "Email" className="form-control"/>
           </FormGroup>
-
-          {/* Add later to DB
-          <div className="form-group">
-            <label className="control-label"> LinkedIn Link</label>
-            <input value={this.state.linkedinURL} onChange={this.onChange} type="url" name="linkedinURL" placeholder= "LinkedIn link" className="form-control"/>
-          </div>
-
-          <div className="form-group">
-            <label className="control-label"> Github Link</label>
-            <input value={this.state.githubURL} onChange={this.onChange} type="url" name="githubURL" placeholder= "Github link" className="form-control"/>
-          </div>
-          */}
-
           <FormGroup>
             <Label> User type</Label>
             <select value={this.state.usertype} onChange={this.onChange} type="text" name="usertype" className="form-control">

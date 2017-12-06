@@ -8,6 +8,16 @@ import {
 } from '../urls/API'
 import store from '../store'
 
+export function deleteProject(PROJECT_ID) {
+  return axios({
+    method: "delete",
+    url: URL + PROJECT + PROJECT_ID,
+    headers: {
+      "x-access-token": store.getState().token
+    }
+  })
+}
+
 export function projects() {
   return axios({
     method: "get",
@@ -25,16 +35,19 @@ export function myproject(username) {
   })
 }
 
-export function createprojects(title, username, summary, bid_end, min_budget, max_budget) {
+export function createprojects(title, username, summary, details, bid_end, max_budget) {
   return axios({
     method: 'post',
     url: URL + PROJECT + CREATE,
+    headers: {
+      "Content-Type": "application/json"
+    },
     data: {
       title: title,
       author: username,
       summary: summary,
+      details: details,
       bid_end: bid_end,
-      min_budget: min_budget,
       max_budget: max_budget
     }
   })

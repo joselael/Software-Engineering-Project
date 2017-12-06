@@ -41,8 +41,8 @@ class LandingCarousel extends Component {
     return(
       <div>
       <br/>
-      <div style={{display: 'flex', justifyContent: 'center'}} class="row">
-      <div class="col-md-7 col-md-offset-3">
+      <div style={{display: 'flex', justifyContent: 'center'}} className="row">
+      <div className="col-md-7 col-md-offset-3">
         <div className="LandingCarousel" style={styles}>
           <UncontrolledCarousel items={items} />
         </div>
