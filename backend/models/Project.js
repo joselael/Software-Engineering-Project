@@ -1,16 +1,17 @@
 const mongoose = require('mongoose');
+const Bid = require('./Bid');
 
 const ProjectSchema = new mongoose.Schema({
-    title: String,
-    author: String,
-    summary: String,
-    details: String,
+    title: {type: String, required: true},
+    author: {type: String, required: true, trim: true},
+    summary: {type: String, required: true},
+    details: {type: String, required: true},
     post_date: {type: Date, default: Date.now},
     bid_start: {type: Date, default: Date.now},
-    bid_end: Date,
+    bid_end: {type: Date},
     max_budget: Number,
-    bidders: [],
-    assignee: String,
+    bids: [{type: ObjectId, ref: 'Bid'}],
+    assignee: [{type: ObjectId, ref: 'User'}],
     completed: Boolean,
     rating: Number,
     problematic: Boolean,

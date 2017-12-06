@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const Bid = require('../models/Bid');
 const jwt = require('jsonwebtoken');
 const VerifyAdmin = require('../auth/VerifyAdmin');
 const VerifyToken = require('../auth/VerifyToken');
@@ -41,6 +42,7 @@ router.post('/create', (req, res) => {
         password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
         user_type: req.body.user_type,
         account_balance: req.body.account_balance,
+        bids: [],
         warnings: 0,
         enabled: false,
         blacklisted: false,

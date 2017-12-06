@@ -1,29 +1,45 @@
 const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
+const Bid = require('../models/Bid');
 const VerifyToken = require('../auth/VerifyToken');
 const VerifyAdmin = require('../auth/VerifyAdmin');
 
-// router.post('/bid/:id', VerifyToken, (req, res) =>
-// {
-//     Project.find({}, function (err, proj) {
-//         if (err) return res.status(500).send("There was a problem finding the projects.");
-//         var project = proj;
-//
-//     });})
+router.post('/bid/:id', VerifyToken, (req, res) => {
+    Project.findById(req.params.id, function (err, proj) {
+        if (err) return res.status(500).send("There was a problem finding the projects.");
+        if (!proj) return res.status(404).send("Such project does not exist");
+        var bid_id;
+        Bid.create({
+            username: req.body.username,
+            amount: parseInt(req.body.amount),
+            description: req.body.description
+        }, (err, bid) => {
+            if (err) return res.status(500).send("There was a problem creating the bid.")
+            res.status(200).send({created: true});
+            bid_id = bid.id;
+        });
+
+        proj.bids.push(bid_id);
+
+        res.status(200).send("Bid Made.");
+
+    });
+});
 
 router.post('/create', (req, res) => {
-    console.log(req.body);
     Project.create({
         title: req.body.title,
         author: req.body.author,
         summary: req.body.summary,
-        details: String,
+        details: req.body.details,
         bid_end: new Date(req.body.bid_end),
+        bid_start: new Date(req.body.bid_start),
         max_budget: parseInt(req.body.max_budget),
-        bidders: [],
+        bids: [],
         assignee: null,
         completed: false,
+        rating: null,
         problematic: false,
         admin_comments: null
     }, function (err, project) {
