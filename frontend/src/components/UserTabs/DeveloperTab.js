@@ -107,4 +107,3 @@ export class DeveloperTab extends Component {
         );
     }
 }
->>>>>>> yong_devel
