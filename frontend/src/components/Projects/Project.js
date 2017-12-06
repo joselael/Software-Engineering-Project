@@ -24,11 +24,12 @@ import '../../css/project.css'
 class Project extends Component {
 
   constructor(props) {
-    
+
     super(props)
     this.state = {
       modal: false,
       bid: 0
+
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -75,19 +76,19 @@ class Project extends Component {
                 </ModalHeader>
                 <ModalBody>
                   <Label>Project Summary</Label>
-                    {this.props.project.summary}
+                    <p> {this.props.project.summary} </p>
                   <Label>Project Details</Label>
-                    {this.props.project.details}
-                  <Label>Bid Start Date</Label>
-                    {this.props.project.bid_start}
-                  <Label>Bid End Date</Label>
-                    {this.props.project.bid_end}
+                    <p>{this.props.project.details}</p>
+                  <Label>Bid Starts:</Label>
+                    <p>{this.props.project.bid_start}</p>
+                  <Label>Bid End:</Label>
+                    <p>{this.props.project.bid_end}</p>
                   <Label>Enter Bid</Label>
                   <InputGroup>
                     <InputGroupAddon>$</InputGroupAddon>
                     <Input
                       autoFocus
-                      type="number"                    
+                      type="number"
                       name="bid"
                       value={this.state.bid}
                       onChange={this.handleChange}
