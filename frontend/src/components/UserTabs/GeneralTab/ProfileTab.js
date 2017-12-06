@@ -16,17 +16,22 @@ import {
   CardBody,
   Card
 } from 'reactstrap';
+import defaultProfile from '../../../images/default_profile.png'
 import store from '../../../store'
 
 export default class ProfileTab extends Component {
   render() {
+    var imageStyle = {
+      width: "100px",
+      height: "100px"
+    }
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
         <Row>
           <Col>
             <Media>
               <Media left href="#">
-                <Media object src="../../../images/profile.png"/>
+                <Media object src={defaultProfile} style={imageStyle}/>
               </Media>
             </Media>
             <Media body>
