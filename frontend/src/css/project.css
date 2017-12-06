@@ -12,14 +12,11 @@
   overflow: hidden;
 }
 
-.line-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
 .truncate {
-  width: 250px;
+  color: #828282;
+  width: 830px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display:inline-block;
 }
