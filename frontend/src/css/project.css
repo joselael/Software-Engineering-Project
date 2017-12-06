@@ -3,7 +3,23 @@
     position: relative;
 }
 
-p {
+.modelP {
   color: grey;
-  
+}
+
+.module {
+  max-width: 840px;
+  overflow: hidden;
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.truncate {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

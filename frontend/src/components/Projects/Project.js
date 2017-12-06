@@ -16,8 +16,9 @@ import {
   Label,
   Input,
   InputGroupAddon,
-  InputGroup
+  InputGroup,
 } from 'reactstrap';
+
 import store from '../../store'
 import '../../css/project.css'
 
@@ -62,8 +63,12 @@ class Project extends Component {
                 <CardTitle>
                   {this.props.project.title}
                 </CardTitle>
-                <CardText>
-                  {this.props.project.summary}
+                <CardText className = "module">
+                {store.getState().user.user_type=="client"? //if user is client, display more than one line of summary, since client dont have the expand for more details button
+                  <h9> {this.props.project.summary}</h9>
+                  :
+                  <h9 className="truncate"> {this.props.project.summary}</h9>//otherwise(visitor) display
+                }
                 </CardText>
               </CardBody>
               {store.getState().user.user_type === "developer" ?
@@ -76,13 +81,19 @@ class Project extends Component {
                 </ModalHeader>
                 <ModalBody>
                   <Label>Project Summary</Label>
-                    <p> {this.props.project.summary} </p>
+                    <p className="modelP"> {this.props.project.summary} </p>
                   <Label>Project Details</Label>
-                    <p>{this.props.project.details}</p>
-                  <Label>Bid Starts:</Label>
-                    <p>{this.props.project.bid_start}</p>
-                  <Label>Bid End:</Label>
-                    <p>{this.props.project.bid_end}</p>
+                    <p className="modelP">{this.props.project.details}</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                    <Label>Bid Starts:</Label>
+                      <p className="modelP">{this.props.project.bid_start}</p>
+                    </div>
+                      <div class="col-md-6">
+                      <Label>Bid End:</Label>
+                      <p className="modelP">{this.props.project.bid_end}</p>
+                    </div>
+                  </div>
                   <Label>Enter Bid</Label>
                   <InputGroup>
                     <InputGroupAddon>$</InputGroupAddon>
