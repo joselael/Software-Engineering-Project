@@ -21,13 +21,17 @@ import store from '../../../store'
 
 export default class ProfileTab extends Component {
   render() {
+    var imageStyle = {
+      width: "100px",
+      height: "100px"
+    }
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
         <Row>
           <Col>
             <Media>
               <Media left href="#">
-                <Media object src={defaultProfile}/>
+                <Media object src={defaultProfile} style={imageStyle}/>
               </Media>
             </Media>
             <Media body>
