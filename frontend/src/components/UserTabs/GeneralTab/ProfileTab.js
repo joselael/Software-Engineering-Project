@@ -16,6 +16,7 @@ import {
   CardBody,
   Card
 } from 'reactstrap';
+import defaultProfile from '../../../images/default_profile.png'
 import store from '../../../store'
 
 export default class ProfileTab extends Component {
@@ -26,7 +27,7 @@ export default class ProfileTab extends Component {
           <Col>
             <Media>
               <Media left href="#">
-                <Media object src="../../../images/profile.png"/>
+                <Media object src={defaultProfile}/>
               </Media>
             </Media>
             <Media body>

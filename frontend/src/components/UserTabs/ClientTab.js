@@ -89,23 +89,31 @@ export class ClientTab extends Component {
   }
 
   handleSubmitProject = event => {
-    createprojects(
-      this.state.title, 
-      store.getState().user.username,
-      this.state.summary, 
-      this.state.details,
-      this.state.date, 
-      this.state.max_budget
-    ).then( (response) => {
-      console.log(response)
-      alert("Submitting Project!!!")
-      this.clearStates()
-      this.updateTable()
-      this.toggleModal()
-    }).catch( (err) => {
-      console.log(err)
-    })
-    console.log(this.state)
+
+    if (this.state.title === "search" || this.state.title === "projects" 
+    || this.state.title === "create" || this.state.title === "bid") {
+      alert("Invalid project name")
+      this.setState({
+        title: ""
+      })
+    } else {
+      createprojects(
+        this.state.title, 
+        store.getState().user.username,
+        this.state.summary, 
+        this.state.details,
+        this.state.date, 
+        this.state.max_budget
+      ).then( (response) => {
+        console.log(response)
+        alert("Submitting Project!!!")
+        this.clearStates()
+        this.updateTable()
+        this.toggleModal()
+      }).catch( (err) => {
+        console.log(err)
+      })
+    }
   }
 
   handleChange = event => {
