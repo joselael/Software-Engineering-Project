@@ -21,6 +21,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+const file = require('./routes/files');
 const index = require('./routes/index');
 const user = require('./routes/users');
 const project = require('./routes/projects');
@@ -29,6 +30,7 @@ const db = require('./databases/db');
 app.use('/', index);
 app.use('/user', user);
 app.use('/project', project);
+app.use('/file', file);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
