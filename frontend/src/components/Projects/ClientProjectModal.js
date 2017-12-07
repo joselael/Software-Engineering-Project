@@ -61,7 +61,7 @@ export default class ProjectModal extends Component {
                 <p className="modelP"> {this.props.project.summary} </p>
               <Label>Project Details</Label>
                 <p className="modelP">{this.props.project.details}</p>
-              <div class="row">
+              <div className="row">
                 <div className="col-md-6">
                 <Label>Bid Starts:</Label>
                   <p className="modelP">{this.props.project.bid_start}</p>
