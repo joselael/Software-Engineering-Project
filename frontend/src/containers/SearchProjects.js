@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {FormGroup, Input} from 'reactstrap'
+import {FormGroup, Input, Label} from 'reactstrap'
 import {projects} from '../utils/Projects'
 import Project from '../components/Projects/Project'
 import '../css/searchprojects.css'
@@ -44,6 +44,7 @@ export default class SearchProjects extends Component {
 
     return (
       <div className="SearchProjects">
+        <Label>Search Projects</Label>
         <FormGroup>
           <Input
             placeholder="SEARCH ME!!!"

@@ -108,7 +108,10 @@ export function firstLoggedIn(token, userID) {
 }
 
 //Check first login
-export function updateMe(token, github, linkedIn) {
+export function updateMe(token, github, linkedIn, resume) {
+
+    var formData = new FormData();
+
     return axios({
         method: 'put',
         url: URL + USER + ME,
