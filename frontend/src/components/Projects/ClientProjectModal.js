@@ -21,6 +21,8 @@ import {
   ModalFooter,
   ModalHeader
 } from 'reactstrap';
+import {getbid} from '../../utils/Projects'
+
 export default class ProjectModal extends Component {
 
   constructor(props) {
@@ -28,7 +30,8 @@ export default class ProjectModal extends Component {
     super(props)
     this.state = {
       modal: false,
-      developer: ""
+      developer: "",
+      bids: []
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -36,7 +39,6 @@ export default class ProjectModal extends Component {
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value}); //this requires each to have a name when used
-    console.log(this.state)
   }
 
   toggleModal() {
@@ -45,7 +47,21 @@ export default class ProjectModal extends Component {
     })
   }
 
+  componentDidMount() {
+    for (var i = 0; i < this.props.project.bids.length; i++)
+      getbid(this.props.project.bids[i])
+        .then( (response) => {
+          this.state.bids.push(response.data)
+    })
+  }
+
   render() {
+
+    const bidders = this.state.bids
+      .map((bid, index) =>
+        <option value={bid._id}>{bid.author}</option>
+    )
+
     return(
       <tr>
         <td scope="row">{this.props.index + 1}</td>
@@ -86,7 +102,7 @@ export default class ProjectModal extends Component {
                   value={this.state.developer} 
                   onChange={this.handleChange}>
                   <option value="" disabled>Choose the developer</option> 
-                  <option value="developer1">Developer name</option>
+                  {bidders}
                 </Input>
                 <ButtonGroup>
                   <Button color="danger" onClick={this.toggleModal}>

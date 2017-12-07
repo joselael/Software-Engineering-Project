@@ -9,6 +9,7 @@ const PROJECT = "project/"
 const PROJECTS = "projects"
 const SEARCH = "search/"
 const CHECK = "check"
+const BID = "bid/"
 
 export {
   URL,
@@ -21,5 +22,6 @@ export {
   PROJECT,
   PROJECTS,
   SEARCH,
-  CHECK
+  CHECK,
+  BID
 }
