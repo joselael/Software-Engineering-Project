@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Bid = require('./Bid');
+const User = require('./User')
 
 const ProjectSchema = new mongoose.Schema({
     title: {type: String, required: true},

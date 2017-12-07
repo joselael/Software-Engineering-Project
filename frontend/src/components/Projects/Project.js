@@ -38,14 +38,12 @@ export default class Project extends Component {
   }
 
   handleSubmitBid = event => {
-    console.log(this.state)
-    /*
-    bid(this.props.project._id, store.getState().user.usernama,
+    bid(this.props.project._id, store.getState().user.username,
     this.state.bid, this.state.description)
       .then( (response) => {
         console.log(response)
+        this.toggleModal()
       })
-    */
   }
 
   handleChange = event => {
@@ -108,11 +106,19 @@ export default class Project extends Component {
                       <div className="modelP">{this.props.project.bid_end}</div>
                     </div>
                   </div>
+                  <Label>Enter Details</Label>
+                  <Input
+                    autoFocus
+                    type="textarea"
+                    name="description"
+                    value={this.state.description}
+                    onChange={this.handleChange}
+                    placeholder="Enter description"
+                  />
                   <Label>Enter Bid</Label>
                   <InputGroup>
                     <InputGroupAddon>$</InputGroupAddon>
                     <Input
-                      autoFocus
                       type="number"
                       name="bid"
                       value={this.state.bid}

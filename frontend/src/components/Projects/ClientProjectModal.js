@@ -21,6 +21,8 @@ import {
   ModalFooter,
   ModalHeader
 } from 'reactstrap';
+import {getbid} from '../../utils/Projects'
+
 export default class ProjectModal extends Component {
 
   constructor(props) {
@@ -29,9 +31,10 @@ export default class ProjectModal extends Component {
     this.state = {
       modal: false,
       developer: "",
-      selectedDeveloper: "",
       nestedModal: false,
-      closeAll: false
+      closeAll: false,
+      description: "",
+      bids: []
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -41,7 +44,6 @@ export default class ProjectModal extends Component {
 
   handleChange = e => {
     this.setState({ [e.target.name]: e.target.value}); //this requires each to have a name when used
-    console.log(this.state)
   }
 
   toggleModal() {
@@ -51,21 +53,41 @@ export default class ProjectModal extends Component {
   }
 
   toggleNested() { //selected for more information
-    alert("selected user for more information")
+    console.log(this.state.bids[0].description)
+  //  alert("selected user for more information")
   this.setState({
-    nestedModal: !this.state.nestedModal
+    nestedModal: !this.state.nestedModal,
+    description: this.state.bids[this.state.developer].description
   });
 }
 
 toggleAll() {
-  alert("selected toggle all") //This is for when finalized selecting user
+  //alert("selected toggle all") //This is for when finalized selecting user
+
+
+
   this.setState({
     nestedModal: !this.state.nestedModal,
-    modal: !this.state.modal
+    modal: !this.state.modal,
   });
+
 }
+  componentDidMount() {
+    for (var i = 0; i < this.props.project.bids.length; i++)
+      getbid(this.props.project.bids[i])
+        .then( (response) => {
+          this.state.bids.push(response.data)
+    })
+  }
+
 
   render() {
+
+    const bidders = this.state.bids
+      .map((bid, index) =>
+        <option value={index}>{bid.author}</option>
+    )
+
     return(
       <tr>
         <td scope="row">{this.props.index + 1}</td>
@@ -106,9 +128,7 @@ toggleAll() {
                   value={this.state.developer}
                   onChange={this.handleChange}>
                   <option value="" disabled>Select the developer</option>
-                  //list of developers starts here
-                  <option value="developer1">Developer name</option>
-
+                  {bidders}
                 </Input>
                 <ButtonGroup>
                   <Button color="danger" onClick={this.toggleNested}>
@@ -116,8 +136,8 @@ toggleAll() {
                   </Button>
 
                   <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                    <ModalHeader>Nested Modal title</ModalHeader>
-                      <ModalBody>Stuff and things</ModalBody>
+                    <ModalHeader>"Developer's message"</ModalHeader>
+                      <ModalBody>{this.state.description}</ModalBody>
                         <ModalFooter>
                           <Button color="danger" onClick={this.toggleAll}>Select</Button>
                             <Button color="primary" onClick={this.toggleNested}>Cancel</Button>

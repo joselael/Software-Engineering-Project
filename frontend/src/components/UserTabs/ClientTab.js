@@ -88,8 +88,6 @@ export class ClientTab extends Component {
       this.setState({
         projects: response.data
       })
-      console.log(response.data)
-      console.log("Updating table...")
     }).catch( (err) => {
       console.log(err)
     })
