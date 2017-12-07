@@ -63,7 +63,7 @@ export default class AdminUsers extends Component {
     } else if(!this.props.user.enabled){
       status = "DISABLED"
     }
-    
+
     const deleteButton =  <Button
           size="sm"
           color="danger"

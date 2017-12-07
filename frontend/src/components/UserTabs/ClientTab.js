@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import StarRatingComponent from 'react-star-rating-component';
 import {
   TabContent,
   TabPane,
@@ -41,7 +42,8 @@ export class ClientTab extends Component {
       max_budget: 0,
       modal: false,
       link: false,
-      dev_username: ""
+      dev_username: "",
+      rating: 1.5
     }
 
     this.toggleTab = this.toggleTab.bind(this);
@@ -52,6 +54,11 @@ export class ClientTab extends Component {
     this.checkFinished = this.checkFinished.bind(this)
     this.checkDone = this.checkDone.bind(this)
     this.clearStates = this.clearStates.bind(this)
+    this.onStarClick = this.onStarClick.bind(this)
+  }
+
+  onStarClick(nextValue, prevValue, name) {
+    this.setState({rating: nextValue});
   }
 
   clearStates() {
@@ -351,6 +358,28 @@ export class ClientTab extends Component {
             <SettingsTab tabId={"3"}/>
           </TabContent>
         </div>
+
+        <div>
+          <h2>Rating from state: {this.state.rating}</h2>
+            <StarRatingComponent
+                name="rate1"
+                starCount={5}
+                value={this.rating}
+                onStarClick={this.onStarClick.bind(this)}
+
+            />
+        </div>
+
+        <div>
+    <h2>Rating from state: {this.state.rating}</h2>
+    <StarRatingComponent
+        name="rate2"
+        editing={false}
+        starCount="5"
+        value={this.state.rating}
+    />
+</div>
+
       </div>
     );
   }

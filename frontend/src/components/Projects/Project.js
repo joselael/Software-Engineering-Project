@@ -81,7 +81,7 @@ export default class Project extends Component {
                 </CardText>
                   :
                 <CardText className="truncate" style={truncateStyle}>
-                 {this.props.project.summary} 
+                 {this.props.project.summary}
                 </CardText>
                 }
               </CardBody>

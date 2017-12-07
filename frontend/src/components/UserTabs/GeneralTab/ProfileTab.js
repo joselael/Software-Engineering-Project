@@ -30,17 +30,21 @@ export default class ProfileTab extends Component {
       <br/>
         <Row>
           <Col sm="2">
-            <Media>
+            <Media style={{display: 'flex', justifyContent: 'center'}}>
               <Media left href="#">
                 <Media object src={defaultProfile} style={imageStyle}/>
               </Media>
             </Media>
             <Media body>
-              <Media heading>
+            <br/>
+              <Media heading style={{display: 'flex', justifyContent: 'center'}}>
                 {store.getState().user.first_name} {store.getState().user.last_name}
               </Media>
+              <div style={{display: 'flex', justifyContent: 'center'}}>
               {store.getState().user.user_type}
+              </div>
             </Media>
+
           </Col>
           <Col sm="12" md={{size: 8}}>
             <Card>
