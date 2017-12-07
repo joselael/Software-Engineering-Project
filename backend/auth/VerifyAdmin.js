@@ -16,8 +16,8 @@ function verifyAdmin(req, res, next) {
 
     User.findById(req.userID, (err, user) => {
         if (err) return res.status(500).send("There was a problem finding the user.");
-        if (!user) return res.status(404).send("No such user.");
-        if (user.user_type !== "admin")
+        else if (!user) return res.status(404).send("No such user.");
+        else if (user.user_type !== "admin")
             return res.status(401).send("Unauthorized!");
 
         next();
