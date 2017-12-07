@@ -24,7 +24,11 @@ export function register(Username, Password, First_name, Last_name, User_type, E
             alert("Sending request to admin")
         })
         .catch((error) => {
-            alert(error)
+            if(error.request.status === 500) {
+                alert("Username already exists")
+            } else {
+                alert(error)
+            }
         })
 }
 

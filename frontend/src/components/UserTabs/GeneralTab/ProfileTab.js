@@ -29,10 +29,10 @@ export default class ProfileTab extends Component {
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
       <br/>
         <Row>
-          <Col>
+          <Col sm="2">
             <Media>
               <Media left href="#">
-                <Media object alt={defaultProfile} style={imageStyle}/>
+                <Media object src={defaultProfile} style={imageStyle}/>
               </Media>
             </Media>
             <Media body>
