@@ -27,6 +27,7 @@ export default class ProfileTab extends Component {
     }
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
+      <br/>
         <Row>
           <Col>
             <Media>

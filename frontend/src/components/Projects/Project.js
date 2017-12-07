@@ -16,19 +16,21 @@ import {
   Label,
   Input,
   InputGroupAddon,
-  InputGroup
+  InputGroup,
 } from 'reactstrap';
+
 import store from '../../store'
 import '../../css/project.css'
 
 class Project extends Component {
 
   constructor(props) {
-    
+
     super(props)
     this.state = {
       modal: false,
       bid: 0
+
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -61,8 +63,12 @@ class Project extends Component {
                 <CardTitle>
                   {this.props.project.title}
                 </CardTitle>
-                <CardText>
-                  {this.props.project.summary}
+                <CardText className = "module">
+                {store.getState().user.user_type=="client"? //if user is client, display more than one line of summary, since client dont have the expand for more details button
+                  <h9> {this.props.project.summary}</h9>
+                  :
+                  <h9 className="truncate"> {this.props.project.summary}</h9>//otherwise(visitor) display
+                }
                 </CardText>
               </CardBody>
               {store.getState().user.user_type === "developer" ?
@@ -75,19 +81,25 @@ class Project extends Component {
                 </ModalHeader>
                 <ModalBody>
                   <Label>Project Summary</Label>
-                    {this.props.project.summary}
+                    <p className="modelP"> {this.props.project.summary} </p>
                   <Label>Project Details</Label>
-                    {this.props.project.details}
-                  <Label>Bid Start Date</Label>
-                    {this.props.project.bid_start}
-                  <Label>Bid End Date</Label>
-                    {this.props.project.bid_end}
+                    <p className="modelP">{this.props.project.details}</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                    <Label>Bid Starts:</Label>
+                      <p className="modelP">{this.props.project.bid_start}</p>
+                    </div>
+                      <div class="col-md-6">
+                      <Label>Bid End:</Label>
+                      <p className="modelP">{this.props.project.bid_end}</p>
+                    </div>
+                  </div>
                   <Label>Enter Bid</Label>
                   <InputGroup>
                     <InputGroupAddon>$</InputGroupAddon>
                     <Input
                       autoFocus
-                      type="number"                    
+                      type="number"
                       name="bid"
                       value={this.state.bid}
                       onChange={this.handleChange}

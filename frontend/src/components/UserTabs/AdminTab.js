@@ -218,13 +218,13 @@ export class AdminTab extends Component {
 
     const acceptedUsers = this
       .state.users.filter(this.checkAccept)
-      .map((user, index) => 
+      .map((user, index) =>
         <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()} />
       )
 
     const blacklistedUsers = this
       .state.users.filter(this.checkBlacklist)
-      .map((user, index) => 
+      .map((user, index) =>
         <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
 
@@ -235,7 +235,7 @@ export class AdminTab extends Component {
       )
 
     const allProjects = this.state.projects
-      .map((project, index) => 
+      .map((project, index) =>
         <ProjectModal key={project._id} project={project} index={index} updateTable = {() => this.updateTable()}/>
       )
     return (
@@ -289,6 +289,7 @@ export class AdminTab extends Component {
         <div className="activeTab">
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
+            <br/>
               <Row>
                 <h4>Pending User</h4>
                 <Table hover responsive striped>
@@ -361,6 +362,7 @@ export class AdminTab extends Component {
               </Row>
             </TabPane>
             <TabPane tabId="2">
+            <br/>
               <Row>
                 <h4>All Projects</h4>
                 <Table hover responsive striped>

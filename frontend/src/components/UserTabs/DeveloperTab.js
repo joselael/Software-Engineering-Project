@@ -71,6 +71,7 @@ export class DeveloperTab extends Component {
             </Nav>
             <div className="activeTab">
             <TabContent activeTab={this.state.activeTab}>
+            <br/>
                 <TabPane tabId="1">
                 <Row>
                     <h4>Current Projects</h4>

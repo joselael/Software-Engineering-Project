@@ -32,7 +32,7 @@ class LandingHeader extends Component {
   render() {
 
     const isLoggedIn = loggedIn()
-    
+
     return (
       <div>
         {isLoggedIn ? (
