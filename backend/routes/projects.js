@@ -27,7 +27,10 @@ router.post('/bid/:id', VerifyToken, (req, res) => {
     });
 });
 
-router.post('/create', (req, res) => {
+router.post('/create', VerifyToken, (req, res) => {
+    if (!req.body.bid_start)
+        req.body.bid_start = Date.now();
+
     Project.create({
         title: req.body.title,
         author: req.body.author,
@@ -43,7 +46,10 @@ router.post('/create', (req, res) => {
         problematic: false,
         admin_comments: null
     }, function (err, project) {
-        if (err) return res.status(500).send("There was a problem creating the project.")
+        if (err) {
+            console.log(err);
+            return res.status(500).send("There was a problem creating the project.")
+        }
         // create a token
         res.status(200).send({created: true, id: project._id});
     });
