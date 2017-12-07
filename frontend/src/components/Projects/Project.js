@@ -106,7 +106,7 @@ export default class Project extends Component {
                       <div className="modelP">{this.props.project.bid_end}</div>
                     </div>
                   </div>
-                  <Label>Enter Details</Label>
+                  <Label>Enter Message</Label>
                   <Input
                     autoFocus
                     type="textarea"
@@ -126,14 +126,6 @@ export default class Project extends Component {
                       placeholder="Enter Bid"
                     />
                   </InputGroup>
-                  <Label>Enter Details</Label>
-                  <Input
-                    type="text"
-                    name="description"
-                    value={this.state.description}
-                    onChange={this.handleChange}
-                    placeholder="Enter description"
-                  />
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" onClick={this.handleSubmitBid}>

@@ -154,9 +154,9 @@ export default class ProjectModal extends Component {
 
                 <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
                   <ModalHeader>"Developer's message"</ModalHeader>
-                  <ModalBody>
+                  <ModalBody style={{paddingLeft: "30px"}}>
                     <Row>{this.state.description}</Row>
-                    <Row>{this.state.bid_amount}</Row>
+                    <Row>Bid Amount: ${this.state.bid_amount}</Row>
                   </ModalBody>
                   <ModalFooter>
                     <Input placeholder="Reason for selection" 
