@@ -8,36 +8,30 @@ const VerifyAdmin = require('../auth/VerifyAdmin');
 
 //project/bid endpoint, to allow users to post bids given the projectid
 router.post('/bid/:id', VerifyToken, (req, res) => {
-    var project, bid;
-    Project.findById(req.params.id, (err, proj) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send("There was a problem getting the project");
 
-        }
-
-        else
-            project = proj;
-
-    }); // end Project.findByID()
     Bid.create({
         author: req.body.author,
         amount: parseInt(req.body.amount),
         description: req.body.description
-    }, (err, _bid) => {
+    }, (err, bid) => {
         if (err) {
             console.log(err);
             return res.status(500).send("There was a problem creating the bid");
         } else
-            bid = _bid;
+            Project.findById(req.params.id, (err, proj) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send("There was a problem getting the project");
+
+                } else {
+                    console.log("pushing bid id " + bid.id + " into project id " + proj.id);
+                    proj.bids.push(bid.id);
+                    proj.save();
+                }
+
+            });
     });// end Bid.create()
 
-    console.log("bid object: " + bid);
-    console.log("bid author is " + bid.author);
-    console.log("bid amount is " + bid.amount);
-    console.log("bid description is: " + bid.description);
-
-    project.bid.push(bid);
 
     return res.status(201).send("bid created!");
 }); // end router.post()
