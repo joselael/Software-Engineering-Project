@@ -18,19 +18,19 @@ import {
   InputGroupAddon,
   InputGroup,
 } from 'reactstrap';
-
 import store from '../../store'
 import '../../css/project.css'
+import {bid} from '../../utils/Projects'
 
-class Project extends Component {
+export default class Project extends Component {
 
   constructor(props) {
 
     super(props)
     this.state = {
       modal: false,
-      bid: 0
-
+      bid: 0,
+      description: ""
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -38,7 +38,14 @@ class Project extends Component {
   }
 
   handleSubmitBid = event => {
-    console.log(this.state.bid)
+    console.log(this.state)
+    /*
+    bid(this.props.project._id, store.getState().user.usernama,
+    this.state.bid, this.state.description)
+      .then( (response) => {
+        console.log(response)
+      })
+    */
   }
 
   handleChange = event => {
@@ -63,13 +70,15 @@ class Project extends Component {
                 <CardTitle>
                   {this.props.project.title}
                 </CardTitle>
+                {store.getState().user.user_type === "client"? //if user is client, display more than one line of summary, since client dont have the expand for more details button
                 <CardText className = "module">
-                {store.getState().user.user_type=="client"? //if user is client, display more than one line of summary, since client dont have the expand for more details button
-                  <h9> {this.props.project.summary}</h9>
-                  :
-                  <h9 className="truncate"> {this.props.project.summary}</h9>//otherwise(visitor) display
-                }
+                  {this.props.project.summary}
                 </CardText>
+                  :
+                <CardText>
+                 {this.props.project.summary} 
+                </CardText>
+                }
               </CardBody>
               {store.getState().user.user_type === "developer" ?
               <Button onClick={this.toggleModal}>
@@ -84,14 +93,14 @@ class Project extends Component {
                     <p className="modelP"> {this.props.project.summary} </p>
                   <Label>Project Details</Label>
                     <p className="modelP">{this.props.project.details}</p>
-                  <div class="row">
-                    <div class="col-md-6">
+                  <div className="row">
+                    <div className="col-md-6">
                     <Label>Bid Starts:</Label>
-                      <p className="modelP">{this.props.project.bid_start}</p>
+                      <div className="modelP">{this.props.project.bid_start}</div>
                     </div>
-                      <div class="col-md-6">
+                      <div className="col-md-6">
                       <Label>Bid End:</Label>
-                      <p className="modelP">{this.props.project.bid_end}</p>
+                      <div className="modelP">{this.props.project.bid_end}</div>
                     </div>
                   </div>
                   <Label>Enter Bid</Label>
@@ -106,6 +115,14 @@ class Project extends Component {
                       placeholder="Enter Bid"
                     />
                   </InputGroup>
+                  <Label>Enter Details</Label>
+                  <Input
+                    type="text"
+                    name="description"
+                    value={this.state.description}
+                    onChange={this.handleChange}
+                    placeholder="Enter description"
+                  />
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" onClick={this.handleSubmitBid}>
@@ -123,5 +140,3 @@ class Project extends Component {
     );
   }
 };
-
-export default Project;

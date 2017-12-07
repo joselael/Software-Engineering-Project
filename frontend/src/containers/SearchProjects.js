@@ -3,6 +3,7 @@ import {FormGroup, Input} from 'reactstrap'
 import {projects} from '../utils/Projects'
 import Project from '../components/Projects/Project'
 import '../css/search.css'
+import store from '../store'
 
 export default class SearchProjects extends Component {
 
