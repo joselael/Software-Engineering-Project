@@ -85,3 +85,17 @@ export function getbid(id) {
     }
   })
 }
+
+export function submitAssignee(id, assignee, reason_for_selection) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      assignee: assignee,
+      reason_for_selection, reason_for_selection
+    }
+  })
+}

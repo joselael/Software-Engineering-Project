@@ -21,7 +21,7 @@ import {
   ModalFooter,
   ModalHeader
 } from 'reactstrap';
-import {getbid} from '../../utils/Projects'
+import {getbid, submitAssignee} from '../../utils/Projects'
 
 export default class ProjectModal extends Component {
 
@@ -31,11 +31,13 @@ export default class ProjectModal extends Component {
     this.state = {
       modal: false,
       developer: "",
+      developer_id: "",
       nestedModal: false,
       closeAll: false,
       reasonForSelection: "",
       description: 0,
       bid_amount: 0,
+      lowest_bid: Number.MAX_VALUE,
       bids: []
     }
     this.toggleModal = this.toggleModal.bind(this)
@@ -55,21 +57,34 @@ export default class ProjectModal extends Component {
   }
 
   toggleNested() { //selected for more information
-    console.log(this.state.bids[0].description)
     //  alert("selected user for more information")
     this.setState({
       nestedModal: !this.state.nestedModal,
       description: this.state.bids[this.state.developer].description,
-      bid_amount: this.state.bids[this.state.developer].amount
+      bid_amount: this.state.bids[this.state.developer].amount,
+      developer_id: this.state.bids[this.state.developer]._id
     });
   }
 
   toggleAll() {
     //alert("selected toggle all") //This is for when finalized selecting user
-    this.setState({
-      nestedModal: !this.state.nestedModal,
-      modal: !this.state.modal,
-    });
+    if ((this.state.bid_amount != this.state.lowest_bid) && (this.state.reasonForSelection.length <= 0)) {
+      alert("You need a reason why you didn't pick the lowest bidder!!!")
+    } else {
+
+      console.log(this.state.developer_id)
+
+      submitAssignee(this.props.project._id, this.state.developer_id, this.state.reasonForSelection)
+        .then( (response) => {
+          console.log(response)
+        }).catch( (err) => {
+          console.log(err)
+        })
+      this.setState({
+        nestedModal: !this.state.nestedModal,
+        modal: !this.state.modal,
+      });
+    }
   }
 
   componentDidMount() {
@@ -77,9 +92,12 @@ export default class ProjectModal extends Component {
       getbid(this.props.project.bids[i])
         .then( (response) => {
           this.state.bids.push(response.data)
+          if(response.data.amount < this.state.lowest_bid)
+            this.setState({
+              lowest_bid: response.data.amount
+            })
     })
   }
-
 
   render() {
 
@@ -87,8 +105,6 @@ export default class ProjectModal extends Component {
       .map((bid, index) =>
         <option key={bid._id} value={index}>{bid.author}</option>
     )
-
-
     return(
       <tr>
         <td scope="row">{this.props.index + 1}</td>
@@ -143,7 +159,11 @@ export default class ProjectModal extends Component {
                     <Row>{this.state.bid_amount}</Row>
                   </ModalBody>
                   <ModalFooter>
-                    <Input placeholder="Reason for selection"/>
+                    <Input placeholder="Reason for selection" 
+                      value={this.state.reasonForSelection}
+                      onChange={this.handleChange}
+                      name="reasonForSelection"
+                    />
                     <Button color="danger" onClick={this.toggleAll}>Select</Button>
                     <Button color="primary" onClick={this.toggleNested}>Cancel</Button>
                   </ModalFooter>
