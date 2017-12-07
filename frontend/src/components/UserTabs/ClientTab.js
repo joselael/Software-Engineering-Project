@@ -164,7 +164,20 @@ export class ClientTab extends Component {
                 {project.title}
               </ModalHeader>
               <ModalBody>
-                {project.summary}
+                <Label>Project Summary</Label>
+                  <p className="modelP"> {project.summary} </p>
+                <Label>Project Details</Label>
+                  <p className="modelP">{project.details}</p>
+                <div className="row">
+                  <div className="col-md-6">
+                  <Label>Bid Starts:</Label>
+                    <p className="modelP">{project.bid_start}</p>
+                  </div>
+                    <div className="col-md-6">
+                    <Label>Bid End:</Label>
+                    <p className="modelP">{project.bid_end}</p>
+                  </div>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <FormGroup>

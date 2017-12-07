@@ -11,11 +11,8 @@ var styles = {
 };
 
 const pStyle = {
-  display: 'flex',
-  margin: 'auto',
-  justifyContent: 'center'
+  margin: "0 auto"
 }
-
 
 class LandingCarousel extends Component {
   render() {
@@ -23,7 +20,6 @@ class LandingCarousel extends Component {
     const items = [
       {
         src: Image1,
-        styles: pStyle,
         altText: '',
         caption: ''
       },
@@ -41,13 +37,11 @@ class LandingCarousel extends Component {
     return(
       <div>
       <br/>
-      <div style={{display: 'flex', justifyContent: 'center'}} className="row">
-      <div className="col-md-7 col-md-offset-3">
+      <div className="col-md-7" style={pStyle}>
         <div className="LandingCarousel" style={styles}>
           <UncontrolledCarousel items={items} />
         </div>
         </div>
-      </div>
       </div>
     )
   }
