@@ -49,10 +49,6 @@ router.post('/create', (req, res) => {
     });
 });
 
-// router.post('/bid/:id', VerifyToken, (req, res) => {
-//
-// });
-
 
 // get all projects from the database
 router.get('/projects', function (req, res) {

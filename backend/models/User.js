@@ -14,7 +14,8 @@ UserSchema = new mongoose.Schema({
     admin_message: String,
     linkedIn: String,
     github: String,
-    first_login: Boolean
+    first_login: Boolean,
+    delete_requested: {type: Boolean, default: false}
 });
 
 const User = mongoose.model('User', UserSchema);
