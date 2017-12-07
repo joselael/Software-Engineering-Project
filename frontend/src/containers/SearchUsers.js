@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {FormGroup, Input} from 'reactstrap'
+import {FormGroup, Input, Label} from 'reactstrap'
 import {projects} from '../utils/Projects'
-import Project from '../components/Projects/Project'
-import '../css/search.css'
+import User from '../components/Users/User'
+import '../css/searchusers.css'
 import store from '../store'
 
 export default class SearchUsers extends Component {
@@ -11,11 +11,9 @@ export default class SearchUsers extends Component {
     super(props);
     this.state = {
       search: "",
-      projects: []
+      users: []
     }
-    this.searchUpdate = this
-      .searchUpdate
-      .bind(this)
+    this.searchUpdate = this.searchUpdate.bind(this)
   }
 
   searchUpdate(event) {
@@ -23,18 +21,18 @@ export default class SearchUsers extends Component {
   }
 
   componentDidMount() {
+    /*
     projects().then((response) => {
       this.setState({projects: response.data})
     }).catch((err) => {
       console.log(err)
     })
+    */
   }
 
   render() {
 
-    let filteredProjects = this
-      .state
-      .projects
+    let filteredUsers = this.state.users
       .filter((project) => {
         return project
           .title
@@ -44,6 +42,7 @@ export default class SearchUsers extends Component {
 
     return (
       <div className="SearchUsers">
+        <Label>Search Users</Label>
         <FormGroup>
           <Input
             placeholder="SEARCH ME!!!"
@@ -51,8 +50,8 @@ export default class SearchUsers extends Component {
             type="text"
             id="searchProject"/>
         </FormGroup>
-        {filteredProjects.map((project) => {
-          return <Project project={project} key={project._id}/>
+        {filteredUsers.map((user) => {
+          return <User user={user} key={user._id}/>
         })}
       </div>
     )

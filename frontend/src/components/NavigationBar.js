@@ -61,10 +61,10 @@ class NavigationBar extends Component {
                     Search
                   </DropdownToggle>
                   <DropdownMenu>
-                    <NavLink to='/search' tag={RRNavLink} onClick={this.toggleDropDown}>
+                    <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDown}>
                       Projects
                     </NavLink>
-                    <NavLink to='/search' tag={RRNavLink} onClick={this.toggleDropDown}>
+                    <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDown}>
                       Users
                     </NavLink>
                   </DropdownMenu>
@@ -93,10 +93,10 @@ class NavigationBar extends Component {
                     Search
                   </DropdownToggle>
                   <DropdownMenu>
-                    <NavLink to='/search' tag={RRNavLink} onClick={this.toggleDropDown}>
+                    <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDown}>
                       Projects
                     </NavLink>
-                    <NavLink to='/search' tag={RRNavLink} onClick={this.toggleDropDown}>
+                    <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDown}>
                       Users
                     </NavLink>
                   </DropdownMenu>

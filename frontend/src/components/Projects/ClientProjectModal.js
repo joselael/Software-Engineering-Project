@@ -6,6 +6,7 @@ import {
   NavItem,
   NavLink,
   Button,
+  ButtonGroup,
   Table,
   Row,
   Col,
@@ -60,7 +61,7 @@ export default class ProjectModal extends Component {
                 <p className="modelP"> {this.props.project.summary} </p>
               <Label>Project Details</Label>
                 <p className="modelP">{this.props.project.details}</p>
-              <div class="row">
+              <div className="row">
                 <div className="col-md-6">
                 <Label>Bid Starts:</Label>
                   <p className="modelP">{this.props.project.bid_start}</p>
@@ -73,22 +74,24 @@ export default class ProjectModal extends Component {
             </ModalBody>
             <ModalFooter>
               <FormGroup>
-              <select value={this.state.dev_username} 
-                onChange={this.handleChange} 
-                type="text" 
-                name="dev_username" 
-                className="form-control">
-                <option value="" disabled> Choose your user type </option>
-                <option value="developer"> Developer </option>
-                <option value="client"> Client </option>
-              </select>
+                <select value={this.state.dev_username} 
+                  onChange={this.handleChange} 
+                  type="text" 
+                  name="dev_username" 
+                  className="form-control">
+                  <option value="" disabled> Choose your user type </option>
+                  <option value="developer"> Developer </option>
+                  <option value="client"> Client </option>
+                </select>
               </FormGroup>
-              <Button color="danger" onClick={this.toggleModal}>
-                Choose
-              </Button>
-              <Button color="primary" onClick={this.toggleModal}>
-                Cancel
-              </Button>
+              <ButtonGroup>
+                <Button color="danger" onClick={this.toggleModal}>
+                  Choose
+                </Button>
+                <Button color="primary" onClick={this.toggleModal}>
+                  Cancel
+                </Button>
+              </ButtonGroup>
             </ModalFooter>
           </Modal>
         </td>
