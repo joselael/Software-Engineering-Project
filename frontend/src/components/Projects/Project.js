@@ -61,6 +61,11 @@ export default class Project extends Component {
   }
 
   render() {
+
+    var truncateStyle = {
+      width: "100%"
+    }
+
     return (
       <div className="Project">
         <Row>
@@ -75,7 +80,7 @@ export default class Project extends Component {
                   {this.props.project.summary}
                 </CardText>
                   :
-                <CardText>
+                <CardText className="truncate" style={truncateStyle}>
                  {this.props.project.summary} 
                 </CardText>
                 }
