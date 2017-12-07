@@ -35,8 +35,17 @@ export default class SettingsTab extends Component {
   }
 
   submitDelete() {
-    console.log("Sending delete request to user...")
-    this.toggleDelete()
+
+    var data = {
+      delete_requested: true
+    }
+
+    updateSettings(store.getState().token, data)
+      .then( (response) => {
+        alert("Sending delete request to admin...")
+      }).catch( (err) => {
+        console.log(err)
+      })
   }
 
   clearState() {

@@ -31,7 +31,7 @@ export default class ProfileTab extends Component {
           <Col>
             <Media>
               <Media left href="#">
-                <Media object src={defaultProfile} style={imageStyle}/>
+                <Media object alt={defaultProfile} style={imageStyle}/>
               </Media>
             </Media>
             <Media body>
