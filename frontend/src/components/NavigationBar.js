@@ -3,7 +3,8 @@ import { NavLink as RRNavLink } from 'react-router-dom'
 import {
   Button,Nav, Navbar,
   NavbarBrand, NavItem, Collapse,
-  NavbarToggler, NavLink
+  NavbarToggler, NavLink, NavDropdown,
+  Dropdown, DropdownItem, DropdownToggle, DropdownMenu
 } from "reactstrap";
 import { loggedIn, logout } from '../utils/Auth'
 
@@ -13,15 +14,22 @@ class NavigationBar extends Component {
     super(props);
 
     this.state = {
-      isOpen: false
+      isOpen: false,
+      dropdownOpen: false
     }
     this.toggle = this.toggle.bind(this)
     this.signout = this.signout.bind(this)
   }
 
-  toggle() {
+  toggle = event => {
     this.setState({
       isOpen: !this.state.isOpen
+    })
+  }
+
+  toggleDropDown = event => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
     })
   }
 
@@ -48,9 +56,19 @@ class NavigationBar extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to='/search' tag={RRNavLink}>
-                  Search
-                </NavLink>
+                <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
+                  <DropdownToggle nav caret>
+                    Search
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDown}>
+                      Projects
+                    </NavLink>
+                    <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDown}>
+                      Users
+                    </NavLink>
+                  </DropdownMenu>
+                </Dropdown>
               </NavItem>
               <NavItem>
                 <Button
@@ -70,9 +88,19 @@ class NavigationBar extends Component {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink to='/search' tag={RRNavLink}>
-                  Search
-                </NavLink>
+                <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
+                  <DropdownToggle nav caret>
+                    Search
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDown}>
+                      Projects
+                    </NavLink>
+                    <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDown}>
+                      Users
+                    </NavLink>
+                  </DropdownMenu>
+                </Dropdown>
               </NavItem>
               <NavItem>
                 <NavLink to='/signin' tag={RRNavLink}>

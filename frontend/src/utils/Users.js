@@ -24,7 +24,11 @@ export function register(Username, Password, First_name, Last_name, User_type, E
             alert("Sending request to admin")
         })
         .catch((error) => {
-            alert(error)
+            if(error.request.status === 500) {
+                alert("Username already exists")
+            } else {
+                alert(error)
+            }
         })
 }
 
@@ -104,7 +108,10 @@ export function firstLoggedIn(token, userID) {
 }
 
 //Check first login
-export function updateMe(token, github, linkedIn) {
+export function updateMe(token, github, linkedIn, resume) {
+
+    var formData = new FormData();
+
     return axios({
         method: 'put',
         url: URL + USER + ME,

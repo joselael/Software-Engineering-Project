@@ -83,15 +83,26 @@ export default class ProjectModal extends Component {
             <ModalHeader toggle={this.toggleModal}>{this.props.project.title}
             </ModalHeader>
             <ModalBody>
-              <Label>Project Summary</Label><br/>
-                {this.props.project.summary}<br/>
-              <Label>Project Details</Label><br/>
-                {this.props.project.details}
-              <Label>Bid Start Date</Label><br/>
-                {this.props.project.bid_start}<br/>
-              <Label>Bid End Date</Label><br/>
-                {this.props.project.bid_end}<br/>
+              <Label>Project Summary</Label>
+                <p className="modelP"> {this.props.project.summary} </p>
+              <Label>Project Details</Label>
+                <p className="modelP">{this.props.project.details}</p>
+              <div className="row">
+                <div className="col-md-6">
+                <Label>Bid Starts:</Label>
+                  <div className="modelP">{this.props.project.bid_start}</div>
+                </div>
+                  <div className="col-md-6">
+                  <Label>Bid End:</Label>
+                  <div className="modelP">{this.props.project.bid_end}</div>
+                </div>
+              </div>
             </ModalBody>
+            <ModalFooter>
+              <Button color="secondary" onClick={this.toggleModal}>
+                Cancel
+              </Button>
+            </ModalFooter>
           </Modal>
         </td>
         <td>

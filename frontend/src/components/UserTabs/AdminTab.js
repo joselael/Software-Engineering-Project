@@ -50,9 +50,7 @@ export class AdminTab extends Component {
     this.checkPending = this
       .checkPending
       .bind(this)
-    this.checkAccept = this
-      .checkAccept
-      .bind(this)
+    this.checkAccept = this.checkAccept.bind(this)
     this.checkBlacklist = this
       .checkBlacklist
       .bind(this)
@@ -123,16 +121,20 @@ export class AdminTab extends Component {
     })
   }
 
+  checkPendingDeletion(user) {
+    return user.delete_requested
+  }
+
   checkAccept(user) {
-    return user.enabled && !user.blacklisted
+    return user.enabled && !user.blacklisted && !user.delete_requested
   }
 
   checkPending(user) {
-    return !user.enabled && !user.blacklisted
+    return !user.enabled && !user.blacklisted && !user.delete_requested
   }
 
   checkBlacklist(user) {
-    return user.blacklisted
+    return user.blacklisted && !user.delete_requested
   }
 
   notAdmin(user) {
@@ -216,20 +218,26 @@ export class AdminTab extends Component {
 
     const acceptedUsers = this
       .state.users.filter(this.checkAccept)
-      .map((user, index) => 
+      .map((user, index) =>
         <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()} />
       )
 
     const blacklistedUsers = this
       .state.users.filter(this.checkBlacklist)
+      .map((user, index) =>
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+      )
+
+    const pendingDeletionUsers = this
+      .state.users.filter(this.checkPendingDeletion)
       .map((user, index) => 
         <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
 
     const allProjects = this.state.projects
-      .map((project, index) => 
+      .map((project, index) =>
         <ProjectModal key={project._id} project={project} index={index} updateTable = {() => this.updateTable()}/>
-    )
+      )
     return (
       <div>
         <Nav tabs>
@@ -281,6 +289,7 @@ export class AdminTab extends Component {
         <div className="activeTab">
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
+            <br/>
               <Row>
                 <h4>Pending User</h4>
                 <Table hover responsive striped>
@@ -333,9 +342,27 @@ export class AdminTab extends Component {
                     {blacklistedUsers}
                   </tbody>
                 </Table>
+                <h4>Pending Deletion</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User Type</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                      <th>Action</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendingDeletionUsers}
+                  </tbody>
+                </Table>
               </Row>
             </TabPane>
             <TabPane tabId="2">
+            <br/>
               <Row>
                 <h4>All Projects</h4>
                 <Table hover responsive striped>

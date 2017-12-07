@@ -90,7 +90,7 @@ export class ClientTab extends Component {
 
   handleSubmitProject = event => {
 
-    if (this.state.title === "search" || this.state.title === "projects" 
+    if (this.state.title === "search" || this.state.title === "projects"
     || this.state.title === "create" || this.state.title === "bid") {
       alert("Invalid project name")
       this.setState({
@@ -98,11 +98,11 @@ export class ClientTab extends Component {
       })
     } else {
       createprojects(
-        this.state.title, 
+        this.state.title,
         store.getState().user.username,
-        this.state.summary, 
+        this.state.summary,
         this.state.details,
-        this.state.date, 
+        this.state.date,
         this.state.max_budget
       ).then( (response) => {
         console.log(response)
@@ -139,13 +139,13 @@ export class ClientTab extends Component {
   render() {
     const biddingProjects = this.state.projects.
       filter(this.checkFinished)
-      .map((project, index) => 
+      .map((project, index) =>
         <ProjectModal key={project._id} project={project} index={index}/>
     )
 
     const pastProjects = this.state.projects.
       filter(this.checkDone)
-      .map((project, index) => 
+      .map((project, index) =>
         <tr key={project._id}>
           <td scope="row">{index + 1}</td>
           <td>{project.title}</td>
@@ -164,14 +164,27 @@ export class ClientTab extends Component {
                 {project.title}
               </ModalHeader>
               <ModalBody>
-                {project.summary}
+                <Label>Project Summary</Label>
+                  <p className="modelP"> {project.summary} </p>
+                <Label>Project Details</Label>
+                  <p className="modelP">{project.details}</p>
+                <div className="row">
+                  <div className="col-md-6">
+                  <Label>Bid Starts:</Label>
+                    <p className="modelP">{project.bid_start}</p>
+                  </div>
+                    <div className="col-md-6">
+                    <Label>Bid End:</Label>
+                    <p className="modelP">{project.bid_end}</p>
+                  </div>
+                </div>
               </ModalBody>
               <ModalFooter>
                 <FormGroup>
-                <select value={this.state.dev_username} 
-                  onChange={this.handleChange} 
-                  type="text" 
-                  name="dev_username" 
+                <select value={this.state.dev_username}
+                  onChange={this.handleChange}
+                  type="text"
+                  name="dev_username"
                   className="form-control">
                   <option value="" disabled> Choose your user type </option>
                   <option value="developer"> Developer </option>
@@ -329,7 +342,7 @@ export class ClientTab extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                
+
                   </tbody>
                 </Table>
               </Row>

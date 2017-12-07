@@ -97,7 +97,7 @@ export default class AdminUsers extends Component {
           {this.props.user.username}
         </td>
         <td>
-          {this.props.user.blacklisted ? deleteButton : blacklistButton}
+          {this.props.user.blacklisted || this.props.user.delete_requested ? deleteButton : blacklistButton}
         </td>
         <td>
           {status}

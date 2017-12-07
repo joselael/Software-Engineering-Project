@@ -27,8 +27,9 @@ export default class ProfileTab extends Component {
     }
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
+      <br/>
         <Row>
-          <Col>
+          <Col sm="2">
             <Media>
               <Media left href="#">
                 <Media object src={defaultProfile} style={imageStyle}/>
@@ -41,9 +42,7 @@ export default class ProfileTab extends Component {
               {store.getState().user.user_type}
             </Media>
           </Col>
-        </Row>
-        <Row>
-          <Col sm="12" md={{size: 8,offset: 2}}>
+          <Col sm="12" md={{size: 8}}>
             <Card>
               <CardHeader>Username</CardHeader>
               <CardBody>

@@ -40,7 +40,8 @@ export function createprojects(title, username, summary, details, bid_end, max_b
     method: 'post',
     url: URL + PROJECT + CREATE,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "x-access-token": store.getState().token
     },
     data: {
       title: title,
@@ -50,5 +51,27 @@ export function createprojects(title, username, summary, details, bid_end, max_b
       bid_end: bid_end,
       max_budget: max_budget
     }
+  })
+}
+
+export function bid(id, username, amount, description) {
+  return axios({
+    method: 'post',
+    headers :{
+      'x-access-token': store.getState().token
+    },
+    params: {
+      id: id
+    },
+    data: {
+      username: username,
+      amount: amount,
+      description: description
+    }
+  }).then( (response) => {
+    console.log(response)
+    alert("Submitting bid...")
+  }).catch( (err) => {
+    console.log(err.request.status)
   })
 }

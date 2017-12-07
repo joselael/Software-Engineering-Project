@@ -19,7 +19,8 @@ export default class FirstLoginModal extends Component {
     super(props)
     this.state = {
       github: "",
-      linkedIn: ""
+      linkedIn: "",
+      resume: ""
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -34,6 +35,9 @@ export default class FirstLoginModal extends Component {
   //First change the first_login to false then update the values of user of github and linked in
   //Then update the user in the redux to re render the page 
   toggleModal() {
+
+    console.log(this.state)  
+
     firstLoggedIn(store.getState().token)
       .then( (response) => {
         updateMe(store.getState().token, this.state.github, this.state.linkedIn)
@@ -78,6 +82,8 @@ export default class FirstLoginModal extends Component {
                 onChange={this.handleChange.bind(this)}
                 value={this.state.linkedIn}
               />
+              <Label for="resume">Resume</Label>
+              <Input type="file" name="resume" id="resume" value={this.state.resume} />
             </FormGroup>
           </form>
         </ModalBody>
