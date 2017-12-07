@@ -33,8 +33,9 @@ export default class ProjectModal extends Component {
       developer: "",
       nestedModal: false,
       closeAll: false,
-      description: "",
       reasonForSelection: "",
+      description: 0,
+      bid_amount: 0,
       bids: []
     }
     this.toggleModal = this.toggleModal.bind(this)
@@ -55,21 +56,22 @@ export default class ProjectModal extends Component {
 
   toggleNested() { //selected for more information
     console.log(this.state.bids[0].description)
-  //  alert("selected user for more information")
-  this.setState({
-    nestedModal: !this.state.nestedModal,
-    description: this.state.bids[this.state.developer].description
-  });
-}
+    //  alert("selected user for more information")
+    this.setState({
+      nestedModal: !this.state.nestedModal,
+      description: this.state.bids[this.state.developer].description,
+      bid_amount: this.state.bids[this.state.developer].amount
+    });
+  }
 
-toggleAll() {
-  //alert("selected toggle all") //This is for when finalized selecting user
-  this.setState({
-    nestedModal: !this.state.nestedModal,
-    modal: !this.state.modal,
+  toggleAll() {
+    //alert("selected toggle all") //This is for when finalized selecting user
+    this.setState({
+      nestedModal: !this.state.nestedModal,
+      modal: !this.state.modal,
+    });
+  }
 
-  });
-}
   componentDidMount() {
     for (var i = 0; i < this.props.project.bids.length; i++)
       getbid(this.props.project.bids[i])
@@ -83,8 +85,9 @@ toggleAll() {
 
     const bidders = this.state.bids
       .map((bid, index) =>
-        <option value={index}>{bid.author}</option>
+        <option key={bid._id} value={index}>{bid.author}</option>
     )
+
 
     return(
       <tr>
@@ -120,33 +123,36 @@ toggleAll() {
               </div>
             </ModalBody>
             <ModalFooter>
-                <Input
-                  type="select"
-                  name="developer"
-                  value={this.state.developer}
-                  onChange={this.handleChange}>
-                  <option value="" disabled>Select the developer</option>
-                  {bidders}
-                </Input>
-                <ButtonGroup>
-                  <Button color="danger" onClick={this.toggleNested}>
-                    More information
-                  </Button>
+              <Input
+                type="select"
+                name="developer"
+                value={this.state.developer}
+                onChange={this.handleChange}>
+                <option value="" disabled>Select the developer</option>
+                {bidders}
+              </Input>
+              <ButtonGroup>
+                <Button color="danger" onClick={this.toggleNested}>
+                  More information
+                </Button>
 
-                  <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                    <ModalHeader>"Developer's message"</ModalHeader>
-                      <ModalBody>{this.state.description}</ModalBody>
-                        <ModalFooter>
-                        <Input placeholder="Reason for selection"/>
-                          <Button color="danger" onClick={this.toggleAll}>Select</Button>
-                            <Button color="primary" onClick={this.toggleNested}>Cancel</Button>
-                        </ModalFooter>
-                  </Modal>
+                <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
+                  <ModalHeader>"Developer's message"</ModalHeader>
+                  <ModalBody>
+                    <Row>{this.state.description}</Row>
+                    <Row>{this.state.bid_amount}</Row>
+                  </ModalBody>
+                  <ModalFooter>
+                    <Input placeholder="Reason for selection"/>
+                    <Button color="danger" onClick={this.toggleAll}>Select</Button>
+                    <Button color="primary" onClick={this.toggleNested}>Cancel</Button>
+                  </ModalFooter>
+                </Modal>
 
-                    <Button color="primary" onClick={this.toggleModal}>
-                      Cancel
-                      </Button>
-                </ButtonGroup>
+                <Button color="primary" onClick={this.toggleModal}>
+                  Cancel
+                </Button>
+              </ButtonGroup>
             </ModalFooter>
           </Modal>
 
