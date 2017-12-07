@@ -34,6 +34,7 @@ export default class ProjectModal extends Component {
       nestedModal: false,
       closeAll: false,
       description: "",
+      reasonForSelection: "",
       bids: []
     }
     this.toggleModal = this.toggleModal.bind(this)
@@ -63,14 +64,11 @@ export default class ProjectModal extends Component {
 
 toggleAll() {
   //alert("selected toggle all") //This is for when finalized selecting user
-
-
-
   this.setState({
     nestedModal: !this.state.nestedModal,
     modal: !this.state.modal,
-  });
 
+  });
 }
   componentDidMount() {
     for (var i = 0; i < this.props.project.bids.length; i++)
@@ -139,6 +137,7 @@ toggleAll() {
                     <ModalHeader>"Developer's message"</ModalHeader>
                       <ModalBody>{this.state.description}</ModalBody>
                         <ModalFooter>
+                        <Input placeholder="Reason for selection"/>
                           <Button color="danger" onClick={this.toggleAll}>Select</Button>
                             <Button color="primary" onClick={this.toggleNested}>Cancel</Button>
                         </ModalFooter>
