@@ -5,25 +5,42 @@ const Bid = require('../models/Bid');
 const VerifyToken = require('../auth/VerifyToken');
 const VerifyAdmin = require('../auth/VerifyAdmin');
 
+
+//project/bid endpoint, to allow users to post bids given the projectid
 router.post('/bid/:id', VerifyToken, (req, res) => {
-    Project.findById(req.params.id, function (err, proj) {
-        if (err) return res.status(500).send("There was a problem finding the projects.");
-        if (!proj) return res.status(404).send("Such project does not exist");
-        var bid_id;
-        Bid.create({
-            username: req.body.username,
-            amount: parseInt(req.body.amount),
-            description: req.body.description
-        }, (err, bid) => {
-            if (err) return res.status(500).send("There was a problem creating the bid.")
-            res.status(200).send({created: true});
-            bid_id = bid.id;
-        });
 
-        proj.bids.push(bid_id);
+    Bid.create({
+        author: req.body.author,
+        amount: parseInt(req.body.amount),
+        description: req.body.description
+    }, (err, bid) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("There was a problem creating the bid");
+        } else
+            Project.findById(req.params.id, (err, proj) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send("There was a problem getting the project");
 
-        res.status(200).send("Bid Made.");
+                } else {
+                    proj.bids.push(bid);
+                    proj.save();
+                }
 
+            });
+    });// end Bid.create()
+
+
+    return res.status(201).send("bid created!");
+}); // end router.post()
+
+// to get bids by ID
+router.get('/bid/:id', VerifyToken, (req, res) => {
+    Bid.findById(req.params.id, (err, bid) => {
+        if (err) return res.status(500).send("Problem while getting the bid");
+
+        return res.status(200).send(bid);
     });
 });
 
@@ -51,7 +68,7 @@ router.post('/create', VerifyToken, (req, res) => {
             return res.status(500).send("There was a problem creating the project.")
         }
         // create a token
-        res.status(200).send({created: true, id: project._id});
+        res.status(201).send({created: true, id: project._id});
     });
 });
 
@@ -68,7 +85,7 @@ router.get('/projects', function (req, res) {
 router.delete('/:id', VerifyAdmin, (req, res) => {
     Project.findByIdAndRemove(req.params.id, function (err, project) {
         if (err) return res.status(500).send([false, "There was a problem deleting the project."]);
-        else res.status(200).send([true, "Project was deleted."]);
+        else return res.status(200).send([true, "Project was deleted."]);
     });
 });
 
@@ -76,7 +93,7 @@ router.delete('/:id', VerifyAdmin, (req, res) => {
 router.put('/:id', VerifyAdmin, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         if (err) return res.status(500).send("There was a problem updating the user.");
-        res.status(200).send(project);
+        res.status(201).send(project);
     });
 });
 
