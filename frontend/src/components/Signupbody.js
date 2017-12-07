@@ -24,6 +24,7 @@ class Signupbody extends Component {
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value}); //this requires each to have a name when used
+    console.log(this.state)
   }
 
   onSubmit(e){

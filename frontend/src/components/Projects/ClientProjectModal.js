@@ -27,9 +27,16 @@ export default class ProjectModal extends Component {
 
     super(props)
     this.state = {
-      modal: false
+      modal: false,
+      developer: ""
     }
     this.toggleModal = this.toggleModal.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value}); //this requires each to have a name when used
+    console.log(this.state)
   }
 
   toggleModal() {
@@ -73,25 +80,22 @@ export default class ProjectModal extends Component {
               </div>
             </ModalBody>
             <ModalFooter>
-              <FormGroup>
-                <select value={this.state.dev_username} 
-                  onChange={this.handleChange} 
-                  type="text" 
-                  name="dev_username" 
-                  className="form-control">
-                  <option value="" disabled> Choose your user type </option>
-                  <option value="developer"> Developer </option>
-                  <option value="client"> Client </option>
-                </select>
-              </FormGroup>
-              <ButtonGroup>
-                <Button color="danger" onClick={this.toggleModal}>
-                  Choose
-                </Button>
-                <Button color="primary" onClick={this.toggleModal}>
-                  Cancel
-                </Button>
-              </ButtonGroup>
+                <Input 
+                  type="select" 
+                  name="developer" 
+                  value={this.state.developer} 
+                  onChange={this.handleChange}>
+                  <option value="" disabled>Choose the developer</option> 
+                  <option value="developer1">Developer name</option>
+                </Input>
+                <ButtonGroup>
+                  <Button color="danger" onClick={this.toggleModal}>
+                    Choose
+                  </Button>
+                  <Button color="primary" onClick={this.toggleModal}>
+                    Cancel
+                  </Button>
+                </ButtonGroup>
             </ModalFooter>
           </Modal>
         </td>
