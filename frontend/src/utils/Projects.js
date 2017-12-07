@@ -40,7 +40,8 @@ export function createprojects(title, username, summary, details, bid_end, max_b
     method: 'post',
     url: URL + PROJECT + CREATE,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "x-access-token": store.getState().token
     },
     data: {
       title: title,

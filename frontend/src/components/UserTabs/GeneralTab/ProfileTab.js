@@ -42,9 +42,7 @@ export default class ProfileTab extends Component {
               {store.getState().user.user_type}
             </Media>
           </Col>
-        </Row>
-        <Row>
-          <Col sm="12" md={{size: 8,offset: 2}}>
+          <Col sm="12" md={{size: 8}}>
             <Card>
               <CardHeader>Username</CardHeader>
               <CardBody>
