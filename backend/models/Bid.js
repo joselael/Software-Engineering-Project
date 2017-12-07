@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const BidSchema = new mongoose.Schema({
-    author: String,
-    amount: Number,
-    description: String
+    author: {type: String, required: true},
+    amount: {type: Number, required: true, trim: true},
+    description: {type: String, required: false}
 });
 
 const Bid = mongoose.model('Bid', BidSchema);
