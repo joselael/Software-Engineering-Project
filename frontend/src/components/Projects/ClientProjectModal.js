@@ -28,10 +28,15 @@ export default class ProjectModal extends Component {
     super(props)
     this.state = {
       modal: false,
-      developer: ""
+      developer: "",
+      selectedDeveloper: "",
+      nestedModal: false,
+      closeAll: false
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.toggleNested = this.toggleNested.bind(this)
+    this.toggleAll = this.toggleAll.bind(this)
   }
 
   handleChange = e => {
@@ -44,6 +49,21 @@ export default class ProjectModal extends Component {
       modal: !this.state.modal
     })
   }
+
+  toggleNested() { //selected for more information
+    alert("selected user for more information")
+  this.setState({
+    nestedModal: !this.state.nestedModal
+  });
+}
+
+toggleAll() {
+  alert("selected toggle all") //This is for when finalized selecting user
+  this.setState({
+    nestedModal: !this.state.nestedModal,
+    modal: !this.state.modal
+  });
+}
 
   render() {
     return(
@@ -80,24 +100,37 @@ export default class ProjectModal extends Component {
               </div>
             </ModalBody>
             <ModalFooter>
-                <Input 
-                  type="select" 
-                  name="developer" 
-                  value={this.state.developer} 
+                <Input
+                  type="select"
+                  name="developer"
+                  value={this.state.developer}
                   onChange={this.handleChange}>
-                  <option value="" disabled>Choose the developer</option> 
+                  <option value="" disabled>Select the developer</option>
+                  //list of developers starts here
                   <option value="developer1">Developer name</option>
+
                 </Input>
                 <ButtonGroup>
-                  <Button color="danger" onClick={this.toggleModal}>
-                    Choose
+                  <Button color="danger" onClick={this.toggleNested}>
+                    More information
                   </Button>
-                  <Button color="primary" onClick={this.toggleModal}>
-                    Cancel
-                  </Button>
+
+                  <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
+                    <ModalHeader>Nested Modal title</ModalHeader>
+                      <ModalBody>Stuff and things</ModalBody>
+                        <ModalFooter>
+                          <Button color="danger" onClick={this.toggleAll}>Select</Button>
+                            <Button color="primary" onClick={this.toggleNested}>Cancel</Button>
+                        </ModalFooter>
+                  </Modal>
+
+                    <Button color="primary" onClick={this.toggleModal}>
+                      Cancel
+                      </Button>
                 </ButtonGroup>
             </ModalFooter>
           </Modal>
+
         </td>
       </tr>
     )
