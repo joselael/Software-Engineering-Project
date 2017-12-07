@@ -24,8 +24,7 @@ router.post('/bid/:id', VerifyToken, (req, res) => {
                     return res.status(500).send("There was a problem getting the project");
 
                 } else {
-                    console.log("pushing bid id " + bid.id + " into project id " + proj.id);
-                    proj.bids.push(bid.id);
+                    proj.bids.push(bid);
                     proj.save();
                 }
 
@@ -35,6 +34,15 @@ router.post('/bid/:id', VerifyToken, (req, res) => {
 
     return res.status(201).send("bid created!");
 }); // end router.post()
+
+// to get bids by ID
+router.get('/bid/:id', VerifyToken, (req, res) => {
+    Bid.findById(req.params.id, (err, bid) => {
+        if (err) return res.status(500).send("Problem while getting the bid");
+
+        return res.status(200).send(bid);
+    });
+});
 
 router.post('/create', VerifyToken, (req, res) => {
     if (!req.body.bid_start)
