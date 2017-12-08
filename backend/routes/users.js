@@ -146,9 +146,17 @@ router.get('/total_devs', (req,res)=>{
 router.get('/top_dev', (req,res)=>{
     var query = User.find({user_type : 'developer'}).sort({money_made : -1}).limit(1);
     query.exec(function(err, money_maker){
-        if (err) {return err;}
+        if (err) res.status(500).send("Could not find top dev.");
         res.status(200).send(money_maker.username);
     
+    });
+});
+
+router.get('/top_client', (req,res)=>{
+    var query = User.find({user_type : 'client'}).sort({num_projects: -1}).limit(1);
+    query.exec(function(err, project_boss){
+        if(err) res.status(500).send("Could not find top Client");
+        res.status(200).send(project_boss.username);
     });
 });
 

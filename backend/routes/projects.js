@@ -73,8 +73,16 @@ router.post('/create', VerifyToken, (req, res) => {
             console.log(err);
             return res.status(500).send("There was a problem creating the project.")
         }
-        // create a token
-        res.status(201).send({created: true, id: project._id});
+        //update author project count
+        User.find({username : req.body.author}, (err1, author)=>{
+            var author_id = author[0]._id;
+            var num_projects = author[0].number_projects;
+            User.findByIdAndUpdate(author_id, {$set : {num_projects : num_projects + 1}}, function(err, project){
+                if(err) return res.status(500).send("There was a problem updating the number of projects for the author.");
+            // create a token
+            res.status(201).send({created: true, id: project._id});
+            });
+        });
     });
 });
 
@@ -111,6 +119,7 @@ router.put('/approve/:id', (req, res) => {
         User.findById(project.assignee.user_id, (err1, assig)=>{
             var account_balance_assignee = assig.account_balance;
             var assig_id = assig.id;
+            var money_made = assig.money_made;
             User.find({username: project.author}, function (err2, author) {
                 var account_balance_author = author[0].account_balance;
                 var auth_id = author[0]._id;
@@ -122,11 +131,18 @@ router.put('/approve/:id', (req, res) => {
                         //console.log(user)
                         if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
                         else{
+                        User.findByIdAndUpdate(assig_id, {$set:{money_made : (money_made + initial_transfer)}}, {new:true}, function(err, user){
+                            //console.log(user)
+                            if(err) return res.status(500).send("There was a problem updating money made for assignee.");
+                            else{
+                        
                             //console.log(auth_id)
-                        User.findByIdAndUpdate(auth_id,{$set:{account_balance: (account_balance_author - initial_transfer)}}, function(err,user2){
-                            if(err) return res.status(500).send("There was a problem updating account balance for author.");
+                                 User.findByIdAndUpdate(auth_id,{$set:{account_balance: (account_balance_author - initial_transfer)}}, function(err,user2){
+                                 if(err) return res.status(500).send("There was a problem updating account balance for author.");
+                                });
+                            }
                         });
-                        }
+                    }
                         res.status(200).send(project)
                     });
                 });
@@ -142,6 +158,7 @@ router.put('/rating/:id', (req,res) => {
     if (req.body.rating_author >= 3)
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         User.findById(project.assignee.user_id, (err1, assig)=>{
+            var money_made = assig.money_made;
             var account_balance_assignee = assig.account_balance;
             var assignee = assig._id;
             User.find({username: project.author}, function (err2, author) {
@@ -155,26 +172,32 @@ router.put('/rating/:id', (req,res) => {
                     User.findByIdAndUpdate(project.author_id, {$set:{account_balance:(account_balance_author - total_charge_author)}}, function(err,user){
                         if(err) return res.status(500).send("There was a problem updating account balance for author.");
                         else{
-                            User.findByIdAndUpdate(assignee,{$set:{account_balance: (account_balance_assignee - su_charge)}}, function(err,user2){
-                                if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
+                            User.findByIdAndUpdate(assig_id, {$set:{money_made : (money_made + initial_transfer)}}, {new:true}, function(err, user){
+                                //console.log(user)
+                                if(err) return res.status(500).send("There was a problem updating money made for assignee.");
                                 else{
-                                    User.find({username:'yong'}, (err, su) => {
-                                        var super_user_balance = su[0].account_balance;
-                                        var super_user_id = su[0]._id
-                                        User.findByIdAndUpdate(super_user_id, {$set:{account_balance: (super_user_balance + su_charge * 2)}}, (err, su) => {
-                                            if (err) return res.status(500).send("There was a problem updating account for super user")
-                                            res.status(200).send(su)
-                                        }
-                                    )
-                                    } )
-                                 }
+                                     User.findByIdAndUpdate(assignee,{$set:{account_balance: (account_balance_assignee - su_charge)}}, function(err,user2){
+                                      if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
+                                     else{
+                                           User.find({username:'yong'}, (err, su) => {
+                                            var super_user_balance = su[0].account_balance;
+                                            var super_user_id = su[0]._id;
+                                            User.findByIdAndUpdate(super_user_id, {$set:{account_balance: (super_user_balance + su_charge * 2)}}, (err, su) => {
+                                                if (err) return res.status(500).send("There was a problem updating account for super user")
+                                                res.status(200).send(su)
+                                        });
+                                    });
+                                    }
+                                 
                                  });
                             }
                         });
+                    }
                     });
                 });
             });   
         });
+    });
 });
 
 // find projects by specific user
