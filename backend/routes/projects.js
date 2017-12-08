@@ -61,7 +61,8 @@ router.post('/create', VerifyToken, (req, res) => {
         bids: [],
         assignee: null,
         completed: false,
-        rating: null,
+        rating_author: 0,
+        rating_assignee: 0,
         bidding_in_progress: true,
         require_review: false, require_rating: false,
         reason_for_selection: "",
@@ -135,17 +136,18 @@ router.put('/approve/:id', (req, res) => {
     });
 });
 
-
 //for final money transfer upon project completion
-router.put('/deliver/:id', (req,res) => {
+//rating api endpoint
+router.put('/rating/:id', (req,res) => {
+    if (req.body.rating_author >= 3)
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         User.findById(project.assignee.user_id, (err1, assig)=>{
             var account_balance_assignee = assig.account_balance;
-            var assignee = assig.id;
+            var assignee = assig._id;
             User.find({username: project.author}, function (err2, author) {
-                var account_balance_author = author.account_balance;
-                var author_id = author.id;
-                Bid.find({id: project.assignee.bid_id}, function (err2, final_bid) {
+                var account_balance_author = author[0].account_balance;
+                var author_id = author[0]._id;
+                Bid.findById(project.assignee.bid_id, function (err2, final_bid) {
                     var bid_amount = final_bid.amount;
                     var final_transfer = bid_amount/2;
                     var su_charge = final_transfer * .05;
@@ -156,11 +158,15 @@ router.put('/deliver/:id', (req,res) => {
                             User.findByIdAndUpdate(assignee,{$set:{account_balance: (account_balance_assignee - su_charge)}}, function(err,user2){
                                 if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
                                 else{
-                                    User.Update({name : 'yong'},{$set:{account_balance : (super_user_balance + (su_charge * 2))}},callback);
-                                    function callback (err, numAffected) {
-                                        if (err) return res.status(500).send("There was a problem updating account for super user.");
-                                       res.status(200).send(project);
-                                    }
+                                    User.find({username:'yong'}, (err, su) => {
+                                        var super_user_balance = su[0].account_balance;
+                                        var super_user_id = su[0]._id
+                                        User.findByIdAndUpdate(super_user_id, {$set:{account_balance: (super_user_balance + su_charge * 2)}}, (err, su) => {
+                                            if (err) return res.status(500).send("There was a problem updating account for super user")
+                                            res.status(200).send(su)
+                                        }
+                                    )
+                                    } )
                                  }
                                  });
                             }
@@ -169,7 +175,7 @@ router.put('/deliver/:id', (req,res) => {
                 });
             });   
         });
-    });
+});
 
 // find projects by specific user
 router.get('/search/:user', VerifyToken, (req, res) => {
@@ -187,15 +193,6 @@ router.get('/:title', VerifyToken, (req, res) => {
         if (err) return res.status(500).send("There was a problem finding the project.");
         if (!project) return res.status(404).send("No project found.");
 
-        res.status(200).send(project);
-    });
-});
-
-//Rating endpoint for clients to rate the project
-router.put('/rating/:id', VerifyToken, (req, res) => {
-    Project.findByIdAndUpdate(req.params.id, req.body.rating, {new: true}, function (err, project) {
-        if (err) return res.status(500).send("There was a problem updating the project.");
-        //Rating logic
         res.status(200).send(project);
     });
 });

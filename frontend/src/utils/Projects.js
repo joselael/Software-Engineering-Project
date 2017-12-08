@@ -113,7 +113,7 @@ export function submitRating(id, rating, comments) {
       'x-access-token': store.getState().token
     },
     data: {
-      rating: rating,
+      rating_author: rating,
     }
   })
 }

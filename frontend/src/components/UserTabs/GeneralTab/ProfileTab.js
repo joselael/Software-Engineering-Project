@@ -87,6 +87,8 @@ export default class ProfileTab extends Component {
               </Card>
               <br/>
 
+            </div>
+          }
               <Card body inverse color="success" >
                 <CardTitle>Current Balance</CardTitle>
                   <CardText> $
@@ -94,8 +96,6 @@ export default class ProfileTab extends Component {
                   </CardText>
               </Card>
               <br/>
-            </div>
-          }
           </Col>
         </Row>
       </TabPane>

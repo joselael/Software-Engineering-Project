@@ -62,9 +62,7 @@ export class ClientTab extends Component {
   }
 
   checkInProgress(project) {
-    return !(project.completed && (
-      !project.bidding_in_progress || !project.require_review ||
-    !project.require_rating || !project.problematic))
+    return project
   }
 
   onStarClick(nextValue, prevValue, name) {
@@ -166,8 +164,7 @@ export class ClientTab extends Component {
         if (project.bidding_in_progress)
           modalProject = <ProjectModal key={project._id} project={project} index={index} />
         else
-        modalProject =
-        <RatingModal key={project._id} project={project} index={index} />
+        modalProject = <RatingModal key={project._id} project={project} index={index} />
       }
     )
 

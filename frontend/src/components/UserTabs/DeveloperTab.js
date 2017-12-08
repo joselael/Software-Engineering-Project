@@ -44,7 +44,7 @@ export class DeveloperTab extends Component {
     }
 
     wonProjects(project) {
-      return project.assignee === store.getState().user._id
+      return project.assignee.user_id === store.getState().user._id
     }
 
     componentDidMount() {
@@ -57,6 +57,8 @@ export class DeveloperTab extends Component {
         .map((project, index) => 
         <ProjectModal updateTable={() => this.updateTable()} key={project._id} project={project} index={index}/>
       )
+
+      console.log(this.state.projects)
 
       return ( 
         <div> 
