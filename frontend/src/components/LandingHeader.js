@@ -42,7 +42,7 @@ class LandingHeader extends Component {
                 <div className="loggedin-intro-message">
                   <div className="text-background">
                   <h1>Welcome back!</h1>
-                  <h3>{store.getState().user.first_name} {store.getState().user.last_name}</h3>
+                  <h3>{store.getState().user.first_name} {store.getState().user.last_name.value}</h3>
                   </div>
                 </div>
               </div>

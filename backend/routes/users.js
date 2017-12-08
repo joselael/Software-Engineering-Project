@@ -62,7 +62,7 @@ router.post('/create', (req, res) => {
             value: "",
             visible: true
         },
-        first_login: true,
+        first_login: true
     }, function (err, user) {
         // console.log("done creating user");
         if (err) return res.status(500).send("There was a problem registering the user.");
@@ -86,7 +86,7 @@ router.delete('/:id', VerifyAdmin, (req, res) => {
 // update user profile in database, by user
 router.put('/me', VerifyToken, (req, res) => {
 
-    User.findById(req.userID, function (err, user) {
+    User.findByIdAndUpdate(req.userID, req.body, {new:true}, function (err, user) {
         if (err) return res.status(500).send("There was a problem updating the user.");
         if (req.body.password)
             req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
