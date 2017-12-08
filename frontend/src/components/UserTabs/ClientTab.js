@@ -38,7 +38,8 @@ export class ClientTab extends Component {
       projects: [],
       summary: "",
       details: "",
-      date: "",
+      bid_date: "",
+      project_date: "",
       title: "",
       max_budget: 0,
       modal: false,
@@ -60,7 +61,7 @@ export class ClientTab extends Component {
   }
 
   checkInProgress(project) {
-    return project.completed === false
+    return !project.completed && !project.bidding_in_progress
   }
 
   onStarClick(nextValue, prevValue, name) {
@@ -70,7 +71,8 @@ export class ClientTab extends Component {
   clearStates() {
     this.setState({
       summary: "",
-      date: "",
+      bid_date: "",
+      project_date: "",
       title: "",
       details: "",
       max_budget: 0,
@@ -94,7 +96,6 @@ export class ClientTab extends Component {
       this.setState({
         projects: response.data
       })
-      console.log(this.state.projects)
     }).catch( (err) => {
       console.log(err)
     })
@@ -103,18 +104,19 @@ export class ClientTab extends Component {
   handleSubmitProject = event => {
 
     if (this.state.title === "search" || this.state.title === "projects"
-    || this.state.title === "create" || this.state.title === "bid") {
-      alert("Invalid project name")
-      this.setState({
-        title: ""
-      })
+    || this.state.title === "create" || this.state.title === "bid" ||
+    (this.state.bid_date > this.state.project_date)) 
+    {
+      alert("Invalid")
+      this.clearStates()
     } else {
       createprojects(
         this.state.title,
         store.getState().user.username,
         this.state.summary,
         this.state.details,
-        this.state.date,
+        this.state.bid_date,
+        this.state.project_date,
         this.state.max_budget
       ).then( (response) => {
         console.log(response)
@@ -161,8 +163,6 @@ export class ClientTab extends Component {
         .map((project, index) => 
           <GeneralModal key={project._id} project={project} index={index} />
       )
-
-    console.log(currentProjects)
 
     const pastProjects = this.state.projects.
       filter(this.checkDone)
@@ -242,13 +242,20 @@ export class ClientTab extends Component {
                         bsSize="sm"
                         value={this.state.details}
                         onChange={this.handleChange}/>
-                      <Label>Date of End</Label>
+                      <Label>Date of End of Bid</Label>
                       <Input
                         type="date"
-                        name="date"
+                        name="bid_date"
                         placeholder="date placeholder"
                         onChange={this.handleChange}
-                        value={this.state.date}/>
+                        value={this.state.bid_date}/>
+                      <Label>Date of End of Project</Label>
+                      <Input
+                        type="date"
+                        name="project_date"
+                        placeholder="date placeholder"
+                        onChange={this.handleChange}
+                        value={this.state.project_date}/>
                       <Label>Max Budget</Label>
                       <InputGroup>
                         <InputGroupAddon>$</InputGroupAddon>

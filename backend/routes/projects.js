@@ -11,6 +11,7 @@ router.post('/bid/:id', VerifyToken, (req, res) => {
 
     Bid.create({
         author: req.body.author,
+        author_id: req.body.author_id,
         amount: parseInt(req.body.amount),
         description: req.body.description
     }, (err, bid) => {

@@ -8,6 +8,7 @@ import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
+import ProjectModal from '../Projects/DeveloperProjectModal'
 
 export class DeveloperTab extends Component {
     constructor(props) {
@@ -29,12 +30,11 @@ export class DeveloperTab extends Component {
     }
 
     wonProjects(project) {
-      console.log(project.assignee)
-      return project.assignee_username === store.getState().user.username
+      return project.assignee === store.getState().user._id
     }
 
     componentDidMount() {
-        projects()
+      projects()
         .then(({data}) => {
             var projects = data.filter(this.wonProjects)
             this.setState({
@@ -48,16 +48,21 @@ export class DeveloperTab extends Component {
     }
 
     render() {
-        return (
-        <div>
-            <Nav tabs>
-            <NavItem>
-                <NavLink
-                className={classnames({ active: this.state.activeTab === '1' })}
-                onClick={() => { this.toggle('1'); }}
-                >
-                Projects
-                </NavLink>
+
+      const Projects = this.state.projects
+        .map((project, index) => 
+        <ProjectModal key={project._id} project={project} index={index}/>
+      )
+
+      return ( 
+        <div> 
+          <Nav tabs> 
+            <NavItem> 
+              <NavLink 
+              className={classnames({ active: this.state.activeTab === '1' })} 
+              onClick={() => { this.toggle('1'); }} > 
+                Projects 
+              </NavLink>
             </NavItem>
             <NavItem>
                 <NavLink
@@ -81,30 +86,33 @@ export class DeveloperTab extends Component {
             <br/>
                 <TabPane tabId="1">
                 <Row>
-                    <h4>Current Projects</h4>
-                    <Table hover responsive striped>
+                  <h4>Current Projects</h4>
+                  <Table hover responsive striped>
                     <thead>
-                        <tr>
+                      <tr>
                         <th>#</th>
                         <th>Project Name</th>
+                        <th>Status</th>
                         <th>Link</th>
-                        </tr>
+                      </tr>
                     </thead>
                     <tbody>
+                      {Projects}
                     </tbody>
-                    </Table>
-                    <h4>Past Project</h4>
-                    <Table hover responsive striped>
+                  </Table>
+                  <h4>Past Project</h4>
+                  <Table hover responsive striped>
                     <thead>
-                        <tr>
+                      <tr>
                         <th>#</th>
                         <th>Project Name</th>
+                        <th>Status</th>
                         <th>Link</th>
-                        </tr>
+                      </tr>
                     </thead>
-                    <tbody>
-                    </tbody>
-                    </Table>
+                  <tbody>
+                  </tbody>
+                  </Table>
                 </Row>
                 </TabPane>
                 <ProfileTab tabId={"2"}/>
@@ -112,6 +120,6 @@ export class DeveloperTab extends Component {
             </TabContent>
             </div>
         </div>
-        );
+      );
     }
 }

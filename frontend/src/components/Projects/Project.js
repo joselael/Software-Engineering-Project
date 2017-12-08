@@ -98,14 +98,16 @@ export default class Project extends Component {
                     <p className="modelP">{this.props.project.details}</p>
                   <div className="row">
                     <div className="col-md-6">
-                    <Label>Bid Starts:</Label>
-                      <div className="modelP">{this.props.project.bid_start}</div>
-                    </div>
-                      <div className="col-md-6">
                       <Label>Bid End:</Label>
                       <div className="modelP">{this.props.project.bid_end}</div>
                     </div>
+                    <div className="col-md-6">
+                    <Label>Project End:</Label>
+                      <div className="modelP">{this.props.project.project_end}</div>
+                    </div>
                   </div>
+                    <Label>Max Budget</Label>
+                    <p className="modelP">${this.props.project.max_budget}</p>
                   <Label>Enter Message</Label>
                   <Input
                     autoFocus

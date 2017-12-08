@@ -63,7 +63,7 @@ export default class ProjectModal extends Component {
       nestedModal: !this.state.nestedModal,
       description: this.state.bids[this.state.developer].description,
       bid_amount: this.state.bids[this.state.developer].amount,
-      developer_id: this.state.bids[this.state.developer]._id,
+      developer_id: this.state.bids[this.state.developer].author_id,
       developer_username: this.state.bids[this.state.developer].author
     });
   }
@@ -106,6 +106,9 @@ export default class ProjectModal extends Component {
       .map((bid, index) =>
         <option key={bid._id} value={index}>{bid.author}</option>
     )
+
+    console.log(this.state.bids)
+
     return(
       <tr>
         <td scope="row">{this.props.index + 1}</td>
