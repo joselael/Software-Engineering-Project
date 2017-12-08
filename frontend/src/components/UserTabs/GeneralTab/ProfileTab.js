@@ -38,7 +38,7 @@ export default class ProfileTab extends Component {
             <Media body>
             <br/>
               <Media heading style={{display: 'flex', justifyContent: 'center'}}>
-                {store.getState().user.first_name} {store.getState().user.last_name}
+                {store.getState().user.first_name} {store.getState().user.last_name.value}
               </Media>
               <div style={{display: 'flex', justifyContent: 'center'}}>
               {store.getState().user.user_type}
