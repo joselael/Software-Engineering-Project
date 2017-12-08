@@ -38,12 +38,16 @@ export default class Project extends Component {
   }
 
   handleSubmitBid = event => {
-    bid(this.props.project._id, store.getState().user.username,
-    this.state.bid, this.state.description)
-      .then( (response) => {
-        console.log(response)
-        this.toggleModal()
-      })
+    if(this.state.bid > store.getState().user.account_balance)
+      alert("You do not have enough funds!")
+    else {
+      bid(this.props.project._id, store.getState().user.username,
+      this.state.bid, this.state.description)
+        .then( (response) => {
+          console.log(response)
+          this.toggleModal()
+        })
+    }
   }
 
   handleChange = event => {

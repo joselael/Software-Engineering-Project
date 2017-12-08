@@ -131,4 +131,13 @@ router.get('/:title', VerifyToken, (req, res) => {
     });
 });
 
+//Rating endpoint for clients to rate the project
+router.put('/rating/:id', VerifyToken, (req, res) => {
+    Project.findByIdAndUpdate(req.params.id, req.body.rating, {new: true}, function (err, project) {
+        if (err) return res.status(500).send("There was a problem updating the project.");
+        //Rating logic
+        res.status(200).send(project);
+    });
+});
+
 module.exports = router;

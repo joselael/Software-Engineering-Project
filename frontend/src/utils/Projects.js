@@ -104,6 +104,19 @@ export function finishProject(id) {
   })
 }
 
+export function submitRating(id, rating) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      rating: rating
+    }
+  })
+}
+
 export function submitAssignee(id, assignee, assignee_username,reason_for_selection) {
   return axios({
     method: 'put',

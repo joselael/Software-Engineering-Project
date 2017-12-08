@@ -152,9 +152,13 @@ export default class ProjectModal extends Component {
                 {bidders}
               </Input>
               <ButtonGroup>
-                <Button color="danger" onClick={this.toggleNested}>
-                  More information
-                </Button>
+                {
+                  this.state.bids.length > 0 ?
+                  <Button color="danger" onClick={this.toggleNested}>
+                    More information 
+                  </Button> : 
+                  <Button/>
+                }
 
                 <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
                   <ModalHeader>"Developer's message"</ModalHeader>

@@ -25,6 +25,7 @@ import '../../css/usertab.css';
 import {myproject, createprojects} from '../../utils/Projects'
 import ProjectModal from '../Projects/ClientProjectModal'
 import GeneralModal from '../Projects/GeneralClientProjectModal'
+import RatingModal from '../Projects/RatingProjectModal'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -53,7 +54,7 @@ export class ClientTab extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmitProject = this.handleSubmitProject.bind(this)
     this.updateTable = this.updateTable.bind(this)
-    this.checkFinished = this.checkFinished.bind(this)
+    this.checkBidding = this.checkBidding.bind(this)
     this.checkDone = this.checkDone.bind(this)
     this.clearStates = this.clearStates.bind(this)
     this.onStarClick = this.onStarClick.bind(this)
@@ -79,7 +80,7 @@ export class ClientTab extends Component {
     })
   }
 
-  checkFinished(project) {
+  checkBidding(project) {
     return project.bidding_in_progress
   }
 
@@ -105,7 +106,7 @@ export class ClientTab extends Component {
 
     if (this.state.title === "search" || this.state.title === "projects"
     || this.state.title === "create" || this.state.title === "bid" ||
-    (this.state.bid_date > this.state.project_date)) 
+    (this.state.bid_date > this.state.project_date) || this.state.max_budget > store.getState().user.account_balance) 
     {
       alert("Invalid")
       this.clearStates()
@@ -121,9 +122,9 @@ export class ClientTab extends Component {
       ).then( (response) => {
         console.log(response)
         alert("Submitting Project!!!")
-        this.clearStates()
         this.updateTable()
         this.toggleModal()
+        this.clearStates()
       }).catch( (err) => {
         console.log(err)
       })
@@ -153,15 +154,14 @@ export class ClientTab extends Component {
   render() {
 
     const biddingProjects = this.state.projects.
-      filter(this.checkFinished)
+      filter(this.checkBidding)
       .map((project, index) =>
         <ProjectModal key={project._id} project={project} index={index}/>
     )
 
     const currentProjects = this.state.projects
-      .filter(this.checkInProgress)
         .map((project, index) => 
-          <GeneralModal key={project._id} project={project} index={index} />
+          <RatingModal key={project._id} project={project} index={index} />
       )
 
     const pastProjects = this.state.projects.
@@ -299,6 +299,7 @@ export class ClientTab extends Component {
                       <th>#</th>
                       <th>Project Name</th>
                       <th>Max Budget</th>
+                      <th>Status</th>
                       <th>Link</th>
                     </tr>
                   </thead>
