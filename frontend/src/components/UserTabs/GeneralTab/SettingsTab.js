@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, FormGroup,TabPane, Label,
   Row, Col, Button, Collapse,
-  Card, CardBody, Input,
+  Card, CardBody, Input, ButtonGroup,
   Modal, ModalHeader, ModalBody, ModalFooter
  } from 'reactstrap';
 import store from '../../../store'
@@ -256,17 +256,20 @@ export default class SettingsTab extends Component {
                       placeholder= "confirm new passwrod" 
                     />
                   </FormGroup>
-                  <Button 
-                    type="submit" 
-                    onClick={this.onSubmit}
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    onClick={this.toggle}
-                  >
-                    Cancel
-                  </Button>
+                  <ButtonGroup>
+                    <Button 
+                      type="submit" 
+                      color="success"
+                      onClick={this.onSubmit}
+                    >
+                      Submit
+                    </Button>
+                    <Button
+                      onClick={this.toggle}
+                    >
+                      Cancel
+                    </Button>
+                  </ButtonGroup>
                 </form>
               </CardBody>
             </Card>

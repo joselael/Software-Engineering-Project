@@ -294,9 +294,7 @@ export class ClientTab extends Component {
                       <th>Link</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {modalProject}
-                  </tbody>
+                  <tbody>{modalProject}</tbody>
                 </Table>
                 <h4>Past Project</h4>
                 <Table hover responsive striped>
@@ -309,7 +307,6 @@ export class ClientTab extends Component {
                     </tr>
                   </thead>
                   <tbody>
-
                   </tbody>
                 </Table>
               </Row>
