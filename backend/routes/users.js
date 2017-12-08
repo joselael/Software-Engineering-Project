@@ -86,7 +86,7 @@ router.delete('/:id', VerifyAdmin, (req, res) => {
 // update user profile in database, by user
 router.put('/me', VerifyToken, (req, res) => {
 
-    User.findByIdAndUpdate(req.userID, req.body, {new:true}, function (err, user) {
+    User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
         if (err) return res.status(500).send("There was a problem updating the user.");
         if (req.body.password)
             req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
@@ -173,12 +173,23 @@ router.get('/:name', VerifyAdmin, (req, res) => {
 });
 
 // get a particular user by name, for users
-router.get('/search/:name', VerifyToken, (req, res) => {
+router.get('/search/:name', (req, res) => {
     User.find({username: req.params.name}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
-        if (!user) return res.status(404).send("No user found.");
+        if (!user || user.length < 1) return res.status(404).send("No user found.");
 
-        res.status(200).send(user);
+        //  console.log(user[0]);
+        // console.log("last name: " + user[0].last_name);
+
+        res.status(200).send({
+            "username": user[0].username,
+            "first_name": user[0].first_name,
+            "last_name": (user[0].last_name.visible) ? user[0].last_name.value : null,
+            "email": (user[0].email.visible) ? user[0].email.value : null,
+            "linkedIn": (user[0].linkedIn.visible) ? user[0].linkedIn.value : null,
+            "github": (user[0].github.visible) ? user[0].github.value : null
+
+        });
     });
 });
 

@@ -49,7 +49,7 @@ export default class GeneralModal extends Component {
         <td scope="row">{this.props.index + 1}</td>
         <td>{this.props.project.title}</td>
         <td>{this.props.project.max_budget}</td>
-        <td>{status}</td>
+        <td>BIDDING IN PROGRESS</td>
         <td>
           <Button
             size="sm"

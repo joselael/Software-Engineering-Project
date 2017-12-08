@@ -36,6 +36,7 @@ export default class ProjectModal extends Component {
       nestedModal: false,
       closeAll: false,
       reasonForSelection: "",
+      bid_id: "",
       description: 0,
       bid_amount: 0,
       lowest_bid: Number.MAX_VALUE,
@@ -59,10 +60,14 @@ export default class ProjectModal extends Component {
 
   toggleNested() { //selected for more information
     //  alert("selected user for more information")
+
+    console.log(this.state.bids[this.state.developer])
+
     this.setState({
       nestedModal: !this.state.nestedModal,
       description: this.state.bids[this.state.developer].description,
       bid_amount: this.state.bids[this.state.developer].amount,
+      bid_id: this.state.bids[this.state.developer]._id,
       developer_id: this.state.bids[this.state.developer].author_id,
       developer_username: this.state.bids[this.state.developer].author
     });
@@ -74,7 +79,7 @@ export default class ProjectModal extends Component {
       alert("You need a reason why you didn't pick the lowest bidder!!!")
     } else {
 
-      submitAssignee(this.props.project._id, this.state.developer_id, 
+      submitAssignee(this.props.project._id, this.state.bid_id, this.state.developer_id, 
         this.state.developer_username ,this.state.reasonForSelection)
         .then( (response) => {
           console.log(response)
@@ -106,14 +111,14 @@ export default class ProjectModal extends Component {
       .map((bid, index) =>
         <option key={bid._id} value={index}>{bid.author}</option>
     )
-
-    console.log(this.state.bids)
+    console.log(bidders)
 
     return(
       <tr>
         <td scope="row">{this.props.index + 1}</td>
         <td>{this.props.project.title}</td>
         <td>{this.props.project.max_budget}</td>
+        <td>BIDDING IN PROGRESS</td>
         <td>
           <Button
             size="sm"

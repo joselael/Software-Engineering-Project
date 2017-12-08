@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, FormGroup,TabPane, Label,
   Row, Col, Button, Collapse,
-  Card, CardBody, Input,
+  Card, CardBody, Input, ButtonGroup,
   Modal, ModalHeader, ModalBody, ModalFooter
  } from 'reactstrap';
 import store from '../../../store'
@@ -120,16 +120,16 @@ export default class SettingsTab extends Component {
       data.first_name = this.state.first_name
     }
     if(this.state.last_name.length > 2) {
-      data.last_name = this.state.last_name
+      data.last_name.value = this.state.last_name
     }
     if(this.state.linkedIn.length > 2) {
-      data.linkedIn = this.state.linkedIn
+      data.linkedIn.value = this.state.linkedIn
     }
     if(this.state.github.length > 2) {
-      data.github = this.state.linkedIn
+      data.github.value = this.state.linkedIn
     }
     if(this.state.email.length > 2) {
-      data.email = this.state.email
+      data.email.value = this.state.email
     }
     updateSettings(store.getState().token, data)
       .then( (response) => {
@@ -256,17 +256,20 @@ export default class SettingsTab extends Component {
                       placeholder= "confirm new passwrod" 
                     />
                   </FormGroup>
-                  <Button 
-                    type="submit" 
-                    onClick={this.onSubmit}
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    onClick={this.toggle}
-                  >
-                    Cancel
-                  </Button>
+                  <ButtonGroup>
+                    <Button 
+                      type="submit" 
+                      color="success"
+                      onClick={this.onSubmit}
+                    >
+                      Submit
+                    </Button>
+                    <Button
+                      onClick={this.toggle}
+                    >
+                      Cancel
+                    </Button>
+                  </ButtonGroup>
                 </form>
               </CardBody>
             </Card>

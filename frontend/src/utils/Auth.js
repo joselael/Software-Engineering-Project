@@ -49,6 +49,7 @@ export function userInfo(token) {
         alert("You're not enabled")
       } else {
         store.dispatch(setToken(token))
+        console.log(response.data)
         store.dispatch(setUser(response.data))
       }
     }))

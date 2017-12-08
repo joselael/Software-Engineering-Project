@@ -62,7 +62,7 @@ export class ClientTab extends Component {
   }
 
   checkInProgress(project) {
-    return !project.completed && !project.bidding_in_progress
+    return project
   }
 
   onStarClick(nextValue, prevValue, name) {
@@ -153,16 +153,20 @@ export class ClientTab extends Component {
 
   render() {
 
-    const biddingProjects = this.state.projects.
-      filter(this.checkBidding)
-      .map((project, index) =>
-        <ProjectModal key={project._id} project={project} index={index}/>
-    )
+    var modalProject = ""
+
+    console.log(this.state.projects)
 
     const currentProjects = this.state.projects
-        .map((project, index) => 
-          <RatingModal key={project._id} project={project} index={index} />
-      )
+      .filter(this.checkInProgress)
+      .map((project, index) => 
+      {
+        if (project.bidding_in_progress)
+          modalProject = <ProjectModal key={project._id} project={project} index={index} />
+        else
+        modalProject = <RatingModal key={project._id} project={project} index={index} />
+      }
+    )
 
     const pastProjects = this.state.projects.
       filter(this.checkDone)
@@ -278,20 +282,6 @@ export class ClientTab extends Component {
                 </Modal>
               </Row>
               <Row>
-                <h4>Bidding Projects</h4>
-                <Table hover responsive striped>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Project Name</th>
-                      <th>Max Budget</th>
-                      <th>Link</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {biddingProjects}
-                  </tbody>
-                </Table>
                 <h4>Current Projects</h4>
                 <Table hover responsive striped>
                   <thead>
@@ -303,9 +293,7 @@ export class ClientTab extends Component {
                       <th>Link</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {currentProjects}
-                  </tbody>
+                  <tbody>{modalProject}</tbody>
                 </Table>
                 <h4>Past Project</h4>
                 <Table hover responsive striped>
@@ -318,7 +306,6 @@ export class ClientTab extends Component {
                     </tr>
                   </thead>
                   <tbody>
-
                   </tbody>
                 </Table>
               </Row>
@@ -327,31 +314,6 @@ export class ClientTab extends Component {
             <SettingsTab tabId={"3"}/>
           </TabContent>
         </div>
-{
-  /*
-        <div>
-          <h2>Rating from state: {this.state.rating}</h2>
-            <StarRatingComponent
-                name="rate1"
-                starCount={5}
-                value={this.rating}
-                onStarClick={this.onStarClick.bind(this)}
-
-            />
-        </div>
-
-        <div>
-    <h2>Rating from state: {this.state.rating}</h2>
-    <StarRatingComponent
-        name="rate2"
-        editing={false}
-        starCount="5"
-        value={this.state.rating}
-    />
-</div>
-
-  */
-}
       </div>
     );
   }

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Bid = require('./Bid');
-const User = require('./User')
+const User = require('./User');
 
 const ProjectSchema = new mongoose.Schema({
     title: {type: String, required: true},
@@ -11,8 +11,8 @@ const ProjectSchema = new mongoose.Schema({
     post_date: {type: Date, default: Date.now},
     bid_start: {type: Date, default: Date.now},
     bid_end: {type: Date},
-    project_end: {type: Date},
-    max_budget: Number,
+    project_end: {type: Date, required: true},
+    max_budget: {type: Number, required: true},
     bids: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bid'}],
     assignee: {
         user_id: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
@@ -26,7 +26,10 @@ const ProjectSchema = new mongoose.Schema({
     require_rating: Boolean,
     rating_author: Number,
     rating_assignee: Number,
-    problematic: Boolean
+    problematic: Boolean,
+    author_comments: String,
+    admin_comments: String,
+
 });
 
 const Project = mongoose.model('Project', ProjectSchema);
