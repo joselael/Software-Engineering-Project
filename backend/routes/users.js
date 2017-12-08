@@ -33,12 +33,19 @@ router.post('/check', VerifyToken, (req, res) => {
 });
 
 router.post('/create', (req, res) => {
+
     console.log(req.body);
     User.create({
         username: req.body.username,
         first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
+        last_name: {
+            value: req.body.last_name,
+            visible: true
+        },
+        email: {
+            value: req.body.email,
+            visible: true
+        },
         password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
         user_type: req.body.user_type,
         account_balance: req.body.account_balance,
@@ -47,8 +54,14 @@ router.post('/create', (req, res) => {
         enabled: false,
         blacklisted: false,
         admin_message: null,
-        linkedIn: "",
-        github: "",
+        linkedIn: {
+            value: "",
+            visible: true
+        },
+        github: {
+            value: "",
+            visible: true
+        },
         first_login: true,
     }, function (err, user) {
         // console.log("done creating user");
@@ -72,27 +85,31 @@ router.delete('/:id', VerifyAdmin, (req, res) => {
 
 // update user profile in database, by user
 router.put('/me', VerifyToken, (req, res) => {
-    if (req.body.password)
-        req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
-    User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
-            if (err) return res.status(500).send("There was a problem updating the user.");
+
+    User.findById(req.userID, function (err, user) {
+        if (err) return res.status(500).send("There was a problem updating the user.");
+        if (req.body.password)
+            req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
         res.status(201).send(user);
-        });
+    });
 });
 
 // update user profile in database, by user
-// router.delete('/me', VerifyToken, (req, res) => {
-//     if (!req.body.password)
-//         return res.status(401).("Must provide password");
-//
-//     if (!bcrypt.compareSync())
-//     req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
-//
-//     User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
-//         if (err) return res.status(500).send("There was a problem updating the user.");
-//         res.status(200).send(user);
-//     });
-// });
+router.delete('/me', VerifyToken, (req, res) => {
+    if (!req.body.password)
+        return res.status(401).send("Must provide password");
+
+    User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
+        if (err) return res.status(500).send("There was a problem updating the user.");
+
+        if (!bcrypt.compareSync(bcrypt.hashSync(req.body.password, bcryptSaltRounds), user.password))
+            return res.status(401).send("Authentication failed!");
+
+        user.delete_requested = true;
+        res.status(202).send("Account deletion requested!");
+
+    });
+});
 
 
 // update user profile in database, by admin
@@ -100,9 +117,9 @@ router.put('/:id', VerifyAdmin, (req, res) => {
     if (req.body.password)
         req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
     User.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, user) {
-            if (err) return res.status(500).send("There was a problem updating the user.");
+        if (err) return res.status(500).send("There was a problem updating the user.");
         res.status(201).send(user);
-        });
+    });
 });
 
 
