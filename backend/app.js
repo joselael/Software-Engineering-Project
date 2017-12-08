@@ -25,13 +25,13 @@ const index = require('./routes/index');
 const user = require('./routes/users');
 const project = require('./routes/projects');
 const db = require('./databases/db');
-const file = require('./routes/file');
+// const file = require('./routes/file');
 const bid = require('./routes/bids');
 
 app.use('/', index);
 app.use('/user', user);
 app.use('/project', project);
-app.use('/file', file);
+// app.use('/file', file);
 app.use('/bid', bid);
 
 // catch 404 and forward to error handler
