@@ -43,8 +43,8 @@ class NavigationBar extends Component {
     return (
       <div className="NavigationBar">
         <Navbar className="navbar-light bg-light" light expand="md">
-          <NavbarBrand to="/" tag={RRNavLink}>
-            Simple Coding Turkish System
+          <NavbarBrand to="/" tag={RRNavLink} style={{ fontFamily: 'OCR A Std, monospace', fontWeight: 'bold'}}>
+            Cre-ators
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>

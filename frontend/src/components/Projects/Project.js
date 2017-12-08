@@ -38,14 +38,12 @@ export default class Project extends Component {
   }
 
   handleSubmitBid = event => {
-    console.log(this.state)
-    /*
-    bid(this.props.project._id, store.getState().user.usernama,
+    bid(this.props.project._id, store.getState().user.username,
     this.state.bid, this.state.description)
       .then( (response) => {
         console.log(response)
+        this.toggleModal()
       })
-    */
   }
 
   handleChange = event => {
@@ -81,7 +79,7 @@ export default class Project extends Component {
                 </CardText>
                   :
                 <CardText className="truncate" style={truncateStyle}>
-                 {this.props.project.summary} 
+                 {this.props.project.summary}
                 </CardText>
                 }
               </CardBody>
@@ -100,16 +98,17 @@ export default class Project extends Component {
                     <p className="modelP">{this.props.project.details}</p>
                   <div className="row">
                     <div className="col-md-6">
-                      <Label>Bid Starts:</Label>
+                    <Label>Bid Starts:</Label>
                       <div className="modelP">{this.props.project.bid_start}</div>
                     </div>
-                    <div className="col-md-6">
+                      <div className="col-md-6">
                       <Label>Bid End:</Label>
                       <div className="modelP">{this.props.project.bid_end}</div>
                     </div>
                   </div>
-                  <Label>Enter Details</Label>
+                  <Label>Enter Message</Label>
                   <Input
+                    autoFocus
                     type="textarea"
                     name="description"
                     value={this.state.description}
@@ -120,7 +119,6 @@ export default class Project extends Component {
                   <InputGroup>
                     <InputGroupAddon>$</InputGroupAddon>
                     <Input
-                      autoFocus
                       type="number"
                       name="bid"
                       value={this.state.bid}

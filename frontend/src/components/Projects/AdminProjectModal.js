@@ -6,6 +6,7 @@ import {
   NavItem,
   NavLink,
   Button,
+  ButtonGroup,
   Table,
   Row,
   Col,
@@ -20,7 +21,7 @@ import {
   ModalFooter,
   ModalHeader
 } from 'reactstrap';
-import {deleteProject} from '../../utils/Projects'
+import {deleteProject, approveProject} from '../../utils/Projects'
 
 export default class ProjectModal extends Component {
 
@@ -32,6 +33,22 @@ export default class ProjectModal extends Component {
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.deleteProject = this.deleteProject.bind(this)
+    this.approveProject = this.approveProject.bind(this)
+
+  }
+
+  approveProject() {
+
+    const projectID = this.props.project._id;
+
+    approveProject(projectID)
+      .then( (response) => {
+        console.log(response)
+        this.props.updateTable()
+      })
+      .catch( (err) => {
+        console.log(err.request)
+      })
   }
 
   deleteProject() {
@@ -61,7 +78,9 @@ export default class ProjectModal extends Component {
     else if (this.props.project.problematic) {
       status = "PROBLEMATIC"
     }
-    else {
+    else if (this.props.project.require_review) {
+      status = "REQUIRE REVIEW"
+    } else {
       status = "IN PROGRESS"
     }
 
@@ -86,15 +105,23 @@ export default class ProjectModal extends Component {
               <Label>Project Summary</Label>
                 <p className="modelP"> {this.props.project.summary} </p>
               <Label>Project Details</Label>
-                <p className="modelP">{this.props.project.details}</p>
+              <p className="modelP">{this.props.project.details}</p>
               <div className="row">
                 <div className="col-md-6">
-                <Label>Bid Starts:</Label>
+                  <Label>Bid Starts:</Label>
                   <div className="modelP">{this.props.project.bid_start}</div>
                 </div>
-                  <div className="col-md-6">
+                <div className="col-md-6">
                   <Label>Bid End:</Label>
                   <div className="modelP">{this.props.project.bid_end}</div>
+                </div>
+                <div className="col-md-6">
+                  <Label>Reason for selection:</Label>
+                  <div className="modelP">{this.props.project.reason_for_selection}</div>
+                </div>
+                <div className="col-md-6">
+                  <Label>Assignee:</Label>
+                  <div className="modelP">{this.props.project.assignee_username}</div>
                 </div>
               </div>
             </ModalBody>
@@ -106,6 +133,24 @@ export default class ProjectModal extends Component {
           </Modal>
         </td>
         <td>
+          {this.props.project.require_review ? 
+          <ButtonGroup>
+            <Button
+              size="sm" 
+              color="success"
+              onClick={this.approveProject}
+              >
+              Accept 
+            </Button>
+            <Button
+            size="sm" 
+            color="danger"
+            onClick={this.deleteProject}
+            >
+              Decline
+            </Button>
+          </ButtonGroup>
+          :
           <Button
            size="sm" 
            color="danger"
@@ -113,6 +158,7 @@ export default class ProjectModal extends Component {
           >
             Delete 
           </Button>
+          }
         </td>
       </tr>
     )

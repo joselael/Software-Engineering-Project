@@ -13,7 +13,11 @@ const ProjectSchema = new mongoose.Schema({
     max_budget: Number,
     bids: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bid'}],
     assignee: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    assignee_username: String,
     completed: Boolean,
+    bidding_in_progress: Boolean,
+    reason_for_selection: String,
+    require_review: Boolean,
     rating: Number,
     problematic: Boolean,
     admin_comments: String

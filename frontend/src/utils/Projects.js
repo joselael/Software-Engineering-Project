@@ -4,7 +4,9 @@ import {
   PROJECT,
   PROJECTS,
   CREATE,
-  SEARCH
+  SEARCH,
+  BID,
+  APPROVE
 } from '../urls/API'
 import store from '../store'
 
@@ -56,15 +58,13 @@ export function createprojects(title, username, summary, details, bid_end, max_b
 
 export function bid(id, username, amount, description) {
   return axios({
+    url: URL + PROJECT + BID + id,
     method: 'post',
     headers :{
       'x-access-token': store.getState().token
     },
-    params: {
-      id: id
-    },
     data: {
-      username: username,
+      author: username,
       amount: amount,
       description: description
     }
@@ -72,6 +72,48 @@ export function bid(id, username, amount, description) {
     console.log(response)
     alert("Submitting bid...")
   }).catch( (err) => {
-    console.log(err.request.status)
+    alert(err)
+    console.log(err)
+  })
+}
+
+export function getbid(id) {
+  return axios({
+    url: URL + PROJECT + BID + id,
+    method: 'get',
+    headers: {
+      'x-access-token': store.getState().token
+    }
+  })
+}
+
+export function submitAssignee(id, assignee, assignee_username,reason_for_selection) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      assignee: assignee,
+      assignee_username: assignee_username,
+      reason_for_selection, reason_for_selection,
+      require_review: true
+    }
+  })
+}
+
+export function approveProject(id) {
+
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + APPROVE + id,
+    headers: {
+      'x-access-token': store.getState().token
+    }, 
+    data: {
+      require_review: false,
+      bidding_in_progress: false
+    }
   })
 }
