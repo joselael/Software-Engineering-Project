@@ -90,7 +90,7 @@ export default class AdminUsers extends Component {
           {this.props.user.first_name}
         </td>
         <td>
-          {this.props.user.last_name}
+          {this.props.user.last_name.value}
         </td>
         <td>
           {this.props.user.username}

@@ -22,6 +22,7 @@ import {
   ModalHeader
 } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component'
+import {submitRating} from '../../utils/Projects'
 
 export default class RatingModal extends Component {
   constructor(props) {
@@ -37,6 +38,7 @@ export default class RatingModal extends Component {
     this.toggleComments = this.toggleComments.bind(this)
     this.handleSubmitRating = this.handleSubmitRating.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmitComments = this.handleSubmitComments.bind(this)
   }
 
   onStarClick(nextValue, prevValue, name) {
@@ -65,8 +67,18 @@ export default class RatingModal extends Component {
     if(this.state.rating < 3)
       this.toggleComments()
     else {
-      console.log("Submitting rating...")
+      submitRating(this.props.project._id, this.state.rating)
+        .then( (response) => {
+          console.log(response)
+        })
+        .catch( (err) => {
+          console.log(err)
+        })
     }
+  }
+
+  handleSubmitComments() {
+
   }
 
   render() {

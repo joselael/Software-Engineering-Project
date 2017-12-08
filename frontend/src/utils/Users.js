@@ -119,8 +119,8 @@ export function updateMe(token, github, linkedIn, resume) {
             'x-access-token': token
         },
         data: {
-            github: github,
-            linkedIn: linkedIn
+            github: {value: github},
+            linkedIn: {value: linkedIn}
         }
     })
 }
