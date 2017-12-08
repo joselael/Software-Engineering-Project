@@ -147,7 +147,7 @@ router.get('/:name', VerifyAdmin, (req, res) => {
 router.get('/search/:name', (req, res) => {
     User.find({username: req.params.name}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
-        if (!user) return res.status(404).send("No user found.");
+        if (!user || user.length < 1) return res.status(404).send("No user found.");
 
         //  console.log(user[0]);
         // console.log("last name: " + user[0].last_name);
