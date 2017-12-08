@@ -118,7 +118,7 @@ export function submitRating(id, rating, comments) {
   })
 }
 
-export function submitAssignee(id, assignee, assignee_username,reason_for_selection) {
+export function submitAssignee(id, bid_id, assignee, assignee_username,reason_for_selection) {
   return axios({
     method: 'put',
     url: URL + PROJECT + id,
@@ -126,8 +126,11 @@ export function submitAssignee(id, assignee, assignee_username,reason_for_select
       'x-access-token': store.getState().token
     },
     data: {
-      assignee: assignee,
-      assignee_username: assignee_username,
+      assignee: {
+        user_id: assignee,
+        username: assignee_username,
+        bid_id: id
+      },
       reason_for_selection, reason_for_selection,
       require_review: true
     }

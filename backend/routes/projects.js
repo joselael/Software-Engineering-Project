@@ -108,8 +108,8 @@ router.put('/approve/:id', VerifyAdmin, (req, res) => {
         if (err) return res.status(500).send("There was a problem updating the project.");
         res.status(200).send(project);
     });
-    var assignee = User.findById(assingee.user_id);
-    var bid_amount = Bid.findById(Project.findById(req.params.id).assingee._bid).amount;
+    var assignee = User.findById(assignee.user_id);
+    var bid_amount = Bid.findById(Project.findById(req.params.id).assignee.bid_id).amount;
     var initial_transfer = bid_amount/2;
     var author_id = Project.findById(req.params.id).author_id;
     var account_balance_author = User.findById(author_id).account_balance;
