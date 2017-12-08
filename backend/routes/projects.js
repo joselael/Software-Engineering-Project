@@ -52,6 +52,7 @@ router.post('/create', VerifyToken, (req, res) => {
     Project.create({
         title: req.body.title,
         author: req.body.author,
+        author_id: req.body.author_id,
         summary: req.body.summary,
         details: req.body.details,
         bid_end: new Date(req.body.bid_end),
