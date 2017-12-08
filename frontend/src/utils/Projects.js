@@ -129,7 +129,7 @@ export function submitAssignee(id, bid_id, assignee, assignee_username,reason_fo
       assignee: {
         user_id: assignee,
         username: assignee_username,
-        bid_id: id
+        bid_id: bid_id
       },
       reason_for_selection, reason_for_selection,
       require_review: true

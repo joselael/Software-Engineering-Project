@@ -60,6 +60,9 @@ export default class ProjectModal extends Component {
 
   toggleNested() { //selected for more information
     //  alert("selected user for more information")
+
+    console.log(this.state.bids[this.state.developer])
+
     this.setState({
       nestedModal: !this.state.nestedModal,
       description: this.state.bids[this.state.developer].description,
@@ -108,6 +111,7 @@ export default class ProjectModal extends Component {
       .map((bid, index) =>
         <option key={bid._id} value={index}>{bid.author}</option>
     )
+    console.log(bidders)
 
     return(
       <tr>
