@@ -52,7 +52,6 @@ router.post('/create', VerifyToken, (req, res) => {
     Project.create({
         title: req.body.title,
         author: req.body.author,
-        author_id: req.body.author_id,
         summary: req.body.summary,
         details: req.body.details,
         bid_end: new Date(req.body.bid_end),
@@ -61,12 +60,10 @@ router.post('/create', VerifyToken, (req, res) => {
         max_budget: parseInt(req.body.max_budget),
         bids: [],
         assignee: null,
-        assignee_username: "",
         completed: false,
         rating: null,
         bidding_in_progress: true,
-        require_review: false,
-        require_rating: false,
+        require_review: false, require_rating: false,
         reason_for_selection: "",
         problematic: false,
         admin_comments: null

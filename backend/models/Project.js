@@ -5,7 +5,6 @@ const User = require('./User')
 const ProjectSchema = new mongoose.Schema({
     title: {type: String, required: true},
     author: {type: String, required: true, trim: true},
-    author_id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     summary: {type: String, required: true},
     details: {type: String, required: true},
     post_date: {type: Date, default: Date.now},
@@ -14,8 +13,11 @@ const ProjectSchema = new mongoose.Schema({
     project_end: {type: Date},
     max_budget: Number,
     bids: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bid'}],
-    assignee: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    assignee_username: String,
+    assignee: {
+        user_id: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
+        username: {type: String, default: null},
+        bid_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Bid', default: null}
+    },
     completed: Boolean,
     bidding_in_progress: Boolean,
     reason_for_selection: String,
@@ -23,9 +25,11 @@ const ProjectSchema = new mongoose.Schema({
     require_rating: Boolean,
     rating: Number,
     problematic: Boolean,
+    author_comments: String,
     admin_comments: String
 });
 
 const Project = mongoose.model('Project', ProjectSchema);
 
 module.exports = mongoose.model('Project');
+

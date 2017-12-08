@@ -166,7 +166,7 @@ export class AdminTab extends Component {
           {user.first_name}
         </td>
         <td>
-          {user.last_name}
+          {user.last_name.value}
         </td>
         <td>
           {user.username}

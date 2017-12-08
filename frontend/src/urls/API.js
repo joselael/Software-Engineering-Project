@@ -11,6 +11,8 @@ const SEARCH = "search/"
 const CHECK = "check"
 const BID = "bid/"
 const APPROVE = "approve/"
+const RATING = "rating/"
+const ACCEPT = "accept"
 
 export {
   URL,
@@ -25,5 +27,7 @@ export {
   SEARCH,
   CHECK,
   BID,
-  APPROVE
+  APPROVE,
+  RATING,
+  ACCEPT
 }

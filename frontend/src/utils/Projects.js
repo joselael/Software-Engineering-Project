@@ -7,7 +7,8 @@ import {
   CREATE,
   SEARCH,
   BID,
-  APPROVE
+  APPROVE,
+  RATING
 } from '../urls/API'
 import store from '../store'
 
@@ -104,15 +105,15 @@ export function finishProject(id) {
   })
 }
 
-export function submitRating(id, rating) {
+export function submitRating(id, rating, comments) {
   return axios({
     method: 'put',
-    url: URL + PROJECT + id,
+    url: URL + PROJECT + RATING + id,
     headers: {
       'x-access-token': store.getState().token
     },
     data: {
-      rating: rating
+      rating: rating,
     }
   })
 }
