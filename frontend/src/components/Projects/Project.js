@@ -92,6 +92,8 @@ export default class Project extends Component {
                 <ModalHeader toggle={this.toggleModal}>{this.props.project.title}
                 </ModalHeader>
                 <ModalBody>
+                  <Label>Client Name </Label>
+                    <p className="modelP"> {this.props.project.author}</p>
                   <Label>Project Summary</Label>
                     <p className="modelP"> {this.props.project.summary} </p>
                   <Label>Project Details</Label>

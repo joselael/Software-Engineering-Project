@@ -5,7 +5,8 @@ import {
   PROJECTS,
   CREATE,
   SEARCH,
-  BID
+  BID,
+  APPROVE
 } from '../urls/API'
 import store from '../store'
 
@@ -82,6 +83,35 @@ export function getbid(id) {
     method: 'get',
     headers: {
       'x-access-token': store.getState().token
+    }
+  })
+}
+
+export function submitAssignee(id, assignee, reason_for_selection) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      assignee: assignee,
+      reason_for_selection, reason_for_selection,
+      require_review: true
+    }
+  })
+}
+
+export function approveProject(id) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + APPROVE + id,
+    headers: {
+      'x-access-token': store.getState().token
+    }, 
+    data: {
+      require_review: false,
+      bidding_in_progress: false
     }
   })
 }
