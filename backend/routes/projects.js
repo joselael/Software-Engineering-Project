@@ -60,7 +60,6 @@ router.post('/create', VerifyToken, (req, res) => {
         max_budget: parseInt(req.body.max_budget),
         bids: [],
         assignee: null,
-        assignee_username: "",
         completed: false,
         rating: null,
         bidding_in_progress: true,
