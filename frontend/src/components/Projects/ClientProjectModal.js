@@ -161,7 +161,7 @@ export default class ProjectModal extends Component {
                     <Row>{this.state.description}</Row>
                     <Row>Bid Amount: ${this.state.bid_amount}</Row>
                     <Row>Github link: </Row>
-                    <Row>Linked link: </Row>
+                    <Row>LinkedIn link: </Row>
                   </ModalBody>
                   <ModalFooter>
                     <Input placeholder="Reason for selection"
