@@ -32,6 +32,7 @@ export default class ProjectModal extends Component {
       modal: false,
       developer: "",
       developer_id: "",
+      developer_username: "",
       nestedModal: false,
       closeAll: false,
       reasonForSelection: "",
@@ -65,7 +66,8 @@ export default class ProjectModal extends Component {
       nestedModal: !this.state.nestedModal,
       description: this.state.bids[this.state.developer].description,
       bid_amount: this.state.bids[this.state.developer].amount,
-      developer_id: this.state.bids[this.state.developer]._id
+      developer_id: this.state.bids[this.state.developer]._id,
+      developer_username: this.state.bids[this.state.developer].author
     });
   }
 
@@ -75,7 +77,8 @@ export default class ProjectModal extends Component {
       alert("You need a reason why you didn't pick the lowest bidder!!!")
     } else {
 
-      submitAssignee(this.props.project._id, this.state.developer_id, this.state.reasonForSelection)
+      submitAssignee(this.props.project._id, this.state.developer_id, 
+        this.state.developer_username ,this.state.reasonForSelection)
         .then( (response) => {
           console.log(response)
         }).catch( (err) => {

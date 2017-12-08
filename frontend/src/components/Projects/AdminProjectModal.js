@@ -34,17 +34,20 @@ export default class ProjectModal extends Component {
     this.toggleModal = this.toggleModal.bind(this)
     this.deleteProject = this.deleteProject.bind(this)
     this.approveProject = this.approveProject.bind(this)
+
   }
 
   approveProject() {
 
-    approveProject(this.props.project_id)
+    const projectID = this.props.project._id;
+
+    approveProject(projectID)
       .then( (response) => {
         console.log(response)
         this.props.updateTable()
       })
       .catch( (err) => {
-        console.log(err)
+        console.log(err.request)
       })
   }
 
@@ -117,6 +120,10 @@ export default class ProjectModal extends Component {
                 <div className="col-md-6">
                   <Label>Reason for selection:</Label>
                   <div className="modelP">{this.props.project.reason_for_selection}</div>
+                </div>
+                <div className="col-md-6">
+                  <Label>Assignee:</Label>
+                  <div className="modelP">{this.props.project.assignee_username}</div>
                 </div>
               </div>
             </ModalBody>
