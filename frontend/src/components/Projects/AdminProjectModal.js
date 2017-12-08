@@ -38,13 +38,15 @@ export default class ProjectModal extends Component {
 
   approveProject() {
 
-    approveProject(this.props.project_id)
+    const projectID = this.props.project._id;
+
+    approveProject(projectID)
       .then( (response) => {
         console.log(response)
         this.props.updateTable()
       })
       .catch( (err) => {
-        console.log(err)
+        console.log(err.request)
       })
   }
 

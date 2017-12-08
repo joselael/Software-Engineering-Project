@@ -103,6 +103,7 @@ export function submitAssignee(id, assignee, reason_for_selection) {
 }
 
 export function approveProject(id) {
+
   return axios({
     method: 'put',
     url: URL + PROJECT + APPROVE + id,
