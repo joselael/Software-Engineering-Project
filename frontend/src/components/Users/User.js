@@ -20,9 +20,8 @@ import {
 } from 'reactstrap';
 import store from '../../store'
 import '../../css/project.css'
-import {bid} from '../../utils/Projects'
 
-export default class Project extends Component {
+export default class User extends Component {
 
   constructor(props) {
 
@@ -38,12 +37,14 @@ export default class Project extends Component {
   }
 
   handleSubmitBid = event => {
-    bid(this.props.project._id, store.getState().user.username,
+    console.log(this.state)
+    /*
+    bid(this.props.project._id, store.getState().user.usernama,
     this.state.bid, this.state.description)
       .then( (response) => {
         console.log(response)
-        this.toggleModal()
       })
+    */
   }
 
   handleChange = event => {
@@ -65,7 +66,7 @@ export default class Project extends Component {
     }
 
     return (
-      <div className="Project">
+      <div className="User">
         <Row>
           <Col sm="12">
             <Card>
@@ -79,7 +80,7 @@ export default class Project extends Component {
                 </CardText>
                   :
                 <CardText className="truncate" style={truncateStyle}>
-                 {this.props.project.summary}
+                 {this.props.project.summary} 
                 </CardText>
                 }
               </CardBody>
@@ -92,9 +93,9 @@ export default class Project extends Component {
                 <ModalHeader toggle={this.toggleModal}>{this.props.project.title}
                 </ModalHeader>
                 <ModalBody>
-                  <Label>Project Summary</Label>
+                  <Label>User Summary</Label>
                     <p className="modelP"> {this.props.project.summary} </p>
-                  <Label>Project Details</Label>
+                  <Label>User Details</Label>
                     <p className="modelP">{this.props.project.details}</p>
                   <div className="row">
                     <div className="col-md-6">
@@ -106,19 +107,11 @@ export default class Project extends Component {
                       <div className="modelP">{this.props.project.bid_end}</div>
                     </div>
                   </div>
-                  <Label>Enter Message</Label>
-                  <Input
-                    autoFocus
-                    type="textarea"
-                    name="description"
-                    value={this.state.description}
-                    onChange={this.handleChange}
-                    placeholder="Enter description"
-                  />
                   <Label>Enter Bid</Label>
                   <InputGroup>
                     <InputGroupAddon>$</InputGroupAddon>
                     <Input
+                      autoFocus
                       type="number"
                       name="bid"
                       value={this.state.bid}
@@ -126,6 +119,14 @@ export default class Project extends Component {
                       placeholder="Enter Bid"
                     />
                   </InputGroup>
+                  <Label>Enter Details</Label>
+                  <Input
+                    type="text"
+                    name="description"
+                    value={this.state.description}
+                    onChange={this.handleChange}
+                    placeholder="Enter description"
+                  />
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" onClick={this.handleSubmitBid}>
@@ -143,3 +144,4 @@ export default class Project extends Component {
     );
   }
 };
+

@@ -16,51 +16,42 @@ import {
   CardBody,
   Card
 } from 'reactstrap';
+import defaultProfile from '../../../images/default_profile.png'
 import store from '../../../store'
 
 export default class ProfileTab extends Component {
   render() {
+    var imageStyle = {
+      width: "100px",
+      height: "100px"
+    }
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
+      <br/>
         <Row>
-          <Col>
-            <Media>
+          <Col sm="2">
+            <Media style={{display: 'flex', justifyContent: 'center'}}>
               <Media left href="#">
-                <Media object src="../../../images/profile.png"/>
+                <Media object src={defaultProfile} style={imageStyle}/>
               </Media>
             </Media>
             <Media body>
-              <Media heading>
-                {store
-                  .getState()
-                  .user
-                  .first_name}
-                {store
-                  .getState()
-                  .user
-                  .last_name}
+            <br/>
+              <Media heading style={{display: 'flex', justifyContent: 'center'}}>
+                {store.getState().user.first_name} {store.getState().user.last_name}
               </Media>
-              {store
-                .getState()
-                .user
-                .user_type}
+              <div style={{display: 'flex', justifyContent: 'center'}}>
+              {store.getState().user.user_type}
+              </div>
             </Media>
+
           </Col>
-        </Row>
-        <Row>
-          <Col sm="12" md={{
-            size: 8,
-            offset: 2
-          }}>
+          <Col sm="12" md={{size: 8}}>
             <Card>
-              <CardHeader>Username
-              </CardHeader>
+              <CardHeader>Username</CardHeader>
               <CardBody>
                 <CardText>
-                  {store
-                    .getState()
-                    .user
-                    .username}
+                  {store.getState().user.username}
                 </CardText>
               </CardBody>
             </Card>
@@ -69,39 +60,42 @@ export default class ProfileTab extends Component {
               <CardHeader>Email</CardHeader>
               <CardBody>
                 <CardText>
-                  {store
-                    .getState()
-                    .user
-                    .email}
+                  {store.getState().user.email}
                 </CardText>
               </CardBody>
             </Card>
             <br/>
-            <Card>
-              <CardHeader>LinkedIn</CardHeader>
-              <CardBody>
-                <CardText>
-                  {store
-                    .getState()
-                    .user
-                    .linkedinURL}
-                </CardText>
-              </CardBody>
-            </Card>
-            <br/>
-            <Card>
-              <CardHeader>Github
-              </CardHeader>
-              <CardBody>
-                <CardText>
-                  {store
-                    .getState()
-                    .user
-                    .githubURL}
-                </CardText>
-              </CardBody>
-            </Card>
-            <br/>
+            {store.getState().user.user_type === "admin" ? <h1> </h1>:
+            <div>
+              <Card>
+                <CardHeader>LinkedIn</CardHeader>
+                <CardBody>
+                  <CardText>
+                    {store.getState().user.linkedIn}
+                  </CardText>
+                </CardBody>
+              </Card>
+              <br/>
+              <Card>
+                <CardHeader>Github
+                </CardHeader>
+                <CardBody>
+                  <CardText>
+                    {store.getState().user.github}
+                  </CardText>
+                </CardBody>
+              </Card>
+              <br/>
+
+              <Card body inverse color="success" >
+                <CardTitle>Current Balance</CardTitle>
+                  <CardText> $
+                    {store.getState().user.account_balance}
+                  </CardText>
+              </Card>
+              <br/>
+            </div>
+          }
           </Col>
         </Row>
       </TabPane>

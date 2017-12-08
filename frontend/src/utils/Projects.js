@@ -4,7 +4,9 @@ import {
   PROJECT,
   PROJECTS,
   CREATE,
-  SEARCH
+  SEARCH,
+  BID,
+  APPROVE
 } from '../urls/API'
 import store from '../store'
 
@@ -35,19 +37,83 @@ export function myproject(username) {
   })
 }
 
-export function createprojects(title, username, summary, bid_end, max_budget) {
+export function createprojects(title, username, summary, details, bid_end, max_budget) {
   return axios({
     method: 'post',
     url: URL + PROJECT + CREATE,
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "x-access-token": store.getState().token
     },
     data: {
       title: title,
       author: username,
       summary: summary,
+      details: details,
       bid_end: bid_end,
       max_budget: max_budget
+    }
+  })
+}
+
+export function bid(id, username, amount, description) {
+  return axios({
+    url: URL + PROJECT + BID + id,
+    method: 'post',
+    headers :{
+      'x-access-token': store.getState().token
+    },
+    data: {
+      author: username,
+      amount: amount,
+      description: description
+    }
+  }).then( (response) => {
+    console.log(response)
+    alert("Submitting bid...")
+  }).catch( (err) => {
+    alert(err)
+    console.log(err)
+  })
+}
+
+export function getbid(id) {
+  return axios({
+    url: URL + PROJECT + BID + id,
+    method: 'get',
+    headers: {
+      'x-access-token': store.getState().token
+    }
+  })
+}
+
+export function submitAssignee(id, assignee, assignee_username,reason_for_selection) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      assignee: assignee,
+      assignee_username: assignee_username,
+      reason_for_selection, reason_for_selection,
+      require_review: true
+    }
+  })
+}
+
+export function approveProject(id) {
+
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + APPROVE + id,
+    headers: {
+      'x-access-token': store.getState().token
+    }, 
+    data: {
+      require_review: false,
+      bidding_in_progress: false
     }
   })
 }

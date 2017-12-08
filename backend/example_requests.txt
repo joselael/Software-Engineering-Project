@@ -73,3 +73,10 @@ Received: [
               }
           ]
 
+/*Checking user password against their token */
+POST localhost:3001/user/check
+Sent:
+    Header[x-access-token] : <token> // otherwise 401
+Received:
+true //or 401 with false if check fails
+

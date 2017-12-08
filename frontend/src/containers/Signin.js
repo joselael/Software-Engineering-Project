@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { Redirect } from 'react-router-dom'
-import { login, loggedIn } from '../utils/Auth' 
+import { login, loggedIn } from '../utils/Auth'
 import '../css/Signin.css';
 
 class Signin extends Component {

@@ -20,13 +20,14 @@ import {
   ModalHeader
 } from 'reactstrap';
 import '../../css/usertab.css';
-import {accounts, acceptUser, blacklistUser, deleteUser, rejectUser} from '../../utils/Users'
+import {accounts, acceptUser, rejectUser} from '../../utils/Users'
 import {projects} from '../../utils/Projects'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
 import ProjectModal from '../Projects/AdminProjectModal'
+import AdminUser from '../Users/AdminUsers'
 
 export class AdminTab extends Component {
   constructor(props) {
@@ -49,26 +50,15 @@ export class AdminTab extends Component {
     this.checkPending = this
       .checkPending
       .bind(this)
-    this.checkAccept = this
-      .checkAccept
-      .bind(this)
+    this.checkAccept = this.checkAccept.bind(this)
     this.checkBlacklist = this
       .checkBlacklist
       .bind(this)
     this.acceptUser = this
       .acceptUser
       .bind(this)
-    this.declineUser = this
-      .declineUser
-      .bind(this)
-    this.blacklistUser = this
-      .blacklistUser
-      .bind(this)
     this.updateTable = this
       .updateTable
-      .bind(this)
-    this.deleteUser = this
-      .deleteUser
       .bind(this)
     this.toggleModal = this
       .toggleModal
@@ -98,7 +88,6 @@ export class AdminTab extends Component {
     accounts(store.getState().token).then(({data}) => {
       var users = data.filter(this.notAdmin)
       this.setState({users: users})
-      console.log(this.state.users)
     }).catch((err) => {
       console.log(err)
     })
@@ -124,43 +113,27 @@ export class AdminTab extends Component {
     })
   }
 
-  blacklistUser = id => event => {
-    console.log("Blacklisting user")
-    blacklistUser(store.getState().token, id).then((response) => {
-      this.updateTable()
-    })
-  }
-
-  deleteUser = id => event => {
-    console.log("Deleting user")
-    deleteUser(store.getState().token, id).then((response) => {
-      this.updateTable()
-    })
-  }
-
-  declineUser = id => event => {
-    console.log("Disabling user")
-    console.log(id)
-  }
-
   acceptUser = id => event => {
     console.log("Accepting user")
-    console.log(id)
     acceptUser(store.getState().token, id).then((response) => {
       this.updateTable()
     })
   }
 
+  checkPendingDeletion(user) {
+    return user.delete_requested
+  }
+
   checkAccept(user) {
-    return user.enabled && !user.blacklisted
+    return user.enabled && !user.blacklisted && !user.delete_requested
   }
 
   checkPending(user) {
-    return !user.enabled && !user.blacklisted
+    return !user.enabled && !user.blacklisted && !user.delete_requested
   }
 
   checkBlacklist(user) {
-    return user.blacklisted
+    return user.blacklisted && !user.delete_requested
   }
 
   notAdmin(user) {
@@ -183,7 +156,7 @@ export class AdminTab extends Component {
       .state
       .users
       .filter(this.checkPending)
-      .map((user, index) => 
+      .map((user, index) =>
       <tr key={user._id}>
         <th scope="row">{index + 1}</th>
         <td>
@@ -243,73 +216,27 @@ export class AdminTab extends Component {
       </tr>)
 
     const acceptedUsers = this
-      .state
-      .users
-      .filter(this.checkAccept)
-      .map((user, index) => <tr key={user._id}>
-        <th scope="row">{index + 1}</th>
-        <td>
-          {user.user_type}
-        </td>
-        <td>
-          {user.first_name}
-        </td>
-        <td>
-          {user.last_name}
-        </td>
-        <td>
-          {user.username}
-        </td>
-        <td>
-          <Button size="sm" color="danger" onClick={this.blacklistUser(user._id)}>
-            Blacklist
-          </Button>
-        </td>
-        <td>
-          {user.enabled
-            ? "Enabled"
-            : "Disabled"}
-        </td>
-      </tr>)
+      .state.users.filter(this.checkAccept)
+      .map((user, index) =>
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()} />
+      )
 
     const blacklistedUsers = this
-      .state
-      .users
-      .filter(this.checkBlacklist)
-      .map((user, index) => <tr key={user._id}>
-        <th scope="row">{index + 1}</th>
-        <td>
-          {user.user_type}
-        </td>
-        <td>
-          {user.first_name}
-        </td>
-        <td>
-          {user.last_name}
-        </td>
-        <td>
-          {user.username}
-        </td>
-        <td>
-          <Button
-            size="sm"
-            color="danger"
-            value={user.token}
-            onClick={this.deleteUser(user._id)}>
-            Delete
-          </Button>
-        </td>
-        <td>
-          {user.blacklisted
-            ? "Blacklisted"
-            : "Not blacklisted"}
-        </td>
-      </tr>)
+      .state.users.filter(this.checkBlacklist)
+      .map((user, index) =>
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+      )
+
+    const pendingDeletionUsers = this
+      .state.users.filter(this.checkPendingDeletion)
+      .map((user, index) => 
+        <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+      )
 
     const allProjects = this.state.projects
-      .map((project, index) => 
-        <ProjectModal key={project._id} project={project} index={index}/>
-    )
+      .map((project, index) =>
+        <ProjectModal key={project._id} project={project} index={index} updateTable = {() => this.updateTable()}/>
+      )
     return (
       <div>
         <Nav tabs>
@@ -361,6 +288,7 @@ export class AdminTab extends Component {
         <div className="activeTab">
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
+            <br/>
               <Row>
                 <h4>Pending User</h4>
                 <Table hover responsive striped>
@@ -413,9 +341,27 @@ export class AdminTab extends Component {
                     {blacklistedUsers}
                   </tbody>
                 </Table>
+                <h4>Pending Deletion</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User Type</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                      <th>Action</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendingDeletionUsers}
+                  </tbody>
+                </Table>
               </Row>
             </TabPane>
             <TabPane tabId="2">
+            <br/>
               <Row>
                 <h4>All Projects</h4>
                 <Table hover responsive striped>
