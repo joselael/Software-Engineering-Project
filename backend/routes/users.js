@@ -81,18 +81,18 @@ router.put('/me', VerifyToken, (req, res) => {
 });
 
 // update user profile in database, by user
-// router.delete('/me', VerifyToken, (req, res) => {
-//     if (!req.body.password)
-//         return res.status(401).("Must provide password");
-//
-//     if (!bcrypt.compareSync())
-//     req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
-//
-//     User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
-//         if (err) return res.status(500).send("There was a problem updating the user.");
-//         res.status(200).send(user);
-//     });
-// });
+router.delete('/me', VerifyToken, (req, res) => {
+    if (!req.body.password)
+        return res.status(401).send("Must provide password");
+
+    if (!bcrypt.compareSync(req.body.password,))
+        req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
+
+    User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
+        if (err) return res.status(500).send("There was a problem updating the user.");
+        res.status(200).send(user);
+    });
+});
 
 
 // update user profile in database, by admin
