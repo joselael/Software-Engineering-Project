@@ -34,6 +34,7 @@ export default class ProjectModal extends Component {
     this.toggleModal = this.toggleModal.bind(this)
     this.deleteProject = this.deleteProject.bind(this)
     this.approveProject = this.approveProject.bind(this)
+
   }
 
   approveProject() {
@@ -117,6 +118,10 @@ export default class ProjectModal extends Component {
                 <div className="col-md-6">
                   <Label>Reason for selection:</Label>
                   <div className="modelP">{this.props.project.reason_for_selection}</div>
+                </div>
+                <div className="col-md-6">
+                  <Label>Assignee:</Label>
+                  <div className="modelP">{this.props.project.assignee_username}</div>
                 </div>
               </div>
             </ModalBody>

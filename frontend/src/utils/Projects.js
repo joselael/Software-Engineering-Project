@@ -87,7 +87,7 @@ export function getbid(id) {
   })
 }
 
-export function submitAssignee(id, assignee, reason_for_selection) {
+export function submitAssignee(id, assignee, assignee_username,reason_for_selection) {
   return axios({
     method: 'put',
     url: URL + PROJECT + id,
@@ -96,6 +96,7 @@ export function submitAssignee(id, assignee, reason_for_selection) {
     },
     data: {
       assignee: assignee,
+      assignee_username: assignee_username,
       reason_for_selection, reason_for_selection,
       require_review: true
     }
