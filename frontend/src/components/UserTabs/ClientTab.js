@@ -62,7 +62,8 @@ export class ClientTab extends Component {
   }
 
   checkInProgress(project) {
-    return project
+    return !(project.completed && !(project.require_review || project.bidding_in_progress ||
+      project.require_rating || project.problematic))
   }
 
   onStarClick(nextValue, prevValue, name) {
@@ -85,7 +86,8 @@ export class ClientTab extends Component {
   }
 
   checkDone(project) {
-    return project.completed
+    return project.completed && !(project.require_review || project.bidding_in_progress ||
+      project.require_rating || project.problematic)
   }
 
   componentDidMount() {
@@ -164,15 +166,15 @@ export class ClientTab extends Component {
         if (project.bidding_in_progress)
           modalProject = <ProjectModal key={project._id} project={project} index={index} />
         else
-        modalProject = <RatingModal key={project._id} project={project} index={index} />
+          modalProject = <RatingModal key={project._id} project={project} index={index} />
       }
     )
 
     const pastProjects = this.state.projects.
       filter(this.checkDone)
-      .map((project, index) =>
-        <GeneralModal key={project._id} project={project} index={index} />
-    )
+        .map((project, index) =>
+          <GeneralModal key={project._id} project={project} index={index} />)
+
     return (
       <div>
         <Nav tabs>
@@ -302,10 +304,12 @@ export class ClientTab extends Component {
                       <th>#</th>
                       <th>Project Name</th>
                       <th>Max Budget</th>
+                      <th>Status</th>
                       <th>Link</th>
                     </tr>
                   </thead>
                   <tbody>
+                    {pastProjects}
                   </tbody>
                 </Table>
               </Row>

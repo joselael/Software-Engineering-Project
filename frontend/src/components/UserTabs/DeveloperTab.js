@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
 import ProjectModal from '../Projects/DeveloperProjectModal'
+import GeneralModal from '../Projects/GeneralClientProjectModal'
 
 export class DeveloperTab extends Component {
     constructor(props) {
@@ -20,6 +21,18 @@ export class DeveloperTab extends Component {
       this.toggle = this.toggle.bind(this);
       this.wonProjects = this.wonProjects.bind(this)
       this.updateTable = this.updateTable.bind(this)
+      this.checkInProgress = this.checkInProgress.bind(this)
+      this.checkDone = this.checkDone.bind(this)
+    }
+
+    checkInProgress(project) {
+      return !(project.completed && !(project.require_review || project.bidding_in_progress ||
+        project.require_rating || project.problematic))
+    }
+
+    checkDone(project) {
+      return project.completed && !(project.require_review || project.bidding_in_progress ||
+        project.require_rating || project.problematic)
     }
 
     updateTable() {
@@ -54,9 +67,16 @@ export class DeveloperTab extends Component {
     render() {
 
       const Projects = this.state.projects
+        .filter(this.checkInProgress)
         .map((project, index) => 
         <ProjectModal updateTable={() => this.updateTable()} key={project._id} project={project} index={index}/>
       )
+
+      const pastProjects = this.state.projects
+        .filter(this.checkDone)
+          .map((project, index) => 
+        <GeneralModal updateTable={() => this.updateTable()} key={project._id} project={project} index={index}/>
+        )
 
       console.log(this.state.projects)
 
@@ -112,11 +132,13 @@ export class DeveloperTab extends Component {
                       <tr>
                         <th>#</th>
                         <th>Project Name</th>
+                        <th>Max Budget</th>
                         <th>Status</th>
                         <th>Link</th>
                       </tr>
                     </thead>
                   <tbody>
+                    {pastProjects}
                   </tbody>
                   </Table>
                 </Row>
