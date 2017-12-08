@@ -38,11 +38,18 @@ export default class GeneralModal extends Component {
   }
 
   render() {
+
+    var status = ""
+
+    if(this.props.project.require_rating)
+      status = "REQUIRE RATING"
+
     return(
       <tr>
         <td scope="row">{this.props.index + 1}</td>
         <td>{this.props.project.title}</td>
         <td>{this.props.project.max_budget}</td>
+        <td>{status}</td>
         <td>
           <Button
             size="sm"

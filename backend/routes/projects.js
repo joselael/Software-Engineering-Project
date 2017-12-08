@@ -11,6 +11,7 @@ router.post('/bid/:id', VerifyToken, (req, res) => {
 
     Bid.create({
         author: req.body.author,
+        author_id: req.body.author_id,
         amount: parseInt(req.body.amount),
         description: req.body.description
     }, (err, bid) => {
@@ -51,6 +52,7 @@ router.post('/create', VerifyToken, (req, res) => {
     Project.create({
         title: req.body.title,
         author: req.body.author,
+        author_id: req.body.author_id,
         summary: req.body.summary,
         details: req.body.details,
         bid_end: new Date(req.body.bid_end),
@@ -64,6 +66,7 @@ router.post('/create', VerifyToken, (req, res) => {
         rating: null,
         bidding_in_progress: true,
         require_review: false,
+        require_rating: false,
         reason_for_selection: "",
         problematic: false,
         admin_comments: null
@@ -125,6 +128,15 @@ router.get('/:title', VerifyToken, (req, res) => {
         if (err) return res.status(500).send("There was a problem finding the project.");
         if (!project) return res.status(404).send("No project found.");
 
+        res.status(200).send(project);
+    });
+});
+
+//Rating endpoint for clients to rate the project
+router.put('/rating/:id', VerifyToken, (req, res) => {
+    Project.findByIdAndUpdate(req.params.id, req.body.rating, {new: true}, function (err, project) {
+        if (err) return res.status(500).send("There was a problem updating the project.");
+        //Rating logic
         res.status(200).send(project);
     });
 });

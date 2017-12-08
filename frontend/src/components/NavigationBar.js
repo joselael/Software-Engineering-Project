@@ -116,7 +116,7 @@ class NavigationBar extends Component {
                 </DropdownMenu>
               </Dropdown>
               <NavItem>
-                <NavLink to='/signin' tag={RRNavLink}>
+                <NavLink to='/signin' tag={RRNavLink} onClick={this.closeToggle}>
                   Sign In
                 </NavLink>
               </NavItem>
