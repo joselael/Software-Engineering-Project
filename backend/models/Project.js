@@ -27,7 +27,8 @@ const ProjectSchema = new mongoose.Schema({
     rating_assignee: Number,
     problematic: Boolean,
     author_comments: String,
-    admin_comments: String
+    admin_comments: String,
+
 });
 
 const Project = mongoose.model('Project', ProjectSchema);

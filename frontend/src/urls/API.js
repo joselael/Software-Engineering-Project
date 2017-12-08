@@ -29,5 +29,5 @@ export {
   BID,
   APPROVE,
   RATING,
-  ACCEPT
+  ACCEPT,
 }
