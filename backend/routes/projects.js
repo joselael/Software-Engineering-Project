@@ -103,52 +103,69 @@ router.put('/:id', VerifyToken, (req, res) => {
 });
 
 //super user approval for project
-router.put('/approve/:id', VerifyAdmin, (req, res) => {
+router.put('/approve/:id', (req, res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
-        if (err) return res.status(500).send("There was a problem updating the project.");
-        res.status(200).send(project);
+        if (err) return res.status(404).send("There was a problem updating the project.");
+        else{
+        User.findById(project.assignee.user_id, (err1, assig)=>{
+            var account_balance_assignee = assig.account_balance;
+            var assig_id = assig.id;
+            User.find({username: project.author}, function (err2, author) {
+                var account_balance_author = author.account_balance;
+                var auth_id = author.id;
+                Bid.find({id: project.assignee.bid_id}, function (err2, final_bid) {
+                    var bid_amount = final_bid.amount;
+                    var initial_transfer = bid_amount/2;
+                    User.findByIdAndUpdate(assig_id, {$set:{account_balance : (account_balance_assignee + initial_transfer)}}, function(err, user){
+                        if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
+                        else{
+                         User.findByIdAndUpdate(auth_id,{$set:{account_balance: (account_balance_author - initial_transfer)}}, function(err,user2){
+                             if(err) return res.status(500).send("There was a problem updating account balance for author.");
+                         });
+                        }
+                });
+            });
+        });  
     });
-    var assignee = User.findById(assingee.user_id);
-    var bid_amount = Bid.findById(Project.findById(req.params.id).assingee._bid).amount;
-    var initial_transfer = bid_amount/2;
-    var author_id = Project.findById(req.params.id).author_id;
-    var account_balance_author = User.findById(author_id).account_balance;
-    var account_balance_assingee = Project.findById(req.params.id).assignee.account_balance;
-    User.findByIdAndUpdate((Project.findById(req.params.id).assignee._id), {$set:{account_balance : (account_balance_assignee + intial_transfer)}}, function(err, user){
-            if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
-            res.status(200).send(project);
-        });
-    User.findByIdAndUpdate(author_id,{$set:{account_balance: (account_balance_author - inital_transfer)}}, function(err,user2){
-        if(err) return res.status(500).send("There was a problem updating account balance for author.");
-        res.status(200).send(project);
-    });
-    User.findByIdAndUpdate()    
+}
+});
 });
 
+
 //for final money transfer upon project completion
-router.put('/deliver/:id', VerifyAdmin, (req,res) => {
-    var project = Project.findById(req.params.id);
-    var assignee = User.findById(assingee._id);
-    var su_charge = Bid.findById(project.assignee._bid).amount * .05;
-    var final_transfer = (Bid.findById(project.assignee._bid).amount)/2;
-    var account_balance_author = User.findById(author_id).account_balance;
-    var account_balance_assingee = assignee.account_balance;
-    var total_charge_author = ((Bid.findById(project.assignee._bid).amount)/2) + su_charge;
-    User.findByIdAndUpdate(project.author_id, {$set:{account_balance:(account_balance_author - total_charge_author)}}, function(err,user){
-        if(err) return res.status(500).send("There was a problem updating account balance for author.");
-        res.status(200).send(project);
+router.put('/deliver/:id', (req,res) => {
+    Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
+        User.findById(project.assignee.user_id, (err1, assig)=>{
+            var account_balance_assignee = assig.account_balance;
+            var assignee = assig.id;
+            User.find({username: project.author}, function (err2, author) {
+                var account_balance_author = author.account_balance;
+                var author_id = author.id;
+                Bid.find({id: project.assignee.bid_id}, function (err2, final_bid) {
+                    var bid_amount = final_bid.amount;
+                    var final_transfer = bid_amount/2;
+                    var su_charge = final_transfer * .05;
+                    var total_charge_author = final_transfer + su_charge;
+                    User.findByIdAndUpdate(project.author_id, {$set:{account_balance:(account_balance_author - total_charge_author)}}, function(err,user){
+                        if(err) return res.status(500).send("There was a problem updating account balance for author.");
+                        else{
+                            User.findByIdAndUpdate(assignee,{$set:{account_balance: (account_balance_assignee - su_charge)}}, function(err,user2){
+                                if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
+                                else{
+                                    User.Update({name : 'yong'},{$set:{account_balance : (super_user_balance + (su_charge * 2))}},callback);
+                                    function callback (err, numAffected) {
+                                        if (err) return res.status(500).send("There was a problem updating account for super user.");
+                                       res.status(200).send(project);
+                                    }
+                                 }
+                                 });
+                            }
+                        });
+                    });
+                });
+            });   
+        });
     });
-    User.findByIdAndUpdate(assignee,{$set:{account_balance: (account_balance_assingee - su_charge)}}, function(err,user2){
-        if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
-        res.status(200).send(project);
-    });
-    var super_user_balance = User.findOne({ 'username': 'yong' }).account_balance;
-    User.Update({name : 'yong'},{$set:{account_balance : (super_user_balance + (su_charge * 2))}},callback);
-    function callback (err, numAffected) {
-        if (err) return res.status(500).send("There was a problem updating account for super user.");
-        res.status(200).send(project);
-    };
-});
 
 // find projects by specific user
 router.get('/search/:user', VerifyToken, (req, res) => {

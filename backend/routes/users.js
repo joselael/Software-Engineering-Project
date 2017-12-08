@@ -94,7 +94,7 @@ router.put('/me', VerifyToken, (req, res) => {
     });
 });
 
-router.put('/balance/:id', (req,res) =>{
+router.put('/balance/:id', VerifyToken, (req,res) =>{
     User.findByIdAndUpdate(req.params.id, {$set:{account_balance : req.body.balance_update}}, function(err,user){
         if(err) return res.status(500).send("There was a problem updating the user's account balance.");
         else res.status(200).send([true,"Account balance updated."]);

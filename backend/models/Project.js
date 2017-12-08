@@ -5,6 +5,7 @@ const User = require('./User')
 const ProjectSchema = new mongoose.Schema({
     title: {type: String, required: true},
     author: {type: String, required: true, trim: true},
+    author_id: {type: String},
     summary: {type: String, required: true},
     details: {type: String, required: true},
     post_date: {type: Date, default: Date.now},
@@ -25,9 +26,7 @@ const ProjectSchema = new mongoose.Schema({
     require_rating: Boolean,
     rating_author: Number,
     rating_assignee: Number,
-    problematic: Boolean,
-    author_comments: String,
-    admin_comments: String
+    problematic: Boolean
 });
 
 const Project = mongoose.model('Project', ProjectSchema);
