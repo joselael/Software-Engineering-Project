@@ -129,6 +129,28 @@ router.put('/:id', VerifyAdmin, (req, res) => {
     });
 });
 
+router.get('/total_clients', (req,res) =>{
+    User.count({user_type : 'client'}, function( err, count){
+        if(err)res.status(500).send("Could not get count.");
+        res.status(200).send((count).toString());
+    });
+});
+
+router.get('/total_devs', (req,res)=>{
+    User.count({user_type: 'developer'}, function(err,count){
+        if(err)res.status(500).send("Could not get count.");
+        res.status(200).send((count).toString());
+    });
+});
+
+router.get('/top_dev', (req,res)=>{
+    var query = User.find({user_type : 'developer'}).sort({money_made : -1}).limit(1);
+    query.exec(function(err, money_maker){
+        if (err) {return err;}
+        res.status(200).send(money_maker.username);
+    
+    });
+});
 
 router.get('/me', VerifyToken, (req, res) => {
     console.log("received request");
