@@ -36,6 +36,8 @@ export default class ProjectModal extends Component {
       reasonForSelection: "",
       description: 0,
       bid_amount: 0,
+      GithubLink: "",
+      LinkedInLinl: "",
       bids: []
     }
     this.toggleModal = this.toggleModal.bind(this)
@@ -111,6 +113,8 @@ export default class ProjectModal extends Component {
                 <p className="modelP"> {this.props.project.summary} </p>
               <Label>Project Details</Label>
                 <p className="modelP">{this.props.project.details}</p>
+              <Label> Maximum Budget</Label>
+                <p className="modelP">$ {this.props.project.max_budget}</p>
               <div className="row">
                 <div className="col-md-6">
                 <Label>Bid Starts:</Label>
@@ -141,6 +145,8 @@ export default class ProjectModal extends Component {
                   <ModalBody style={{paddingLeft: "30px"}}>
                     <Row>{this.state.description}</Row>
                     <Row>Bid Amount: ${this.state.bid_amount}</Row>
+                    <Row>Github link: </Row>
+                    <Row>Linked link: </Row>
                   </ModalBody>
                   <ModalFooter>
                     <Input placeholder="Reason for selection"/>
