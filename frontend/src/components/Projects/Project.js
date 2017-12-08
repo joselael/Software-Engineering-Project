@@ -38,12 +38,16 @@ export default class Project extends Component {
   }
 
   handleSubmitBid = event => {
-    bid(this.props.project._id, store.getState().user.username,
-    this.state.bid, this.state.description)
-      .then( (response) => {
-        console.log(response)
-        this.toggleModal()
-      })
+    if(this.state.bid > store.getState().user.account_balance)
+      alert("You do not have enough funds!")
+    else {
+      bid(this.props.project._id, store.getState().user.username,
+      this.state.bid, this.state.description)
+        .then( (response) => {
+          console.log(response)
+          this.toggleModal()
+        })
+    }
   }
 
   handleChange = event => {
@@ -98,14 +102,16 @@ export default class Project extends Component {
                     <p className="modelP">{this.props.project.details}</p>
                   <div className="row">
                     <div className="col-md-6">
-                    <Label>Bid Starts:</Label>
-                      <div className="modelP">{this.props.project.bid_start}</div>
-                    </div>
-                      <div className="col-md-6">
                       <Label>Bid End:</Label>
                       <div className="modelP">{this.props.project.bid_end}</div>
                     </div>
+                    <div className="col-md-6">
+                    <Label>Project End:</Label>
+                      <div className="modelP">{this.props.project.project_end}</div>
+                    </div>
                   </div>
+                    <Label>Max Budget</Label>
+                    <p className="modelP">${this.props.project.max_budget}</p>
                   <Label>Enter Message</Label>
                   <Input
                     autoFocus

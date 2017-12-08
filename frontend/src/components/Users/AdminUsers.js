@@ -26,7 +26,6 @@ export default class AdminUsers extends Component {
 
   constructor(props) {
     super(props)
-    console.log(this.props.user._id)
     this.deleteUser = this.deleteUser.bind(this)
     this.blacklistUser = this.blacklistUser.bind(this)
   }

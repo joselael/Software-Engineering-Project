@@ -5,6 +5,46 @@ const Bid = require('../models/Bid');
 const VerifyToken = require('../auth/VerifyToken');
 const VerifyAdmin = require('../auth/VerifyAdmin');
 
+
+//project/bid endpoint, to allow users to post bids given the projectid
+router.post('/bid/:id', VerifyToken, (req, res) => {
+
+    Bid.create({
+        author: req.body.author,
+        author_id: req.body.author_id,
+        amount: parseInt(req.body.amount),
+        description: req.body.description
+    }, (err, bid) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send("There was a problem creating the bid");
+        } else
+            Project.findById(req.params.id, (err, proj) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).send("There was a problem getting the project");
+
+                } else {
+                    proj.bids.push(bid);
+                    proj.save();
+                }
+
+            });
+    });// end Bid.create()
+
+
+    return res.status(201).send("bid created!");
+}); // end router.post()
+
+// to get bids by ID
+router.get('/bid/:id', VerifyToken, (req, res) => {
+    Bid.findById(req.params.id, (err, bid) => {
+        if (err) return res.status(500).send("Problem while getting the bid");
+
+        return res.status(200).send(bid);
+    });
+});
+
 router.post('/create', VerifyToken, (req, res) => {
     if (!req.body.bid_start)
         req.body.bid_start = Date.now();
@@ -12,17 +52,21 @@ router.post('/create', VerifyToken, (req, res) => {
     Project.create({
         title: req.body.title,
         author: req.body.author,
+        author_id: req.body.author_id,
         summary: req.body.summary,
         details: req.body.details,
         bid_end: new Date(req.body.bid_end),
         bid_start: new Date(req.body.bid_start),
+        project_end: new Date(req.body.project_end),
         max_budget: parseInt(req.body.max_budget),
         bids: [],
         assignee: null,
+        assignee_username: "",
         completed: false,
         rating: null,
         bidding_in_progress: true,
         require_review: false,
+        require_rating: false,
         reason_for_selection: "",
         problematic: false,
         admin_comments: null
@@ -61,14 +105,12 @@ router.put('/:id', VerifyToken, (req, res) => {
     });
 });
 
-
 router.put('/approve/:id', VerifyAdmin, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         if (err) return res.status(500).send("There was a problem updating the project.");
         res.status(200).send(project);
     });
 });
-
 
 // find projects by specific user
 router.get('/search/:user', VerifyToken, (req, res) => {
@@ -90,5 +132,13 @@ router.get('/:title', VerifyToken, (req, res) => {
     });
 });
 
-module.exports = router;
+//Rating endpoint for clients to rate the project
+router.put('/rating/:id', VerifyToken, (req, res) => {
+    Project.findByIdAndUpdate(req.params.id, req.body.rating, {new: true}, function (err, project) {
+        if (err) return res.status(500).send("There was a problem updating the project.");
+        //Rating logic
+        res.status(200).send(project);
+    });
+});
 
+module.exports = router;

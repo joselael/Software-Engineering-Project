@@ -19,6 +19,8 @@ class NavigationBar extends Component {
     }
     this.toggle = this.toggle.bind(this)
     this.signout = this.signout.bind(this)
+    this.closeToggle = this.closeToggle.bind(this)
+    this.toggleDropDownAndClose = this.toggleDropDownAndClose.bind(this)
   }
 
   toggle = event => {
@@ -33,9 +35,22 @@ class NavigationBar extends Component {
     })
   }
 
+  toggleDropDownAndClose = event => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    })
+    this.closeToggle()
+  }
+
+  closeToggle = event => {
+    if(this.state.isOpen)
+      this.toggle()
+  }
+
   signout(e) {
     e.preventDefault();
     logout()
+    this.closeToggle()
   }
 
   render() {
@@ -51,7 +66,7 @@ class NavigationBar extends Component {
           {isLoggedIn ? (
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink to='/myaccount' tag={RRNavLink}>
+                <NavLink to='/myaccount' tag={RRNavLink} onClick={this.closeToggle}>
                   My Account
                 </NavLink>
               </NavItem>
@@ -61,10 +76,10 @@ class NavigationBar extends Component {
                     Search
                   </DropdownToggle>
                   <DropdownMenu>
-                    <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDown}>
+                    <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDownAndClose}>
                       Projects
                     </NavLink>
-                    <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDown}>
+                    <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDownAndClose}>
                       Users
                     </NavLink>
                   </DropdownMenu>
@@ -83,27 +98,25 @@ class NavigationBar extends Component {
           ) : (
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink to='/about' tag={RRNavLink}>
+                <NavLink to='/about' tag={RRNavLink} onClick={this.closeToggle}>
                   About
                 </NavLink>
               </NavItem>
+              <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
+                <DropdownToggle nav caret>
+                  Search
+                </DropdownToggle>
+                <DropdownMenu>
+                  <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDownAndClose}>
+                    Projects
+                  </NavLink>
+                  <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDownAndClose}>
+                    Users
+                  </NavLink>
+                </DropdownMenu>
+              </Dropdown>
               <NavItem>
-                <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
-                  <DropdownToggle nav caret>
-                    Search
-                  </DropdownToggle>
-                  <DropdownMenu>
-                    <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDown}>
-                      Projects
-                    </NavLink>
-                    <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDown}>
-                      Users
-                    </NavLink>
-                  </DropdownMenu>
-                </Dropdown>
-              </NavItem>
-              <NavItem>
-                <NavLink to='/signin' tag={RRNavLink}>
+                <NavLink to='/signin' tag={RRNavLink} onClick={this.closeToggle}>
                   Sign In
                 </NavLink>
               </NavItem>
