@@ -8,6 +8,7 @@
     "babel-polyfill": "^6.26.0",
     "lodash": "^4.17.4",
     "react": "^16.1.1",
+    "react-bar-chart": "^0.1.2",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.1.1",
     "react-redux": "^5.0.6",

@@ -369,14 +369,14 @@ export class ClientTab extends Component {
         </div>
 
         <div>
-    <h2>Rating from state: {this.state.rating}</h2>
-    <StarRatingComponent
-        name="rate2"
-        editing={false}
-        starCount="5"
-        value={this.state.rating}
-    />
-</div>
+          <h2>Rating from state: {this.state.rating}</h2>
+          <StarRatingComponent
+              name="rate2"
+              editing={false}
+              starCount="5"
+              value={this.state.rating}
+          />
+        </div>
 
       </div>
     );

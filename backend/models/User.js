@@ -8,6 +8,7 @@ UserSchema = new mongoose.Schema({
     password: {type: String, required: true},
     user_type: {type: String, required: true},
     account_balance: Number,
+    rating: {type: Number, default: 0},
     enabled: Boolean,
     warnings: Number,
     blacklisted: Boolean,

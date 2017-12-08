@@ -3,13 +3,23 @@ import { Button,
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  Row,
+  Col
  } from 'reactstrap'
 import { NavLink as RRNavLink } from 'react-router-dom'
 import { loggedIn } from '../utils/Auth'
 import FirstLoginModal from './Users/FirstLoginModal'
 import store from '../store'
 import '../css/landing.css'
+import BarChart from 'react-bar-chart'
+
+const data = [
+  {text: 'Developers', value: 5},
+  {text: 'Clients', value: 3},
+  {text: 'Projects', value: 1}
+];
+const margin = {top: 20, right: 20, bottom: 30, left: 40};
 
 class LandingHeader extends Component {
 
@@ -19,7 +29,8 @@ class LandingHeader extends Component {
     this.state = {
       first_name: store.getState().user.first_name,
       last_name: store.getState().user.last_name,
-      modal: store.getState().user.first_login
+      modal: store.getState().user.first_login,
+      width: 600
     }
     this.toggleModal = this.toggleModal.bind(this)
   }
@@ -66,6 +77,21 @@ class LandingHeader extends Component {
             </header>
           </div>
         )}
+        <Row>
+        <br/>
+          <Col sm="12" md={{offset: 3 }}>
+            <div ref='root'>
+                <div style={{width: '50%', fill:'#258e8e', stroke: 'grey'}}>
+                    <BarChart ylabel='Statistics'
+                      width={this.state.width}
+                      height={500}
+                      margin={margin}
+                      data={data}/>
+                </div>
+            </div>
+          </Col>
+        </Row>
+
       </div>
     );
   }
