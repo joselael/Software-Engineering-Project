@@ -92,12 +92,14 @@ export function getbid(id) {
 
 export function finishProject(id) {
   return axios({
+    url: URL + PROJECT + id,
     method: 'put',
     headers: {
       'x-access-token': store.getState().token
     },
     data: {
-      completed: true
+      completed: true,
+      require_rating: true
     }
   })
 }

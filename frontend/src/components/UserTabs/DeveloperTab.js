@@ -12,21 +12,35 @@ import ProjectModal from '../Projects/DeveloperProjectModal'
 
 export class DeveloperTab extends Component {
     constructor(props) {
-        super(props)
-        this.state = {
-            activeTab: '1',
-            projects: []
-        }
-        this.toggle = this.toggle.bind(this);
-        this.wonProjects = this.wonProjects.bind(this)
+      super(props)
+      this.state = {
+          activeTab: '1',
+          projects: []
+      }
+      this.toggle = this.toggle.bind(this);
+      this.wonProjects = this.wonProjects.bind(this)
+      this.updateTable = this.updateTable.bind(this)
+    }
+
+    updateTable() {
+      projects()
+        .then(({data}) => {
+            var projects = data.filter(this.wonProjects)
+            this.setState({
+                projects: projects
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
 
     toggle(tab) {
-        if (this.state.activeTab !== tab) {
+      if (this.state.activeTab !== tab) {
         this.setState({
             activeTab: tab
         });
-        }
+      }
     }
 
     wonProjects(project) {
@@ -34,24 +48,14 @@ export class DeveloperTab extends Component {
     }
 
     componentDidMount() {
-      projects()
-        .then(({data}) => {
-            var projects = data.filter(this.wonProjects)
-            this.setState({
-                projects: projects
-            })
-            console.log(this.state.projects)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+      this.updateTable()
     }
 
     render() {
 
       const Projects = this.state.projects
         .map((project, index) => 
-        <ProjectModal key={project._id} project={project} index={index}/>
+        <ProjectModal updateTable={() => this.updateTable()} key={project._id} project={project} index={index}/>
       )
 
       return ( 

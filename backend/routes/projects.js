@@ -65,6 +65,7 @@ router.post('/create', VerifyToken, (req, res) => {
         rating: null,
         bidding_in_progress: true,
         require_review: false,
+        require_rating: false,
         reason_for_selection: "",
         problematic: false,
         admin_comments: null

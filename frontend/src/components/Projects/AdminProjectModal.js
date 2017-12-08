@@ -138,7 +138,7 @@ export default class ProjectModal extends Component {
               color="success"
               onClick={this.approveProject}
               >
-              Accept 
+              Approve 
             </Button>
             <Button
             size="sm" 

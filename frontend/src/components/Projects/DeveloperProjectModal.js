@@ -31,7 +31,7 @@ export default class ProjectModal extends Component {
       modal: false
     }
     this.toggleModal = this.toggleModal.bind(this)
-    this.finishProject = this.finishProject.bind(this)
+    this.submitFinish = this.submitFinish.bind(this)
   }
 
   toggleModal() {
@@ -40,14 +40,16 @@ export default class ProjectModal extends Component {
     })
   }
 
-  finishProject() {
+  submitFinish() {
     finishProject(this.props.project._id)
       .then( (response) => {
         console.log(response)
+        this.props.updateTable()
       })
       .catch( (err) => {
         console.log(err)
       })
+    this.toggleModal()
   }
   
   render() {
@@ -103,7 +105,7 @@ export default class ProjectModal extends Component {
               {
                 status === "WIP" ?
                 <ButtonGroup>
-                  <Button color="success">
+                  <Button color="success" onClick={this.submitFinish}>
                     Finish
                   </Button>
                   <Button color="secondary" onClick={this.toggleModal}>
