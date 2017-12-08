@@ -23,7 +23,8 @@ const ProjectSchema = new mongoose.Schema({
     reason_for_selection: String,
     require_review: Boolean,
     require_rating: Boolean,
-    rating: Number,
+    rating_author: Number,
+    rating_assignee: Number,
     problematic: Boolean,
     author_comments: String,
     admin_comments: String
