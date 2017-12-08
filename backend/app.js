@@ -21,12 +21,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
-const file = require('./routes/files');
 const index = require('./routes/index');
 const user = require('./routes/users');
 const project = require('./routes/projects');
 const db = require('./databases/db');
-const file = require('./routes/index');
 const files = require('./routes/file')
 
 app.use('/', index);

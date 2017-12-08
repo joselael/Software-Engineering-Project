@@ -125,7 +125,7 @@ router.put('/approve/:id', VerifyAdmin, (req, res) => {
         if(err) return res.status(500).send("There was a problem updating account balance for author.");
         res.status(200).send(project);
     });
-        
+    User.findByIdAndUpdate()    
 });
 
 //for final money transfer upon project completion
@@ -145,6 +145,12 @@ router.put('/deliver/:id', VerifyAdmin, (req,res) => {
         if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
         res.status(200).send(project);
     });
+    var super_user_balance = User.findOne({ 'username': 'yong' }).account_balance;
+    User.Update({name : 'yong'},{$set:{account_balance : (super_user_balance + (su_charge * 2))}},callback);
+    function callback (err, numAffected) {
+        if (err) return res.status(500).send("There was a problem updating account for super user.");
+        res.status(200).send(project);
+    };
 });
 
 // find projects by specific user
