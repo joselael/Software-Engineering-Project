@@ -24,6 +24,7 @@ import {
 import '../../css/usertab.css';
 import {myproject, createprojects} from '../../utils/Projects'
 import ProjectModal from '../Projects/ClientProjectModal'
+import GeneralModal from '../Projects/GeneralClientProjectModal'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -55,6 +56,11 @@ export class ClientTab extends Component {
     this.checkDone = this.checkDone.bind(this)
     this.clearStates = this.clearStates.bind(this)
     this.onStarClick = this.onStarClick.bind(this)
+    this.checkInProgress = this.checkInProgress.bind(this)
+  }
+
+  checkInProgress(project) {
+    return project.completed === false
   }
 
   onStarClick(nextValue, prevValue, name) {
@@ -72,7 +78,7 @@ export class ClientTab extends Component {
   }
 
   checkFinished(project) {
-    return !project.completed
+    return project.bidding_in_progress
   }
 
   checkDone(project) {
@@ -88,6 +94,7 @@ export class ClientTab extends Component {
       this.setState({
         projects: response.data
       })
+      console.log(this.state.projects)
     }).catch( (err) => {
       console.log(err)
     })
@@ -142,70 +149,25 @@ export class ClientTab extends Component {
   }
 
   render() {
+
     const biddingProjects = this.state.projects.
       filter(this.checkFinished)
       .map((project, index) =>
         <ProjectModal key={project._id} project={project} index={index}/>
     )
 
+    const currentProjects = this.state.projects
+      .filter(this.checkInProgress)
+        .map((project, index) => 
+          <GeneralModal key={project._id} project={project} index={index} />
+      )
+
+    console.log(currentProjects)
+
     const pastProjects = this.state.projects.
       filter(this.checkDone)
       .map((project, index) =>
-        <tr key={project._id}>
-          <td scope="row">{index + 1}</td>
-          <td>{project.title}</td>
-          <td>{project.mid_budget}</td>
-          <td>{project.max_budget}</td>
-          <td>
-            <Button
-              size="sm"
-              color="primary"
-              onClick={this.toggleLink}
-            >
-              Link
-            </Button>
-            <Modal isOpen={this.state.link} toggle={this.toggleLink}>
-              <ModalHeader>
-                {project.title}
-              </ModalHeader>
-              <ModalBody>
-                <Label>Project Summary</Label>
-                  <p className="modelP"> {project.summary} </p>
-                <Label>Project Details</Label>
-                  <p className="modelP">{project.details}</p>
-                <div className="row">
-                  <div className="col-md-6">
-                  <Label>Bid Starts:</Label>
-                    <p className="modelP">{project.bid_start}</p>
-                  </div>
-                    <div className="col-md-6">
-                    <Label>Bid End:</Label>
-                    <p className="modelP">{project.bid_end}</p>
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <FormGroup>
-                <select value={this.state.dev_username}
-                  onChange={this.handleChange}
-                  type="text"
-                  name="dev_username"
-                  className="form-control">
-                  <option value="" disabled> Choose your user type </option>
-                  <option value="developer"> Developer </option>
-                  <option value="client"> Client </option>
-                </select>
-                </FormGroup>
-                <Button color="danger" onClick={this.toggleLink}>
-                  Choose
-                </Button>
-                <Button color="primary" onClick={this.toggleLink}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </td>
-        </tr>
+        <GeneralModal key={project._id} project={project} index={index} />
     )
     return (
       <div>
@@ -334,6 +296,7 @@ export class ClientTab extends Component {
                     </tr>
                   </thead>
                   <tbody>
+                    {currentProjects}
                   </tbody>
                 </Table>
                 <h4>Past Project</h4>
@@ -356,7 +319,8 @@ export class ClientTab extends Component {
             <SettingsTab tabId={"3"}/>
           </TabContent>
         </div>
-
+{
+  /*
         <div>
           <h2>Rating from state: {this.state.rating}</h2>
             <StarRatingComponent
@@ -378,6 +342,8 @@ export class ClientTab extends Component {
     />
 </div>
 
+  */
+}
       </div>
     );
   }

@@ -34,7 +34,6 @@ export default class ProjectModal extends Component {
     this.toggleModal = this.toggleModal.bind(this)
     this.deleteProject = this.deleteProject.bind(this)
     this.approveProject = this.approveProject.bind(this)
-
   }
 
   approveProject() {

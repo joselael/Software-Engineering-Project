@@ -12,13 +12,14 @@ import SettingsTab from './GeneralTab/SettingsTab'
 export class DeveloperTab extends Component {
     constructor(props) {
         super(props)
-
-        this.toggle = this.toggle.bind(this);
         this.state = {
             activeTab: '1',
             projects: []
         }
+        this.toggle = this.toggle.bind(this);
+        this.wonProjects = this.wonProjects.bind(this)
     }
+
     toggle(tab) {
         if (this.state.activeTab !== tab) {
         this.setState({
@@ -26,10 +27,16 @@ export class DeveloperTab extends Component {
         });
         }
     }
+
+    wonProjects(project) {
+      console.log(project.assignee)
+      return project.assignee_username === store.getState().user.username
+    }
+
     componentDidMount() {
         projects()
         .then(({data}) => {
-            var projects = data
+            var projects = data.filter(this.wonProjects)
             this.setState({
                 projects: projects
             })

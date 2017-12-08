@@ -55,6 +55,7 @@ router.post('/create', VerifyToken, (req, res) => {
         details: req.body.details,
         bid_end: new Date(req.body.bid_end),
         bid_start: new Date(req.body.bid_start),
+        project_end: new Date(req.body.project_end),
         max_budget: parseInt(req.body.max_budget),
         bids: [],
         assignee: null,

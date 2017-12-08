@@ -10,6 +10,7 @@ const ProjectSchema = new mongoose.Schema({
     post_date: {type: Date, default: Date.now},
     bid_start: {type: Date, default: Date.now},
     bid_end: {type: Date},
+    project_end: {type: Date},
     max_budget: Number,
     bids: [{type: mongoose.Schema.Types.ObjectId, ref: 'Bid'}],
     assignee: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
