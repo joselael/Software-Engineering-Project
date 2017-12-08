@@ -61,6 +61,7 @@ router.post('/create', VerifyToken, (req, res) => {
         completed: false,
         rating: null,
         bidding_in_progress: true,
+        require_review: false,
         reason_for_selection: "",
         problematic: false,
         admin_comments: null
@@ -95,6 +96,13 @@ router.delete('/:id', VerifyAdmin, (req, res) => {
 router.put('/:id', VerifyToken, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         if (err) return res.status(500).send("There was a problem updating the user.");
+        res.status(200).send(project);
+    });
+});
+
+router.put('/approve/:id', VerifyAdmin, (req, res) => {
+    Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
+        if (err) return res.status(500).send("There was a problem updating the project.");
         res.status(200).send(project);
     });
 });

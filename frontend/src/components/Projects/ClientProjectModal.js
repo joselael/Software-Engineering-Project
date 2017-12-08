@@ -72,8 +72,6 @@ export default class ProjectModal extends Component {
       alert("You need a reason why you didn't pick the lowest bidder!!!")
     } else {
 
-      console.log(this.state.developer_id)
-
       submitAssignee(this.props.project._id, this.state.developer_id, this.state.reasonForSelection)
         .then( (response) => {
           console.log(response)

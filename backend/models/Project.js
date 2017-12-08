@@ -16,6 +16,7 @@ const ProjectSchema = new mongoose.Schema({
     completed: Boolean,
     bidding_in_progress: Boolean,
     reason_for_selection: String,
+    require_review: Boolean,
     rating: Number,
     problematic: Boolean,
     admin_comments: String
