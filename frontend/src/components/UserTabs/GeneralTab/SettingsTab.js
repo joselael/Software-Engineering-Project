@@ -5,7 +5,7 @@ import { Form, FormGroup,TabPane, Label,
   Modal, ModalHeader, ModalBody, ModalFooter
  } from 'reactstrap';
 import store from '../../../store'
-import {checkUser, updateSettings} from '../../../utils/Users'
+import {checkUser, updateSettings, moreMoney} from '../../../utils/Users'
 import {userInfo} from '../../../utils/Auth'
 
 export default class SettingsTab extends Component {
@@ -80,7 +80,8 @@ export default class SettingsTab extends Component {
       linkedIn: '',
       email: '',
       first_name: '',
-      last_name: ''
+      last_name: '',
+      moremoney: 0
     })
   }
 
@@ -200,7 +201,16 @@ export default class SettingsTab extends Component {
 
   onSubmitMoney = e => {
     e.preventDefault()
-
+    moreMoney(store.getState().token, this.state.moremoney, store.getState().user._id)
+      .then( (response) => {
+        console.log(response)
+        alert("Requesting approval for more money...")
+        this.clearState()
+        this.toggleMoney()
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
   }
 
   render() {
@@ -418,6 +428,7 @@ export default class SettingsTab extends Component {
                   <Button
                     type="submit"
                     color="success"
+                    onClick={this.onSubmitMoney}
                   >
                     Submit
                   </Button>

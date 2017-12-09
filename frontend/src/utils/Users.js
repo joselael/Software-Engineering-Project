@@ -203,7 +203,13 @@ export function numberOfClients() {
 export function moreMoney(token, money_amt, userID) {
     return axios({
         method: 'put',
-        url: URL + USER + MONEY_REQUEST + userID + "/" + money_amt
+        url: URL + USER + MONEY_REQUEST + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            money_amt: money_amt
+        }
     })
 }
 
