@@ -19,7 +19,7 @@ export default class SettingsTab extends Component {
         github: '',
         github_show: false,
         linkedIn: '',
-        linkedIn_show: true,
+        linkedIn_show: false,
         email: '',
         email_show: false,
         first_name: '',
@@ -43,7 +43,19 @@ export default class SettingsTab extends Component {
       this.submitDelete = this.submitDelete.bind(this)
       this.toggleMoney = this.toggleMoney.bind(this)
       this.onSubmitMoney = this.onSubmitMoney.bind(this)
+      this.handleInputChange = this.handleInputChange.bind(this)
   }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
 
   submitDelete() {
 
@@ -137,6 +149,10 @@ export default class SettingsTab extends Component {
 
   onSubmit(e) {
 
+    console.log(this.state)
+
+    /*
+
     var data = {}
     if(this.state.newpassword.length > 0) {
       if(this.state.newpassword === this.state.newpasswordconfirmation ){ //still need to check if old password is correct
@@ -183,6 +199,7 @@ export default class SettingsTab extends Component {
       }).catch( (err) => {
         console.log(err)
       })
+      */
     e.preventDefault(e)
   }
 
@@ -281,6 +298,16 @@ export default class SettingsTab extends Component {
                     type="last_name"
                     name="last_name"
                   />
+
+                  <Label check>
+                  <Input type="checkbox" 
+                    name="last_name_show"
+                    checked={this.state.last_name_show}
+                    onChange={this.handleInputChange}
+                    />
+                    Make Public
+                  </Label>
+
                 </FormGroup>
                 <FormGroup>
                   <Label> New LinkedIn </Label>
@@ -292,11 +319,16 @@ export default class SettingsTab extends Component {
                   />
 
                   <Label check>
-                  <Input type="checkbox" value={this.state.linkedIn_show} onClick={this.state.linkedIn_show==true} name="radio1" />{' '}
-                    public
+                  <Input type="checkbox" 
+                    name="linkedIn_show"
+                    checked={this.state.linkedIn_show}
+                    onChange={this.handleInputChange}
+                    />
+                    Make Public
                   </Label>
 
                 </FormGroup>
+
                 <FormGroup>
                   <Label> New Github </Label>
                   <Input
@@ -305,7 +337,16 @@ export default class SettingsTab extends Component {
                     type="github"
                     name="github"
                   />
+                  <Label check>
+                  <Input type="checkbox" 
+                    name="github_show"
+                    checked={this.state.github_show}
+                    onChange={this.handleInputChange}
+                    />
+                    Make Public
+                  </Label>
                 </FormGroup>
+
                 <FormGroup>
                   <Label> New Email </Label>
                   <Input
@@ -314,6 +355,16 @@ export default class SettingsTab extends Component {
                     type="email"
                     name="email"
                   />
+
+                  <Label check>
+                  <Input type="checkbox" 
+                    name="email_show"
+                    checked={this.state.email_show}
+                    onChange={this.handleInputChange}
+                    />
+                    Make Public
+                  </Label>
+                  
                 </FormGroup>
                 <FormGroup>
                   <Label> New password </Label>
