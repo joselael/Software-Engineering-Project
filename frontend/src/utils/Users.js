@@ -193,7 +193,7 @@ export function numberOfDev() {
     })
 }
 
-export function numberOfDev() {
+export function numberOfClients() {
     return axios({
         method: 'get',
         url: URL+USER+TOTAL_CLIENTS

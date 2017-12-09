@@ -2,17 +2,7 @@ import React, { Component } from 'react'
 import '../css/landing.css'
 import BarChart from 'react-bar-chart'
 import {Col, Row} from 'reactstrap'
-import {topClient, topDev, total_clients, total_devs} from '../utils/Users'
-
-const data = [
-  {text: 'Developers', value: 5},
-  {text: 'Clients', value: 3},
-  {text: 'Projects', value: 1}
-];
-
-const margin = {
-  top: 20, right: 20, bottom: 30, left: 40
-};
+import {topClient, topDev, numberOfClients, numberOfDev} from '../utils/Users'
 
 export default class LandingStatistics extends Component {
   constructor (props){
@@ -22,11 +12,13 @@ export default class LandingStatistics extends Component {
       top_dev: "",
       top_client: "",
       total_devs: 0,
-      total_clients: 0
+      total_clients: 0,
+      total_projects: 0
     }
   }
 
   componentDidMount() {
+
     topDev()
       .then( (response) => {
         this.setState({
@@ -36,9 +28,50 @@ export default class LandingStatistics extends Component {
       .catch( (err) => {
         console.log(err)
       })
+
+    topClient()
+      .then( (response) => {
+        this.setState({
+          top_client: response.data
+        })
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
+
+    numberOfClients()
+      .then( (response) => {
+        this.setState({
+          total_clients: response.data
+        })
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
+
+    numberOfDev()
+      .then( (response) => {
+        this.setState({
+          total_devs: response.data
+        })
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
   }
 
   render() {
+
+  const data = [
+    {text: 'Developers', value: this.state.total_devs},
+    {text: 'Clients', value: this.state.total_clients},
+    {text: 'Projects', value: this.state.total_projects}
+  ];
+
+  const margin = {
+    top: 20, right: 20, bottom: 30, left: 40
+  };
+
     return(
       <Row>
       <br/>
