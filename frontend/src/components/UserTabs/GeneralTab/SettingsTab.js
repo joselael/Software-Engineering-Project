@@ -19,7 +19,7 @@ export default class SettingsTab extends Component {
         github: '',
         github_show: false,
         linkedIn: '',
-        linkedIn_show: false,
+        linkedIn_show: true,
         email: '',
         email_show: false,
         first_name: '',
@@ -103,7 +103,7 @@ export default class SettingsTab extends Component {
         this.clearState()
       })
   }
-  
+
   toggleAuth = e => {
     this.setState({
       id: e.target.id
@@ -196,7 +196,7 @@ export default class SettingsTab extends Component {
         <br/>
 
           <ButtonGroup>
-            <Button id="change" color="primary" onClick={this.toggleAuth}> 
+            <Button id="change" color="primary" onClick={this.toggleAuth}>
               Make Changes
             </Button>
             <Button id="delete" color="danger" onClick={this.toggleAuth}>
@@ -290,6 +290,12 @@ export default class SettingsTab extends Component {
                     type="linkedIn"
                     name="linkedIn"
                   />
+
+                  <Label check>
+                  <Input type="checkbox" value={this.state.linkedIn_show} onClick={this.state.linkedIn_show==true} name="radio1" />{' '}
+                    public
+                  </Label>
+
                 </FormGroup>
                 <FormGroup>
                   <Label> New Github </Label>
@@ -311,27 +317,27 @@ export default class SettingsTab extends Component {
                 </FormGroup>
                 <FormGroup>
                   <Label> New password </Label>
-                  <Input 
-                    value={this.state.newpassword} 
-                    onChange={this.onChange} 
-                    type="password" 
-                    name="newpassword" 
-                    placeholder= "new password" 
+                  <Input
+                    value={this.state.newpassword}
+                    onChange={this.onChange}
+                    type="password"
+                    name="newpassword"
+                    placeholder= "new password"
                   />
                 </FormGroup>
                 <FormGroup>
                   <Label> Confirm password </Label>
-                  <Input 
-                    value={this.state.newpasswordconfirmation} 
-                    onChange={this.onChange} 
-                    type="password" 
-                    name="newpasswordconfirmation" 
-                    placeholder= "confirm new passwrod" 
+                  <Input
+                    value={this.state.newpasswordconfirmation}
+                    onChange={this.onChange}
+                    type="password"
+                    name="newpasswordconfirmation"
+                    placeholder= "confirm new passwrod"
                   />
                 </FormGroup>
                 <ButtonGroup>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     color="success"
                     onClick={this.onSubmit}
                   >
@@ -362,8 +368,8 @@ export default class SettingsTab extends Component {
                   />
                 </FormGroup>
                 <ButtonGroup>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     color="success"
                   >
                     Submit

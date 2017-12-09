@@ -47,7 +47,7 @@ export default class ProfileTab extends Component {
             <Media body>
             <br/>
               <Media heading style={{display: 'flex', justifyContent: 'center'}}>
-                {store.getState().user.first_name} {store.getState().user.last_name}
+                {store.getState().user.first_name} {store.getState().user.last_name.value}
               </Media>
               <div style={{display: 'flex', justifyContent: 'center'}}>
               {store.getState().user.user_type}
@@ -69,7 +69,7 @@ export default class ProfileTab extends Component {
               <CardHeader>Email</CardHeader>
               <CardBody>
                 <CardText>
-                  {store.getState().user.email}
+                  {store.getState().user.email.value}
                 </CardText>
               </CardBody>
             </Card>
@@ -80,7 +80,7 @@ export default class ProfileTab extends Component {
                 <CardHeader>LinkedIn</CardHeader>
                 <CardBody>
                   <CardText>
-                    {store.getState().user.linkedIn}
+                    {store.getState().user.linkedIn.value}
                   </CardText>
                 </CardBody>
               </Card>
@@ -90,7 +90,7 @@ export default class ProfileTab extends Component {
                 </CardHeader>
                 <CardBody>
                   <CardText>
-                    {store.getState().user.github}
+                    {store.getState().user.github.value}
                   </CardText>
                 </CardBody>
               </Card>
