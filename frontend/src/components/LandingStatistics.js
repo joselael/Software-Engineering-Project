@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import '../css/landing.css'
 import BarChart from 'react-bar-chart'
 import {Col, Row} from 'reactstrap'
+import {topClient, topDev, total_clients, total_devs} from '../utils/Users'
 
 const data = [
   {text: 'Developers', value: 5},
@@ -13,13 +14,30 @@ const margin = {
   top: 20, right: 20, bottom: 30, left: 40
 };
 
-class LandingStatistics extends Component {
+export default class LandingStatistics extends Component {
   constructor (props){
     super(props)
     this.state = {
-      width: 600
+      width: 600,
+      top_dev: "",
+      top_client: "",
+      total_devs: 0,
+      total_clients: 0
     }
   }
+
+  componentDidMount() {
+    topDev()
+      .then( (response) => {
+        this.setState({
+          top_dev: response.data
+        })
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
+  }
+
   render() {
     return(
       <Row>
@@ -48,5 +66,3 @@ class LandingStatistics extends Component {
     )
   }
 }
-
-export default LandingStatistics;

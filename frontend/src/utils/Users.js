@@ -1,5 +1,6 @@
 import axios from 'axios'
-import {HISTORY, URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH} from '../urls/API'
+import {HISTORY, URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH, 
+    TOTAL_CLIENTS, TOTAL_DEV, TOP_CLIENT, TOP_DEV} from '../urls/API'
 
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
@@ -168,5 +169,33 @@ export function history(username) {
         headers: {
             "Content-Type" : "application/json"
         }
+    })
+}
+
+export function topDev() {
+    return axios({
+        method: 'get',
+        url: URL + USER + TOP_DEV
+    })
+}
+
+export function topClient() {
+    return axios({
+        method: 'get',
+        url: URL + USER + TOP_CLIENT
+    })
+}
+
+export function numberOfDev() {
+    return axios({
+        method: 'get',
+        url: URL + USER + TOTAL_DEV
+    })
+}
+
+export function numberOfDev() {
+    return axios({
+        method: 'get',
+        url: URL+USER+TOTAL_CLIENTS
     })
 }
