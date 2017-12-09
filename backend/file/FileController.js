@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
-const fs = require('fs');
-const http = require('http');
 const User = require('./User');
+const Storage = require('@google-cloud/storage');
+
+const projectId = 'PROJECTID';
 router.use(bodyParser.urlencoded({ extended: true }));
 
 
