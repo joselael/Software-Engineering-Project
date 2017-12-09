@@ -277,6 +277,9 @@ export default class SettingsTab extends Component {
           <Button color="danger" onClick={this.toggleDelete}>
             Delete Account
           </Button>
+          <Button color="success">
+            Input More Money
+          </Button>
           <Modal isOpen={this.state.delete} toggle={this.toggleDelete}>
             <ModalBody>
               <h4>Are you sure you want to delete?</h4>
