@@ -11,7 +11,7 @@ UserSchema = new mongoose.Schema({
         value: {type: String, unique: true, trim: true},
         visible: {type: Boolean, trim: true, default: true, required: false}
     },
-    req_money: {type: Boolean, default: false},
+    req_money: {type: Number, default: 0},
     password: {type: String, required: true},
     user_type: {type: String, required: true},
     account_balance: {type: Number, default: 0},
