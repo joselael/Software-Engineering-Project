@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {HISTORY, URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH, 
+import {HISTORY, URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH, MONEY_REQUEST,
     TOTAL_CLIENTS, TOTAL_DEV, TOP_CLIENT, TOP_DEV} from '../urls/API'
 
 //Register user
@@ -197,5 +197,39 @@ export function numberOfClients() {
     return axios({
         method: 'get',
         url: URL+USER+TOTAL_CLIENTS
+    })
+}
+
+export function moreMoney(token, money_amt, userID) {
+    return axios({
+        method: 'put',
+        url: URL + USER + MONEY_REQUEST + userID + "/" + money_amt
+    })
+}
+
+export function approveMoney(token, userID, new_account_balance) {
+    return axios({
+        method: 'put',
+        url: URL + USER + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            req_money: 0, 
+            account_balance: new_account_balance
+        }
+    })
+}
+
+export function disapproveMoney(token, userID) {
+    return axios({
+        method: 'put',
+        url: URL + USER + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            req_money: 0
+        }
     })
 }

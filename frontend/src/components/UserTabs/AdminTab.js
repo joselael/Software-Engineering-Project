@@ -70,8 +70,8 @@ export class AdminTab extends Component {
     this.rejectUser = this
       .rejectUser
       .bind(this)
+    this.checkPendingMoney = this.checkPendingMoney.bind(this)
   }
-
 
   handleChange = event => {
     this.setState({
@@ -96,8 +96,8 @@ export class AdminTab extends Component {
       this.setState({
         projects: response.data
       })
-      console.log(this.state.projects)
-      console.log("Updating table...")
+      //console.log(this.state.projects)
+      //console.log("Updating table...")
     }).catch( (err) => {
       console.log(err)
     })
@@ -125,6 +125,10 @@ export class AdminTab extends Component {
     return user.delete_requested
   }
 
+  checkPendingMoney(user) {
+    return user.req_money > 0
+  }
+
   checkAccept(user) {
     return user.enabled && !user.blacklisted && !user.delete_requested
   }
@@ -140,8 +144,7 @@ export class AdminTab extends Component {
   notAdmin(user) {
     return user.user_type !== "admin"
   }
-
-  toggle(tab) {
+toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({activeTab: tab});
     }
@@ -234,12 +237,16 @@ export class AdminTab extends Component {
         <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
 
-    const pendingRequestMoney = ''
+    const pendingRequestMoney = this.state.users.filter(this.checkPendingMoney)
+      .map((user, index) =>
+        <AdminRequestMoney key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+      )
 
     const allProjects = this.state.projects
       .map((project, index) =>
         <ProjectModal key={project._id} project={project} index={index} updateTable = {() => this.updateTable()}/>
       )
+
     return (
       <div>
         <Nav tabs>
@@ -370,8 +377,8 @@ export class AdminTab extends Component {
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Username</th>
+                      <th>Money Requested</th>
                       <th>Action</th>
-                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>

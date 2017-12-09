@@ -18,7 +18,7 @@ const TOTAL_DEV = "total_devs"
 const TOTAL_CLIENTS = "total_clients"
 const TOP_DEV = "top_dev"
 const TOP_CLIENT = "top_client"
-
+const MONEY_REQUEST = "money_request/"
 
 export {
   URL,
@@ -40,5 +40,6 @@ export {
   TOTAL_DEV,
   TOTAL_CLIENTS,
   TOP_DEV,
-  TOP_CLIENT
+  TOP_CLIENT,
+  MONEY_REQUEST
 }

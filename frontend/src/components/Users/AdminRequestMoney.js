@@ -19,66 +19,66 @@ import {
   ModalFooter,
   ModalHeader
 } from 'reactstrap';
-import {deleteUser, blacklistUser} from '../../utils/Users'
+import {approveMoney, disapproveMoney} from '../../utils/Users'
 import store from '../../store'
 
 export default class AdminRequestMoney extends Component {
 
   constructor(props) {
     super(props)
-    this.deleteUser = this.deleteUser.bind(this)
-    this.blacklistUser = this.blacklistUser.bind(this)
+
+    this.state = {
+      new_balance: this.props.user.account_balance + this.props.user.req_money
+    }
+    this.approveMoney = this.approveMoney.bind(this)
+    this.disapproveMoney = this.disapproveMoney.bind(this)
   }
 
-  deleteUser = id => event => {
-    console.log("Deleting user...")
-    deleteUser(store.getState().token, this.props.user._id)
+  approveMoney() {
+
+    const new_balance = this.state.new_balance
+
+    approveMoney(store.getState().token, this.props.user._id, new_balance)
       .then( (response) => {
+        console.log(response)
         this.props.updateTable()
-      }).catch( (err) => {
+      })
+      .catch( (err) => {
         console.log(err)
       })
   }
 
-
-  blacklistUser = id => event => {
-    console.log("Blacklisting user...")
-    blacklistUser(store.getState().token, this.props.user._id)
-      .then((response) => {
-      this.props.updateTable()
-    }).catch( (err) => {
-      console.log(err)
-    })
+  disapproveMoney() {
+    disapproveMoney(store.getState().token, this.props.user._id)
+      .then( (response) => {
+        console.log(response)
+        this.props.updateTable()
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
   }
 
   render() {
-
-    var status = ""
-
-    if(this.props.user.blacklisted) {
-      status = "BLACKLISTED"
-    } else if(this.props.user.enabled) {
-      status = "ENABLED"
-    } else if(!this.props.user.enabled){
-      status = "DISABLED"
-    }
-
-    const deleteButton =  <Button
-          size="sm"
-          color="danger"
-          value={this.props.user.token}
-          onClick={this.deleteUser()}>
-          Delete
-        </Button>
-
-    const blacklistButton =  <Button
-          size="sm"
-          color="danger"
-          value={this.props.user.token}
-          onClick={this.blacklistUser()}
+    
+    const buttons = 
+      <ButtonGroup>
+        <Button
+          color="success"
+          onClick={this.approveMoney}
         >
-        Blacklist
+          Approve
         </Button>
+        <Button
+          color="danger"
+          onClick={this.disapproveMoney}
+        >
+          Disapprove
+        </Button>
+      </ButtonGroup>
+
+    //console.log(this.props)
+ //   console.log(this.state.new_balance)
 
     return(
       <tr>
@@ -96,10 +96,10 @@ export default class AdminRequestMoney extends Component {
           {this.props.user.username}
         </td>
         <td>
-          {this.props.user.blacklisted || this.props.user.delete_requested ? deleteButton : blacklistButton}
+          {this.props.user.req_money}
         </td>
         <td>
-          {status}
+          {buttons}
         </td>
       </tr>
     )
