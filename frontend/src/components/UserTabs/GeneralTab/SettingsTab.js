@@ -200,7 +200,7 @@ export default class SettingsTab extends Component {
 
   onSubmitMoney = e => {
     e.preventDefault()
-    console.log("Add more money")
+
   }
 
   render() {
