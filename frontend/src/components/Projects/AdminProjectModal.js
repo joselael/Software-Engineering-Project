@@ -68,7 +68,7 @@ export default class ProjectModal extends Component {
 
   render() {
 
-    console.log(this.props.project)
+    //console.log(this.props.project)
 
     var status = ""
 

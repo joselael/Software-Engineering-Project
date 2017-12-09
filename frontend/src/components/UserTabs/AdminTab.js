@@ -27,6 +27,7 @@ import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
 import ProjectModal from '../Projects/AdminProjectModal'
+import AdminRequestMoney from '../Users/AdminRequestMoney'
 import AdminUser from '../Users/AdminUsers'
 
 export class AdminTab extends Component {
@@ -233,6 +234,8 @@ export class AdminTab extends Component {
         <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
 
+    const pendingRequestMoney = ''
+
     const allProjects = this.state.projects
       .map((project, index) =>
         <ProjectModal key={project._id} project={project} index={index} updateTable = {() => this.updateTable()}/>
@@ -356,6 +359,23 @@ export class AdminTab extends Component {
                   </thead>
                   <tbody>
                     {pendingDeletionUsers}
+                  </tbody>
+                </Table>
+                <h4>Requesting more money</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User Type</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                      <th>Action</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendingRequestMoney}
                   </tbody>
                 </Table>
               </Row>

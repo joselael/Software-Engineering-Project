@@ -199,6 +199,7 @@ export default class SettingsTab extends Component {
   }
 
   onSubmitMoney = e => {
+    e.preventDefault()
     console.log("Add more money")
   }
 
@@ -403,7 +404,7 @@ export default class SettingsTab extends Component {
           <Collapse isOpen={this.state.moneycollapse}>
           <Card>
             <CardBody>
-              <form onSubmit={this.onSubmit}>
+              <form onSubmit={this.onSubmitMoney}>
                 <FormGroup>
                   <Label> More Money </Label>
                   <Input
@@ -421,7 +422,6 @@ export default class SettingsTab extends Component {
                     Submit
                   </Button>
                   <Button
-                    onClick={this.state.moremoney}
                   >
                     Cancel
                   </Button>
