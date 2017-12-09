@@ -14,13 +14,6 @@ import store from '../store'
 import '../css/landing.css'
 import BarChart from 'react-bar-chart'
 
-const data = [
-  {text: 'Developers', value: 5},
-  {text: 'Clients', value: 3},
-  {text: 'Projects', value: 1}
-];
-const margin = {top: 20, right: 20, bottom: 30, left: 40};
-
 class LandingHeader extends Component {
 
   constructor(props) {
@@ -30,7 +23,6 @@ class LandingHeader extends Component {
       first_name: store.getState().user.first_name,
       last_name: store.getState().user.last_name,
       modal: store.getState().user.first_login,
-      width: 600
     }
     this.toggleModal = this.toggleModal.bind(this)
   }
@@ -53,7 +45,7 @@ class LandingHeader extends Component {
                 <div className="loggedin-intro-message">
                   <div className="text-background">
                   <h1>Welcome back!</h1>
-                  <h3>{store.getState().user.first_name} {store.getState().user.last_name}</h3>
+                  <h3>{store.getState().user.first_name}</h3>
                   </div>
                 </div>
               </div>
@@ -77,20 +69,6 @@ class LandingHeader extends Component {
             </header>
           </div>
         )}
-        <Row>
-        <br/>
-          <Col sm="12" md={{offset: 3 }}>
-            <div ref='root'>
-                <div style={{width: '50%', fill:'#258e8e', stroke: 'grey'}}>
-                    <BarChart ylabel='Statistics'
-                      width={this.state.width}
-                      height={500}
-                      margin={margin}
-                      data={data}/>
-                </div>
-            </div>
-          </Col>
-        </Row>
 
       </div>
     );

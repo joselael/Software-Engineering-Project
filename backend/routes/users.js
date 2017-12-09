@@ -33,12 +33,19 @@ router.post('/check', VerifyToken, (req, res) => {
 });
 
 router.post('/create', (req, res) => {
+
     console.log(req.body);
     User.create({
         username: req.body.username,
         first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email: req.body.email,
+        last_name: {
+            value: req.body.last_name,
+            visible: true
+        },
+        email: {
+            value: req.body.email,
+            visible: true
+        },
         password: bcrypt.hashSync(req.body.password, bcryptSaltRounds),
         user_type: req.body.user_type,
         account_balance: req.body.account_balance,
@@ -47,9 +54,15 @@ router.post('/create', (req, res) => {
         enabled: false,
         blacklisted: false,
         admin_message: null,
-        linkedIn: "",
-        github: "",
-        first_login: true,
+        linkedIn: {
+            value: "",
+            visible: true
+        },
+        github: {
+            value: "",
+            visible: true
+        },
+        first_login: true
     }, function (err, user) {
         // console.log("done creating user");
         if (err) return res.status(500).send("There was a problem registering the user.");
@@ -72,27 +85,38 @@ router.delete('/:id', VerifyAdmin, (req, res) => {
 
 // update user profile in database, by user
 router.put('/me', VerifyToken, (req, res) => {
-    if (req.body.password)
-        req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
+
     User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
-            if (err) return res.status(500).send("There was a problem updating the user.");
+        if (err) return res.status(500).send("There was a problem updating the user.");
+        if (req.body.password)
+            req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
         res.status(201).send(user);
-        });
+    });
+});
+
+router.put('/balance/:id', VerifyToken, (req,res) =>{
+    User.findByIdAndUpdate(req.params.id, {$set:{account_balance : req.body.balance_update}}, function(err,user){
+        if(err) return res.status(500).send("There was a problem updating the user's account balance.");
+        else res.status(200).send([true,"Account balance updated."]);
+    });
 });
 
 // update user profile in database, by user
-// router.delete('/me', VerifyToken, (req, res) => {
-//     if (!req.body.password)
-//         return res.status(401).("Must provide password");
-//
-//     if (!bcrypt.compareSync())
-//     req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
-//
-//     User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
-//         if (err) return res.status(500).send("There was a problem updating the user.");
-//         res.status(200).send(user);
-//     });
-// });
+router.delete('/me', VerifyToken, (req, res) => {
+    if (!req.body.password)
+        return res.status(401).send("Must provide password");
+
+    User.findByIdAndUpdate(req.userID, req.body, {new: true}, function (err, user) {
+        if (err) return res.status(500).send("There was a problem updating the user.");
+
+        if (!bcrypt.compareSync(bcrypt.hashSync(req.body.password, bcryptSaltRounds), user.password))
+            return res.status(401).send("Authentication failed!");
+
+        user.delete_requested = true;
+        res.status(202).send("Account deletion requested!");
+
+    });
+});
 
 
 // update user profile in database, by admin
@@ -100,9 +124,9 @@ router.put('/:id', VerifyAdmin, (req, res) => {
     if (req.body.password)
         req.body.password = bcrypt.hashSync(req.body.password, bcryptSaltRounds);
     User.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, user) {
-            if (err) return res.status(500).send("There was a problem updating the user.");
+        if (err) return res.status(500).send("There was a problem updating the user.");
         res.status(201).send(user);
-        });
+    });
 });
 
 
@@ -127,12 +151,23 @@ router.get('/:name', VerifyAdmin, (req, res) => {
 });
 
 // get a particular user by name, for users
-router.get('/search/:name', VerifyToken, (req, res) => {
+router.get('/search/:name', (req, res) => {
     User.find({username: req.params.name}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
-        if (!user) return res.status(404).send("No user found.");
+        if (!user || user.length < 1) return res.status(404).send("No user found.");
 
-        res.status(200).send(user);
+        //  console.log(user[0]);
+        // console.log("last name: " + user[0].last_name);
+
+        res.status(200).send({
+            "username": user[0].username,
+            "first_name": user[0].first_name,
+            "last_name": (user[0].last_name.visible) ? user[0].last_name.value : null,
+            "email": (user[0].email.visible) ? user[0].email.value : null,
+            "linkedIn": (user[0].linkedIn.visible) ? user[0].linkedIn.value : null,
+            "github": (user[0].github.visible) ? user[0].github.value : null
+
+        });
     });
 });
 

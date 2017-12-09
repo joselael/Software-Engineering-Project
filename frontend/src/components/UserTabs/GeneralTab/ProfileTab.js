@@ -31,7 +31,8 @@ export default class ProfileTab extends Component {
   render() {
     var imageStyle = {
       width: "100px",
-      height: "100px"
+      height: "100px",
+      borderRadius: "50%"
     }
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">

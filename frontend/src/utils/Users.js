@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {URL, USER, ACCOUNTS, CREATE, ME, CHECK} from '../urls/API'
+import {URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH} from '../urls/API'
 
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
@@ -119,8 +119,8 @@ export function updateMe(token, github, linkedIn, resume) {
             'x-access-token': token
         },
         data: {
-            github: github,
-            linkedIn: linkedIn
+            github: {value: github},
+            linkedIn: {value: linkedIn}
         }
     })
 }
@@ -139,13 +139,24 @@ export function updateSettings(token, data) {
 //Check user password
 export function checkUser(token, password) {
     return axios({
-        method: 'post',
         url: URL + USER + CHECK,
+        method: 'post',
         headers: {
             'x-access-token': token
         },
         data: {
             password: password
+        }
+    })
+}
+
+//Search user
+export function searchUser(username) {
+    return axios({
+        method: 'get',
+        url: URL + USER + SEARCH + username,
+        headers: {
+            "Content-Type" :"application/json"
         }
     })
 }

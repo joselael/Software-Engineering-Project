@@ -2,11 +2,13 @@ import axios from 'axios'
 import {
   URL,
   PROJECT,
+  USER,
   PROJECTS,
   CREATE,
   SEARCH,
   BID,
-  APPROVE
+  APPROVE,
+  RATING
 } from '../urls/API'
 import store from '../store'
 
@@ -37,7 +39,7 @@ export function myproject(username) {
   })
 }
 
-export function createprojects(title, username, summary, details, bid_end, max_budget) {
+export function createprojects(title, username, summary, details, bid_end, project_end, max_budget) {
   return axios({
     method: 'post',
     url: URL + PROJECT + CREATE,
@@ -51,6 +53,7 @@ export function createprojects(title, username, summary, details, bid_end, max_b
       summary: summary,
       details: details,
       bid_end: bid_end,
+      project_end: project_end,
       max_budget: max_budget
     }
   })
@@ -65,6 +68,7 @@ export function bid(id, username, amount, description) {
     },
     data: {
       author: username,
+      author_id: store.getState().user._id,
       amount: amount,
       description: description
     }
@@ -87,7 +91,34 @@ export function getbid(id) {
   })
 }
 
-export function submitAssignee(id, assignee, assignee_username,reason_for_selection) {
+export function finishProject(id) {
+  return axios({
+    url: URL + PROJECT + id,
+    method: 'put',
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      completed: true,
+      require_rating: true
+    }
+  })
+}
+
+export function submitRating(id, rating, comments) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + RATING + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      rating_author: rating,
+    }
+  })
+}
+
+export function submitAssignee(id, bid_id, assignee, assignee_username,reason_for_selection) {
   return axios({
     method: 'put',
     url: URL + PROJECT + id,
@@ -95,8 +126,11 @@ export function submitAssignee(id, assignee, assignee_username,reason_for_select
       'x-access-token': store.getState().token
     },
     data: {
-      assignee: assignee,
-      assignee_username: assignee_username,
+      assignee: {
+        user_id: assignee,
+        username: assignee_username,
+        bid_id: bid_id
+      },
       reason_for_selection, reason_for_selection,
       require_review: true
     }
@@ -104,7 +138,6 @@ export function submitAssignee(id, assignee, assignee_username,reason_for_select
 }
 
 export function approveProject(id) {
-
   return axios({
     method: 'put',
     url: URL + PROJECT + APPROVE + id,

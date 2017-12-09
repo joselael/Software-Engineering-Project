@@ -24,6 +24,8 @@ import {
 import '../../css/usertab.css';
 import {myproject, createprojects} from '../../utils/Projects'
 import ProjectModal from '../Projects/ClientProjectModal'
+import GeneralModal from '../Projects/GeneralClientProjectModal'
+import RatingModal from '../Projects/RatingProjectModal'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -37,7 +39,8 @@ export class ClientTab extends Component {
       projects: [],
       summary: "",
       details: "",
-      date: "",
+      bid_date: "",
+      project_date: "",
       title: "",
       max_budget: 0,
       modal: false,
@@ -51,10 +54,15 @@ export class ClientTab extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmitProject = this.handleSubmitProject.bind(this)
     this.updateTable = this.updateTable.bind(this)
-    this.checkFinished = this.checkFinished.bind(this)
+    this.checkBidding = this.checkBidding.bind(this)
     this.checkDone = this.checkDone.bind(this)
     this.clearStates = this.clearStates.bind(this)
     this.onStarClick = this.onStarClick.bind(this)
+    this.checkInProgress = this.checkInProgress.bind(this)
+  }
+
+  checkInProgress(project) {
+    return project
   }
 
   onStarClick(nextValue, prevValue, name) {
@@ -64,15 +72,16 @@ export class ClientTab extends Component {
   clearStates() {
     this.setState({
       summary: "",
-      date: "",
+      bid_date: "",
+      project_date: "",
       title: "",
       details: "",
       max_budget: 0,
     })
   }
 
-  checkFinished(project) {
-    return !project.completed
+  checkBidding(project) {
+    return project.bidding_in_progress
   }
 
   checkDone(project) {
@@ -96,25 +105,26 @@ export class ClientTab extends Component {
   handleSubmitProject = event => {
 
     if (this.state.title === "search" || this.state.title === "projects"
-    || this.state.title === "create" || this.state.title === "bid") {
-      alert("Invalid project name")
-      this.setState({
-        title: ""
-      })
+    || this.state.title === "create" || this.state.title === "bid" ||
+    (this.state.bid_date > this.state.project_date) || this.state.max_budget > store.getState().user.account_balance)
+    {
+      alert("Invalid")
+      this.clearStates()
     } else {
       createprojects(
         this.state.title,
         store.getState().user.username,
         this.state.summary,
         this.state.details,
-        this.state.date,
+        this.state.bid_date,
+        this.state.project_date,
         this.state.max_budget
       ).then( (response) => {
         console.log(response)
         alert("Submitting Project!!!")
-        this.clearStates()
         this.updateTable()
         this.toggleModal()
+        this.clearStates()
       }).catch( (err) => {
         console.log(err)
       })
@@ -142,70 +152,26 @@ export class ClientTab extends Component {
   }
 
   render() {
-    const biddingProjects = this.state.projects.
-      filter(this.checkFinished)
+
+    var modalProject = ""
+
+    console.log(this.state.projects)
+
+    const currentProjects = this.state.projects
+      .filter(this.checkInProgress)
       .map((project, index) =>
-        <ProjectModal key={project._id} project={project} index={index}/>
+      {
+        if (project.bidding_in_progress)
+          modalProject = <ProjectModal key={project._id} project={project} index={index} />
+        else
+        modalProject = <RatingModal key={project._id} project={project} index={index} />
+      }
     )
 
     const pastProjects = this.state.projects.
       filter(this.checkDone)
       .map((project, index) =>
-        <tr key={project._id}>
-          <td scope="row">{index + 1}</td>
-          <td>{project.title}</td>
-          <td>{project.mid_budget}</td>
-          <td>{project.max_budget}</td>
-          <td>
-            <Button
-              size="sm"
-              color="primary"
-              onClick={this.toggleLink}
-            >
-              Link
-            </Button>
-            <Modal isOpen={this.state.link} toggle={this.toggleLink}>
-              <ModalHeader>
-                {project.title}
-              </ModalHeader>
-              <ModalBody>
-                <Label>Project Summary</Label>
-                  <p className="modelP"> {project.summary} </p>
-                <Label>Project Details</Label>
-                  <p className="modelP">{project.details}</p>
-                <div className="row">
-                  <div className="col-md-6">
-                  <Label>Bid Starts:</Label>
-                    <p className="modelP">{project.bid_start}</p>
-                  </div>
-                    <div className="col-md-6">
-                    <Label>Bid End:</Label>
-                    <p className="modelP">{project.bid_end}</p>
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <FormGroup>
-                <select value={this.state.dev_username}
-                  onChange={this.handleChange}
-                  type="text"
-                  name="dev_username"
-                  className="form-control">
-                  <option value="" disabled> Choose your user type </option>
-                  <option value="developer"> Developer </option>
-                  <option value="client"> Client </option>
-                </select>
-                </FormGroup>
-                <Button color="danger" onClick={this.toggleLink}>
-                  Choose
-                </Button>
-                <Button color="primary" onClick={this.toggleLink}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </td>
-        </tr>
+        <GeneralModal key={project._id} project={project} index={index} />
     )
     return (
       <div>
@@ -280,13 +246,20 @@ export class ClientTab extends Component {
                         bsSize="sm"
                         value={this.state.details}
                         onChange={this.handleChange}/>
-                      <Label>Date of End</Label>
+                      <Label>Date of End of Bid</Label>
                       <Input
                         type="date"
-                        name="date"
+                        name="bid_date"
                         placeholder="date placeholder"
                         onChange={this.handleChange}
-                        value={this.state.date}/>
+                        value={this.state.bid_date}/>
+                      <Label>Date of End of Project</Label>
+                      <Input
+                        type="date"
+                        name="project_date"
+                        placeholder="date placeholder"
+                        onChange={this.handleChange}
+                        value={this.state.project_date}/>
                       <Label>Max Budget</Label>
                       <InputGroup>
                         <InputGroupAddon>$</InputGroupAddon>
@@ -309,20 +282,6 @@ export class ClientTab extends Component {
                 </Modal>
               </Row>
               <Row>
-                <h4>Bidding Projects</h4>
-                <Table hover responsive striped>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Project Name</th>
-                      <th>Max Budget</th>
-                      <th>Link</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {biddingProjects}
-                  </tbody>
-                </Table>
                 <h4>Current Projects</h4>
                 <Table hover responsive striped>
                   <thead>
@@ -330,11 +289,11 @@ export class ClientTab extends Component {
                       <th>#</th>
                       <th>Project Name</th>
                       <th>Max Budget</th>
+                      <th>Status</th>
                       <th>Link</th>
                     </tr>
                   </thead>
-                  <tbody>
-                  </tbody>
+                  <tbody>{modalProject}</tbody>
                 </Table>
                 <h4>Past Project</h4>
                 <Table hover responsive striped>
@@ -347,7 +306,6 @@ export class ClientTab extends Component {
                     </tr>
                   </thead>
                   <tbody>
-
                   </tbody>
                 </Table>
               </Row>
@@ -356,28 +314,6 @@ export class ClientTab extends Component {
             <SettingsTab tabId={"3"}/>
           </TabContent>
         </div>
-
-        <div>
-          <h2>Rating from state: {this.state.rating}</h2>
-            <StarRatingComponent
-                name="rate1"
-                starCount={5}
-                value={this.rating}
-                onStarClick={this.onStarClick.bind(this)}
-
-            />
-        </div>
-
-        <div>
-          <h2>Rating from state: {this.state.rating}</h2>
-          <StarRatingComponent
-              name="rate2"
-              editing={false}
-              starCount="5"
-              value={this.state.rating}
-          />
-        </div>
-
       </div>
     );
   }
