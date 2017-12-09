@@ -12,8 +12,7 @@ export default class LandingStatistics extends Component {
       top_dev: "",
       top_client: "",
       total_devs: 0,
-      total_clients: 0,
-      total_projects: 0
+      total_clients: 0
     }
   }
 
@@ -64,8 +63,7 @@ export default class LandingStatistics extends Component {
 
   const data = [
     {text: 'Developers', value: this.state.total_devs},
-    {text: 'Clients', value: this.state.total_clients},
-    {text: 'Projects', value: this.state.total_projects}
+    {text: 'Clients', value: this.state.total_clients}
   ];
 
   console.log(this.state)
