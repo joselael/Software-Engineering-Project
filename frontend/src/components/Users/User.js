@@ -60,7 +60,7 @@ export default class User extends Component {
 
     var historyUser = this.state.history
       .map( (h, index) => 
-        <tr>
+        <tr key={h.title}>
           <td scope="row">{index + 1}}</td>
           <td>{h.title}</td>
           <td>{h.summary}</td>

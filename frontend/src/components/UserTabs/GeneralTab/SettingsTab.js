@@ -149,10 +149,6 @@ export default class SettingsTab extends Component {
 
   onSubmit(e) {
 
-    console.log(this.state)
-
-    /*
-
     var data = {}
     if(this.state.newpassword.length > 0) {
       if(this.state.newpassword === this.state.newpasswordconfirmation ){ //still need to check if old password is correct
@@ -199,7 +195,6 @@ export default class SettingsTab extends Component {
       }).catch( (err) => {
         console.log(err)
       })
-      */
     e.preventDefault(e)
   }
 
