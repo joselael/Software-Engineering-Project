@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const Project = require('../models/Project');
 const Bid = require('../models/Bid');
 const jwt = require('jsonwebtoken');
 const VerifyAdmin = require('../auth/VerifyAdmin');
@@ -11,7 +12,7 @@ const bcryptSaltRounds = 10;
 const config = require('../config');
 
 // get all users from the database
-router.get('/accounts', VerifyAdmin, (req, res) => {
+router.get('/accounts', (req, res) => {
     User.find({}, {password: 0}, function (err, users) {
         if (err) return res.status(500).send("There was a problem finding the users.");
         res.status(200).send(users);
@@ -147,8 +148,7 @@ router.get('/top_dev', (req,res)=>{
     var query = User.find({user_type : 'developer'}).sort({money_made : -1}).limit(1);
     query.exec(function(err, money_maker){
         if (err) res.status(500).send("Could not find top dev.");
-        res.status(200).send(money_maker.username);
-    
+        res.status(200).send(money_maker[0].username);
     });
 });
 
@@ -156,9 +156,48 @@ router.get('/top_client', (req,res)=>{
     var query = User.find({user_type : 'client'}).sort({num_projects: -1}).limit(1);
     query.exec(function(err, project_boss){
         if(err) res.status(500).send("Could not find top Client");
-        res.status(200).send(project_boss.username);
+        res.status(200).send(project_boss[0].username);       
     });
 });
+
+//get all projects a user worked on given their username -> sends back an array of necessary info 
+router.get('/history/:name', (req,res) =>{
+    Project.find({author : req.params.name}, function(err,projects){
+        if(projects.length === 0){
+            Project.find({'assignee.username' : req.params.name}, function(err,projects){
+                if(err) return res.status(500).send("There was a problem getting user projects");
+                var proj_arr = [];
+                for(var i = 0 ; i < projects.length; i++){
+                    project_details = {
+                        "title": projects[i].title,
+                        "summary": projects[i].summary,
+                        "rating_assignee" : projects[i].rating_assignee,
+                        "rating_author": projects[i].rating_author,
+                        "project_end" : projects[i].project_end
+                    }
+                    proj_arr.push(project_details);
+                }
+                if(err) return res.status(500).send("There was a problem getting user projects");
+                res.status(200).send(proj_arr);
+                });
+    }
+        else{
+            var proj_arr = [];
+            for(var i = 0 ; i < projects.length; i++){
+                project_details = {
+                    "title": projects[i].title,
+                    "summary": projects[i].summary,
+                    "rating_assignee" : projects[i].rating_assignee,
+                    "rating_author": projects[i].rating_author,
+                    "project_end" : projects[i].project_end
+                }
+                proj_arr.push(project_details);
+            }
+            if(err) return res.status(500).send("There was a problem getting user projects");
+            res.status(200).send(proj_arr);
+          }     
+        });
+    });
 
 router.get('/me', VerifyToken, (req, res) => {
     console.log("received request");

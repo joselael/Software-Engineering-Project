@@ -126,18 +126,21 @@ router.put('/approve/:id', (req, res) => {
                 Bid.find({_id: project.assignee.bid_id}, function (err2, final_bid) {
                     var bid_amount = final_bid[0].amount;
                     var initial_transfer = bid_amount/2;
+                    var acct_balance_assig = account_balance_assignee + initial_transfer;
+                    var acct_balance_author = account_balance_author - initial_transfer;
+                    var money_made_assig = money_made + initial_transfer;
                     //console.log(initial_transfer)
-                    User.findByIdAndUpdate(assig_id, {$set:{account_balance : (account_balance_assignee + initial_transfer)}}, {new:true}, function(err, user){
+                    User.findByIdAndUpdate(assig_id, {$set:{account_balance : acct_balance_assig}}, {new:true}, function(err, user){
                         //console.log(user)
                         if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
                         else{
-                        User.findByIdAndUpdate(assig_id, {$set:{money_made : (money_made + initial_transfer)}}, {new:true}, function(err, user){
+                        User.findByIdAndUpdate(assig_id, {$set:{money_made : money_made_assig }}, {new:true}, function(err, user){
                             //console.log(user)
                             if(err) return res.status(500).send("There was a problem updating money made for assignee.");
                             else{
                         
                             //console.log(auth_id)
-                                 User.findByIdAndUpdate(auth_id,{$set:{account_balance: (account_balance_author - initial_transfer)}}, function(err,user2){
+                                 User.findByIdAndUpdate(auth_id,{$set:{account_balance:acct_balance_author}}, function(err,user2){
                                  if(err) return res.status(500).send("There was a problem updating account balance for author.");
                                 });
                             }
@@ -172,17 +175,17 @@ router.put('/rating/:id', (req,res) => {
                     User.findByIdAndUpdate(project.author_id, {$set:{account_balance:(account_balance_author - total_charge_author)}}, function(err,user){
                         if(err) return res.status(500).send("There was a problem updating account balance for author.");
                         else{
-                            User.findByIdAndUpdate(assig_id, {$set:{money_made : (money_made + initial_transfer)}}, {new:true}, function(err, user){
+                            User.findByIdAndUpdate(assig_id, {$set:{money_made : (money_made + final_transfer)}},function(err, user){
                                 //console.log(user)
                                 if(err) return res.status(500).send("There was a problem updating money made for assignee.");
                                 else{
-                                     User.findByIdAndUpdate(assignee,{$set:{account_balance: (account_balance_assignee - su_charge)}}, function(err,user2){
+                                     User.findByIdAndUpdate(assignee,{$set:{account_balance: ((account_balance_assignee + final_transfer)- su_charge)}}, function(err,user2){
                                       if(err) return res.status(500).send("There was a problem updating account balance for assignee.");
                                      else{
                                            User.find({username:'yong'}, (err, su) => {
                                             var super_user_balance = su[0].account_balance;
                                             var super_user_id = su[0]._id;
-                                            User.findByIdAndUpdate(super_user_id, {$set:{account_balance: (super_user_balance + su_charge * 2)}}, (err, su) => {
+                                            User.findByIdAndUpdate(super_user_id, {$set:{account_balance: (super_user_balance + (su_charge * 2))}}, (err, su) => {
                                                 if (err) return res.status(500).send("There was a problem updating account for super user")
                                                 res.status(200).send(su)
                                         });
