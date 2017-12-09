@@ -106,6 +106,8 @@ export default class ProjectModal extends Component {
                 <p className="modelP"> {this.props.project.summary} </p>
               <Label>Project Details</Label>
                 <p className="modelP">{this.props.project.details}</p>
+              <Label>Project Author</Label>
+                <p className="modelP">{this.props.project.author}</p>
               <Label> Maximum Budget</Label>
                 <p className="modelP">$ {this.props.project.max_budget}</p>
               <div className="row">
@@ -123,7 +125,7 @@ export default class ProjectModal extends Component {
                 </div>
                 <div className="col-md-6">
                   <Label>Assignee:</Label>
-                  <div className="modelP">{this.props.project.assignee_username}</div>
+                  <div className="modelP">{this.props.project.assignee.username}</div>
                 </div>
               </div>
             </ModalBody>
