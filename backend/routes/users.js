@@ -130,21 +130,21 @@ router.put('/:id', VerifyAdmin, (req, res) => {
     });
 });
 
-router.get('/total_clients', (req,res) =>{
+router.get('/total_clients', VerifyToken, (req, res) => {
     User.count({user_type : 'client'}, function( err, count){
         if(err)res.status(500).send("Could not get count.");
         res.status(200).send((count).toString());
     });
 });
 
-router.get('/total_devs', (req,res)=>{
+router.get('/total_devs', VerifyToken, (req, res) => {
     User.count({user_type: 'developer'}, function(err,count){
         if(err)res.status(500).send("Could not get count.");
         res.status(200).send((count).toString());
     });
 });
 
-router.get('/top_dev', (req,res)=>{
+router.get('/top_dev', VerifyToken, (req, res) => {
     var query = User.find({user_type : 'developer'}).sort({money_made : -1}).limit(1);
     query.exec(function(err, money_maker){
         if (err) res.status(500).send("Could not find top dev.");
@@ -152,7 +152,7 @@ router.get('/top_dev', (req,res)=>{
     });
 });
 
-router.get('/top_client', (req,res)=>{
+router.get('/top_client', VerifyToken, (req, res) => {
     var query = User.find({user_type : 'client'}).sort({num_projects: -1}).limit(1);
     query.exec(function(err, project_boss){
         if(err) res.status(500).send("Could not find top Client");
@@ -161,7 +161,7 @@ router.get('/top_client', (req,res)=>{
 });
 
 //get all projects a user worked on given their username -> sends back an array of necessary info 
-router.get('/history/:name', (req,res) =>{
+router.get('/history/:name', VerifyToken, (req, res) => {
     Project.find({author : req.params.name}, function(err,projects){
         if(projects.length === 0){
             Project.find({'assignee.username' : req.params.name}, function(err,projects){
@@ -220,7 +220,7 @@ router.get('/:name', VerifyAdmin, (req, res) => {
 });
 
 // get a particular user by name, for users
-router.get('/search/:name', (req, res) => {
+router.get('/search/:name', VerifyToken, (req, res) => {
     User.find({username: req.params.name}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user || user.length < 1) return res.status(404).send("No user found.");
