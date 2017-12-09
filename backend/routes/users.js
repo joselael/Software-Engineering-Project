@@ -130,6 +130,13 @@ router.put('/:id', VerifyAdmin, (req, res) => {
     });
 });
 
+router.put('/money_request/:id/:bool_val', (req,res)=>{
+    User.findByIdAndUpdate(req.params.id, {$set : {req_money : req.params.bool_val}}, function(err, user){
+        if(err) res.status(500).send("There was a problem updating the user's request for money.");
+        res.status(200).send(user);
+    });
+});
+
 router.get('/total_clients', (req,res) =>{
     User.count({user_type : 'client'}, function( err, count){
         if(err)res.status(500).send("Could not get count.");
