@@ -3,13 +3,16 @@ import { Button,
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  Row,
+  Col
  } from 'reactstrap'
 import { NavLink as RRNavLink } from 'react-router-dom'
 import { loggedIn } from '../utils/Auth'
 import FirstLoginModal from './Users/FirstLoginModal'
 import store from '../store'
 import '../css/landing.css'
+import BarChart from 'react-bar-chart'
 
 class LandingHeader extends Component {
 
@@ -19,7 +22,7 @@ class LandingHeader extends Component {
     this.state = {
       first_name: store.getState().user.first_name,
       last_name: store.getState().user.last_name,
-      modal: store.getState().user.first_login
+      modal: store.getState().user.first_login,
     }
     this.toggleModal = this.toggleModal.bind(this)
   }
@@ -66,6 +69,7 @@ class LandingHeader extends Component {
             </header>
           </div>
         )}
+
       </div>
     );
   }
