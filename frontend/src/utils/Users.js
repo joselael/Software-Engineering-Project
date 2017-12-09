@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH} from '../urls/API'
+import {HISTORY, URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH} from '../urls/API'
 
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
@@ -157,6 +157,16 @@ export function searchUser(username) {
         url: URL + USER + SEARCH + username,
         headers: {
             "Content-Type" :"application/json"
+        }
+    })
+}
+
+export function history(username) {
+    return axios({
+        method: 'get',
+        url: URL + USER + HISTORY + username,
+        headers: {
+            "Content-Type" : "application/json"
         }
     })
 }
