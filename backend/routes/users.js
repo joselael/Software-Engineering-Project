@@ -102,6 +102,7 @@ router.put('/balance/:id', VerifyToken, (req,res) =>{
     });
 });
 
+router.get('/warnings/:')
 // update user profile in database, by user
 router.delete('/me', VerifyToken, (req, res) => {
     if (!req.body.password)
@@ -130,10 +131,17 @@ router.put('/:id', VerifyAdmin, (req, res) => {
     });
 });
 
-router.put('/money_request/:id/:bool_val', (req,res)=>{
-    User.findByIdAndUpdate(req.params.id, {$set : {req_money : req.params.bool_val}}, function(err, user){
+router.put('/money_request/:id/:money_amt', (req,res)=>{
+    User.findByIdAndUpdate(req.params.id, {$set : {req_money : req.params.money_amt}}, function(err, user){
         if(err) res.status(500).send("There was a problem updating the user's request for money.");
-        res.status(200).send(user);
+        res.status(200).send((user.req_money.toString()));
+    });
+});
+
+router.get('/warnings/:id', (req,res)=>{
+    User.findById(req.params.id, function(err,user){
+        if(err) res.status(500).send("There was a problem retrieving the user.");
+        res.status(200).send((user.warnings.toString()));
     });
 });
 
