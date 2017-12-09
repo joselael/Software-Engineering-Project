@@ -105,18 +105,17 @@ export function finishProject(id) {
   })
 }
 
-export function submitRating(id, rating, comments) {
+export function submitRating(id, data) {
   return axios({
     method: 'put',
     url: URL + PROJECT + RATING + id,
     headers: {
       'x-access-token': store.getState().token
     },
-    data: {
-      rating_author: rating,
-    }
+    data: data
   })
 }
+
 
 export function submitAssignee(id, bid_id, assignee, assignee_username,reason_for_selection) {
   return axios({
@@ -148,5 +147,16 @@ export function approveProject(id) {
       require_review: false,
       bidding_in_progress: false
     }
+  })
+}
+
+export function updateProject(id, data) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: data
   })
 }

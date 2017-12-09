@@ -21,6 +21,7 @@ import {
 import store from '../../store'
 import '../../css/project.css'
 import {bid} from '../../utils/Projects'
+import StarRatingComponent from 'react-star-rating-component'
 
 export default class Project extends Component {
 
@@ -71,6 +72,72 @@ export default class Project extends Component {
     return (
       <div className="Project">
         <Row>
+          { (this.props.project.completed && !(this.props.project.require_review || this.props.project.bidding_in_progress ||
+          this.props.project.require_rating || this.props.project.problematic)) ?
+            <Col sm="12">
+            <Card>
+              <CardBody>
+                <CardTitle>
+                  {this.props.project.title}
+                </CardTitle>
+                <CardText className = "module">
+                  {this.props.project.summary}
+                </CardText>
+              </CardBody>
+              <Button onClick={this.toggleModal}>
+                Expand for more details
+              </Button>
+              <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+                <ModalHeader toggle={this.toggleLink}>{this.props.project.title}
+                </ModalHeader>
+                <ModalBody>
+                  <Label>Project Summary</Label>
+                    <p className="modelP"> {this.props.project.summary} </p>
+                  <Label>Project Details</Label>
+                    <p className="modelP">{this.props.project.details}</p>
+                  <div className="row">
+                    <div className="col-md-6">
+                    <Label>Bid Starts:</Label>
+                      <div className="modelP">{this.props.project.bid_start}</div>
+                    </div>
+                      <div className="col-md-6">
+                      <Label>Bid End:</Label>
+                      <div className="modelP">{this.props.project.bid_end}</div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                    <Label>Assignee:</Label>
+                      <div className="modelP">{this.props.project.assignee.username}</div>
+                    </div>
+                      <div className="col-md-6">
+                      <Label>Rating by Client:</Label>
+                      <div className="modelP">
+                      <StarRatingComponent name="rating_author" editing={false} 
+                      starCount={5} value={this.props.project.rating_author}/>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                    <Label>Client:</Label>
+                      <div className="modelP">{this.props.project.author}</div>
+                    </div>
+                      <div className="col-md-6">
+                      <Label>Rating by Developer:</Label>
+                      <div className="modelP">
+                      <StarRatingComponent name="rating_assignee" editing={false} 
+                        starCount={5} value={this.props.project.rating_assignee}/>
+                      </div>
+                    </div>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                </ModalFooter>
+              </Modal>
+            </Card>
+          </Col>
+            :
           <Col sm="12">
             <Card>
               <CardBody>
@@ -89,7 +156,7 @@ export default class Project extends Component {
               </CardBody>
               {store.getState().user.user_type === "developer" ?
               <Button onClick={this.toggleModal}>
-                Expand for more details
+                Bid on the project
               </Button> : null
               }
               <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
@@ -148,6 +215,7 @@ export default class Project extends Component {
               </Modal>
             </Card>
           </Col>
+          }
         </Row>
       </div>
     );

@@ -21,20 +21,43 @@ import {
   ModalFooter,
   ModalHeader
 } from 'reactstrap';
+import StarRatingComponent from 'react-star-rating-component'
+import {updateProject} from '../../utils/Projects'
 
 export default class GeneralModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      link: false
+      link: false,
+      rating_assignee: 0
     }
     this.toggleLink = this.toggleLink.bind(this)
+    this.submitRating = this.submitRating.bind(this)
+    this.onStarClick = this.onStarClick.bind(this)
   }
 
   toggleLink() {
     this.setState({
       link: !this.state.link
     })
+  }
+
+  submitRating() {
+    var data = {}
+    data.rating_assignee = this.state.rating_assignee
+    console.log(data)
+    updateProject(this.props.project._id, data)
+      .then( (response) => {
+        console.log(response)
+        this.toggleLink()
+        this.props.updateTable()
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
+  }
+  onStarClick(nextValue, prevValue, name) {
+    this.setState({rating_assignee: nextValue})
   }
 
   render() {
@@ -49,7 +72,7 @@ export default class GeneralModal extends Component {
         <td scope="row">{this.props.index + 1}</td>
         <td>{this.props.project.title}</td>
         <td>{this.props.project.max_budget}</td>
-        <td>BIDDING IN PROGRESS</td>
+        <td>FINSHED</td>
         <td>
           <Button
             size="sm"
@@ -76,8 +99,52 @@ export default class GeneralModal extends Component {
                   <div className="modelP">{this.props.project.bid_end}</div>
                 </div>
               </div>
+              <div className="row">
+                <div className="col-md-6">
+                <Label>Assignee:</Label>
+                  <div className="modelP">{this.props.project.assignee.username}</div>
+                </div>
+                  <div className="col-md-6">
+                  <Label>Rating by Client:</Label>
+                  <div className="modelP">
+                  <StarRatingComponent name="rating_author" editing={false} 
+                  starCount={5} value={this.props.project.rating_author}/>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                <Label>Client:</Label>
+                  <div className="modelP">{this.props.project.author}</div>
+                </div>
+                <div className="col-md-6">
+                  <Label>Rating by Developer:</Label>
+                  {
+                    this.props.project.rating_assignee === 0 ?
+                    <div className="modelP">
+                      <StarRatingComponent name="rating_assignee" editing={true} 
+                        starCount={5} value={this.state.rating_assignee}
+                        onStarClick={this.onStarClick.bind(this)}
+                        />
+                    </div>
+                      :
+                    <div className="modelP">
+                      <StarRatingComponent name="rating_assignee" editing={false} 
+                        starCount={5} value={this.props.project.rating_assignee}/>
+                    </div>
+                  }
+                </div>
+              </div>
             </ModalBody>
             <ModalFooter>
+              {
+                this.props.project.rating_assignee === 0 ?
+                  <Button
+                    onClick={this.submitRating}
+                  >
+                    Submit Rating
+                  </Button> : null
+              }
             </ModalFooter>
           </Modal>
         </td>

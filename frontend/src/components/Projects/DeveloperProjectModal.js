@@ -21,7 +21,7 @@ import {
   ModalFooter,
   ModalHeader
 } from 'reactstrap';
-import {finishProject} from '../../utils/Projects'
+import {finishProject, updateProject} from '../../utils/Projects'
 
 export default class ProjectModal extends Component {
 
