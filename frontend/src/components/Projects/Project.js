@@ -163,10 +163,14 @@ export default class Project extends Component {
                 <ModalHeader toggle={this.toggleModal}>{this.props.project.title}
                 </ModalHeader>
                 <ModalBody>
+                  <Label>Client Name </Label>
+                    <p className="modelP"> {this.props.project.author}</p>
                   <Label>Project Summary</Label>
                     <p className="modelP"> {this.props.project.summary} </p>
                   <Label>Project Details</Label>
                     <p className="modelP">{this.props.project.details}</p>
+                  <Label> Maximum Budget</Label>
+                    <p className="modelP">$ {this.props.project.max_budget}</p>
                   <div className="row">
                     <div className="col-md-6">
                       <Label>Bid End:</Label>

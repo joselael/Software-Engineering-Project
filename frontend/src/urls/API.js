@@ -13,6 +13,12 @@ const BID = "bid/"
 const APPROVE = "approve/"
 const RATING = "rating/"
 const ACCEPT = "accept"
+const HISTORY = "history/"
+const TOTAL_DEV = "total_devs"
+const TOTAL_CLIENTS = "total_clients"
+const TOP_DEV = "top_dev"
+const TOP_CLIENT = "top_client"
+
 
 export {
   URL,
@@ -30,4 +36,9 @@ export {
   APPROVE,
   RATING,
   ACCEPT,
+  HISTORY,
+  TOTAL_DEV,
+  TOTAL_CLIENTS,
+  TOP_DEV,
+  TOP_CLIENT
 }

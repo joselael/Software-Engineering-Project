@@ -105,7 +105,9 @@ export default class ProjectModal extends Component {
               <Label>Project Summary</Label>
                 <p className="modelP"> {this.props.project.summary} </p>
               <Label>Project Details</Label>
-              <p className="modelP">{this.props.project.details}</p>
+                <p className="modelP">{this.props.project.details}</p>
+              <Label> Maximum Budget</Label>
+                <p className="modelP">$ {this.props.project.max_budget}</p>
               <div className="row">
                 <div className="col-md-6">
                   <Label>Bid Starts:</Label>
@@ -133,17 +135,17 @@ export default class ProjectModal extends Component {
           </Modal>
         </td>
         <td>
-          {this.props.project.require_review ? 
+          {this.props.project.require_review ?
           <ButtonGroup>
             <Button
-              size="sm" 
+              size="sm"
               color="success"
               onClick={this.approveProject}
               >
-              Approve 
+              Approve
             </Button>
             <Button
-            size="sm" 
+            size="sm"
             color="danger"
             onClick={this.deleteProject}
             >
@@ -152,11 +154,11 @@ export default class ProjectModal extends Component {
           </ButtonGroup>
           :
           <Button
-           size="sm" 
+           size="sm"
            color="danger"
            onClick={this.deleteProject}
           >
-            Delete 
+            Delete
           </Button>
           }
         </td>
