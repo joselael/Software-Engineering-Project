@@ -29,7 +29,6 @@ const ProjectSchema = new mongoose.Schema({
     problematic: Boolean,
     author_comments: String,
     admin_comments: String,
-
 });
 
 const Project = mongoose.model('Project', ProjectSchema);
