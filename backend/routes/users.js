@@ -53,8 +53,12 @@ router.post('/create', (req, res) => {
         bids: [],
         warnings: 0,
         enabled: false,
+        bad_rater:false,
         blacklisted: false,
         admin_message: null,
+        req_money: 0,
+        protest_message: null,
+        protest_check:false,
         linkedIn: {
             value: "",
             visible: true
