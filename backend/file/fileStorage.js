@@ -34,7 +34,7 @@ upload = function (req, res, name) {
         blob.makePublic().then(() => {
 
             // res.status(200).send(`File uploaded to ${publicUrl}`);
-            res.status(201).send(`File uploaded to ${publicUrl}`);
+            res.status(201).send(publicUrl);
         });
     });
 
