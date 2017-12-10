@@ -95,14 +95,72 @@ router.put('/me', VerifyToken, (req, res) => {
     });
 });
 
-router.put('/balance/:id', VerifyToken, (req,res) =>{
+router.put('/balance/:id',VerifyToken, (req,res) =>{
     User.findByIdAndUpdate(req.params.id, {$set:{account_balance : req.body.balance_update}}, function(err,user){
         if(err) return res.status(500).send("There was a problem updating the user's account balance.");
         else res.status(200).send([true,"Account balance updated."]);
     });
 });
 
-router.get('/warnings/:')
+router.put('/rater/:name', (req,res) =>{
+    var total_sum = 0;
+    Project.find({author : req.params.name}, function(err,projects){
+        if(projects.length === 0){
+            Project.find({'assignee.username' : req.params.name}, function(err,projects){
+                for(var i = 0 ; i < projects.length; i++){
+                    total_sum = total_sum + projects[i].rating_assignee;
+                }
+                var avg = total_sum/projects.length;
+                if(avg < 2 || avg > 8){
+                    User.find({username: req.params.name}, function(err,user){
+                        var user_id = user[0].id;
+                        User.findByIdAndUpdate(user_id, {$set:{bad_rater : true}}, function(err,user){
+                            if (err) return res.status(500).send("There was a problem updating the user.");
+                             res.status(202).send(user.bad_rater);                                  
+                        });
+                 });
+                }
+                else{
+                    User.find({username: req.params.name}, function(err,user){
+                        var user_id = user[0].id;
+                        User.findByIdAndUpdate(user_id, {$set:{bad_rater : false}}, function(err,user){
+                            if (err) return res.status(500).send("There was a problem updating the user.");
+                             res.status(202).send(user.bad_rater);  
+                        });
+                    });
+                }
+                
+        });
+    }
+        else{
+            Project.find({'author' : req.params.name}, function(err,projects){
+                for(var i = 0 ; i < projects.length; i++){
+                    total_sum = total_sum + projects[i].rating_assignee;
+                }
+                var avg = total_sum/projects.length;
+                if(avg < 2 || avg > 8){
+                    User.find({username: req.params.name}, function(err,user){
+                        var user_id = user[0].id;
+                        User.findByIdAndUpdate(user_id, {$set:{bad_rater : true}}, function(err,user){
+                            if (err) return res.status(500).send("There was a problem updating the user.");
+                             res.status(202).send(user.bad_rater);                                  
+                        });
+                 });
+                }
+                else{
+                    User.find({username: req.params.name}, function(err,user){
+                        var user_id = user[0].id;
+                        User.findByIdAndUpdate(user_id, {$set:{bad_rater : false}}, function(err,user){
+                            if (err) return res.status(500).send("There was a problem updating the user.");
+                             res.status(202).send(user.bad_rater);  
+                        });
+                    });
+                }
+                
+        });
+    }  
+});
+});
 // update user profile in database, by user
 router.delete('/me', VerifyToken, (req, res) => {
     if (!req.body.password)
