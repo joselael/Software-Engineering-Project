@@ -120,12 +120,20 @@ export default class ProjectModal extends Component {
     //console.log(this.state.bids)
     //console.log(bidders)
 
+    var status = ""
+    if (this.props.project.require_review)
+      status = "UNDER REVIEW"
+    else if (this.props.project.bidding_in_progress)
+      status = "BIDDING IN PROGRESS"
+    else
+      status = "WIP"
+
     return(
       <tr>
         <td scope="row">{this.props.index + 1}</td>
         <td>{this.props.project.title}</td>
         <td>{this.props.project.max_budget}</td>
-        <td>BIDDING IN PROGRESS</td>
+        <td>{status}</td>
         <td>
           <Button
             size="sm"
@@ -145,6 +153,14 @@ export default class ProjectModal extends Component {
                 <p className="modelP">{this.props.project.details}</p>
               <Label> Maximum Budget</Label>
                 <p className="modelP">$ {this.props.project.max_budget}</p>
+              {status === "WIP" ? 
+              <div className="row">
+                <div className="col-md-6">
+                <Label>Assignee:</Label>
+                  <p className="modelP">{this.props.project.assignee.username}</p>
+                </div>
+              </div>
+              :
               <div className="row">
                 <div className="col-md-6">
                 <Label>Bid Starts:</Label>
@@ -155,7 +171,9 @@ export default class ProjectModal extends Component {
                   <p className="modelP">{this.props.project.bid_end}</p>
                 </div>
               </div>
+              }
             </ModalBody>
+            {status === "WIP" ? null :
             <ModalFooter>
               <Input
                 type="select"
@@ -170,8 +188,7 @@ export default class ProjectModal extends Component {
                   this.state.bids.length > 0 ?
                   <Button color="danger" onClick={this.toggleNested}>
                     More information 
-                  </Button> : 
-                  <Button/>
+                  </Button> : null
                 }
 
                 <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
@@ -196,6 +213,7 @@ export default class ProjectModal extends Component {
                 </Button>
               </ButtonGroup>
             </ModalFooter>
+            }
           </Modal>
 
         </td>

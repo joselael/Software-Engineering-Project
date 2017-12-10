@@ -163,6 +163,8 @@ export class ClientTab extends Component {
       {
         if (project.bidding_in_progress)
           modalProject = <ProjectModal key={project._id} project={project} index={index} />
+        else if (!project.completed)
+          modalProject = <ProjectModal key={project._id} project={project} index={index} />
         else
           modalProject = <RatingModal key={project._id} project={project} index={index} />
       }
