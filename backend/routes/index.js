@@ -17,14 +17,14 @@ router.post('/login', (req, res) => {
         let token = jwt.sign({id: user._id}, config.secret, {
             expiresIn: 43200 // expires in 12 hours
         });
-        if(user.warnings === 2) {
+        if (user.warnings === 2) {
             user.warnings = 3
-            user.save(function(err) {
+            user.save(function (err) {
                 console.log(err)
             })
         } else if (user.warnings >= 3) {
             user.blacklisted = true
-            user.save(function(err) {
+            user.save(function (err) {
                 console.log(err)
             })
         }
