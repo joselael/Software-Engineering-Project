@@ -14,7 +14,7 @@ UserSchema = new mongoose.Schema({
     password: {type: String, required: true},
     user_type: {type: String, required: true},
     account_balance: {type: Number, default: 0},
-    money_made: {type: Number, default:0},
+    money_made: {type: Number, default: 0},
     project_count: {type: Number, default: 0},
     enabled: Boolean,
     warnings: {type: Number, default: 0},
