@@ -45,32 +45,17 @@ export class AdminTab extends Component {
       users: [],
       projects: []
     };
-    this.notAdmin = this
-      .notAdmin
-      .bind(this)
-    this.checkPending = this
-      .checkPending
-      .bind(this)
+    this.notAdmin = this.notAdmin.bind(this)
+    this.checkPending = this.checkPending.bind(this)
     this.checkAccept = this.checkAccept.bind(this)
-    this.checkBlacklist = this
-      .checkBlacklist
-      .bind(this)
-    this.acceptUser = this
-      .acceptUser
-      .bind(this)
-    this.updateTable = this
-      .updateTable
-      .bind(this)
-    this.toggleModal = this
-      .toggleModal
-      .bind(this)
-    this.handleChange = this
-      .handleChange
-      .bind(this)
-    this.rejectUser = this
-      .rejectUser
-      .bind(this)
+    this.checkBlacklist = this.checkBlacklist.bind(this)
+    this.acceptUser = this.acceptUser.bind(this)
+    this.updateTable = this.updateTable.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.rejectUser = this.rejectUser.bind(this)
     this.checkPendingMoney = this.checkPendingMoney.bind(this)
+    this.checkProtest = this.checkProtest.bind(this)
   }
 
   handleChange = event => {
@@ -139,6 +124,10 @@ export class AdminTab extends Component {
 
   checkBlacklist(user) {
     return user.blacklisted && !user.delete_requested
+  }
+
+  checkProtest(user) {
+    return user.protest_check
   }
 
   notAdmin(user) {
@@ -241,6 +230,13 @@ toggle(tab) {
       .map((user, index) =>
         <AdminRequestMoney key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
+
+    /*
+    const protestingWarningUsers = this.state.users.filter(this.checkPendingMoney)
+      .map((user, index) =>
+        <AdminRequestMoney key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+      )
+    */
 
     const allProjects = this.state.projects
       .map((project, index) =>
@@ -383,6 +379,22 @@ toggle(tab) {
                   </thead>
                   <tbody>
                     {pendingRequestMoney}
+                  </tbody>
+                </Table>
+                <h4>Protesting Warning</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User Type</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                      <th>Money Requested</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
                   </tbody>
                 </Table>
               </Row>

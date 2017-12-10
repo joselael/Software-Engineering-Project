@@ -11,7 +11,7 @@ import { Button,
   ButtonGroup
  } from 'reactstrap'
 import store from '../../store'
-import {firstLoggedIn, updateMe} from '../../utils/Users'
+import {firstLoggedIn, updateMe, protestWarning} from '../../utils/Users'
 
 export default class ProtestModal extends Component {
 
@@ -41,7 +41,14 @@ export default class ProtestModal extends Component {
 
   submitProtest() {
     console.log("Submitting protest")
-    this.toggleModal()
+    protestWarning(store.getState().token, store.getState().user._id, this.state.protestMSG)
+      .then( (response) => {
+        console.log(response)
+        this.toggleModal()
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
   }
 
   render() {

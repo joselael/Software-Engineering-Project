@@ -221,7 +221,10 @@ router.get('/top_dev', (req,res)=>{
     var query = User.find({user_type : 'developer'}).sort({money_made : -1}).limit(1);
     query.exec(function(err, money_maker){
         if (err) res.status(500).send("Could not find top dev.");
-        res.status(200).send(money_maker[0].username);
+        if(money_maker.length === 0) res.status(500).send("There are no devs")
+        else {
+            res.status(200).send(money_maker[0].username);
+        }
     });
 });
 
@@ -229,7 +232,10 @@ router.get('/top_client', (req,res)=>{
     var query = User.find({user_type : 'client'}).sort({num_projects: -1}).limit(1);
     query.exec(function(err, project_boss){
         if(err) res.status(500).send("Could not find top Client");
-        res.status(200).send(project_boss[0].username);       
+        if(project_boss.length === 0) res.status(500).send("There are no clients") 
+        else {
+            res.status(200).send(project_boss[0].username);       
+        }
     });
 });
 

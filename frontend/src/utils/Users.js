@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {HISTORY, URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH, MONEY_REQUEST,
-    TOTAL_CLIENTS, TOTAL_DEV, TOP_CLIENT, TOP_DEV} from '../urls/API'
+    TOTAL_CLIENTS, TOTAL_DEV, TOP_CLIENT, TOP_DEV, PROTEST} from '../urls/API'
 
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
@@ -236,6 +236,19 @@ export function disapproveMoney(token, userID) {
         },
         data: {
             req_money: 0
+        }
+    })
+}
+
+export function protestWarning(token, userID, protestMSG) {
+    return axios({
+        method: 'put',
+        url: URL + PROTEST + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            message: protestMSG
         }
     })
 }
