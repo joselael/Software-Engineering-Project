@@ -9,7 +9,7 @@ import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
 import ProjectModal from '../Projects/DeveloperProjectModal'
-import GeneralModal from '../Projects/GeneralClientProjectModal'
+import GeneralModal from '../Projects/GeneralDeveloperProjectModal'
 
 export class DeveloperTab extends Component {
     constructor(props) {

@@ -262,13 +262,34 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
         })
     })
 })
-
 router.put('/rate_client/:id', VerifyToken, (req, res) => {
-    Project.findByIdAndUpdate(req.param.id, function (err, project) {
+    Project.findByIdAndUpdate(req.params.id, {$set: {rating_assignee: req.body.rating}}, {new:true}, (err, project) => {
+//        console.log(project)
+        //Error catch
         if (err) return res.status(500).send("There was a problem finding the project.");
-        if (!project) return res.status(404).send("No project found.");
+        if (!project) return res.status(404).send("No project found")
 
-        res.status(200).send(project);
+        //Find author then increate warning if the rating is less than 3
+        User.findOne({username: project.author}, (err, user) => {
+            if(err) return res.status(500).send("There was a problem finding author")
+            //console.log(user.project_count)
+            
+            if(req.body.rating < 3) {
+                user.warnings += 1
+            }
+            user.project_count += 1
+            //console.log(user.project_count-1)
+            user.average_rating = (user.average_rating*((user.project_count - 1)/(user.project_count)) + (req.body.rating*(1/user.project_count)))
+            /*
+            user.project_count = user.project_count + 1
+            const prev_rating = user.average_rating * (user.project_count-1/user.project_count)
+            const new_rating = req.body.rating_client * (1/user.project_count)
+            user.average_rating = new_rating + prev_rating
+            */
+            //console.log(user.average_rating)
+            user.save()
+            res.status(200).send(project)
+        })
     });
 });
 

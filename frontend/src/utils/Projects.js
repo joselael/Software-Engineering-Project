@@ -176,3 +176,16 @@ export function penalizeUser(id, comments, penalty, admin_rating) {
     }
   })
 }
+
+export function rateClient(id, rating) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + "rate_client/" + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      rating: rating
+    }
+  })
+}
