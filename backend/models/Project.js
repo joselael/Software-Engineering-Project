@@ -28,6 +28,7 @@ const ProjectSchema = new mongoose.Schema({
     rating_assignee: Number,
     problematic: Boolean,
     author_comments: String,
+    assignee_comments: String,
     admin_comments: String,
 });
 

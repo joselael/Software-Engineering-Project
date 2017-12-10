@@ -64,10 +64,13 @@ router.post('/create', VerifyToken, (req, res) => {
         rating_author: 0,
         rating_assignee: 0,
         bidding_in_progress: true,
-        require_review: false, require_rating: false,
+        require_review: false, 
+        require_rating: false,
         reason_for_selection: "",
         problematic: false,
-        admin_comments: null
+        admin_comments: null,
+        author_comments: "",
+        assignee_comments: ""
     }, function (err, project) {
         if (err) {
             console.log(err);
@@ -164,6 +167,14 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
                 var money_made = assig.money_made;
                 var account_balance_assignee = assig.account_balance;
                 var assignee = assig._id;
+                assig.project_count += 1
+                assig.average_rating = (assig.average_rating*((assig.project_count - 1)/(assig.project_count)) + (req.body.rating_author*(1/user.project_count)))
+
+                if(assig.project_count >= 5 && assig.average_rating <= 2) {
+                    assig.warnings += 1
+                }
+                user.save()
+
                 User.find({username: project.author}, function (err2, author) {
                     var account_balance_author = author[0].account_balance;
                     var author_id = author[0]._id;
@@ -205,7 +216,12 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
             User.findById(project.assignee.user_id, (err, user) => {
                 if(err) return res.status(500).send("There was a problem updating the user")
 
-                user.warnings += 1;
+                user.project_count += 1
+                user.average_rating = (user.average_rating*((user.project_count - 1)/(user.project_count)) + (req.body.rating_author*(1/user.project_count)))
+
+                if(user.project_count >= 5 && user.average_rating <= 2) {
+                    user.warnings += 1
+                }
                 user.save()
 
                 project.problematic = true
@@ -272,21 +288,14 @@ router.put('/rate_client/:id', VerifyToken, (req, res) => {
         //Find author then increate warning if the rating is less than 3
         User.findOne({username: project.author}, (err, user) => {
             if(err) return res.status(500).send("There was a problem finding author")
-            //console.log(user.project_count)
             
-            if(req.body.rating < 3) {
+            user.project_count += 1
+            user.average_rating = (user.average_rating*((user.project_count - 1)/(user.project_count)) + (req.body.rating*(1/user.project_count)))
+
+            if(user.project_count >= 5 && user.average_rating <= 2) {
                 user.warnings += 1
             }
-            user.project_count += 1
-            //console.log(user.project_count-1)
-            user.average_rating = (user.average_rating*((user.project_count - 1)/(user.project_count)) + (req.body.rating*(1/user.project_count)))
-            /*
-            user.project_count = user.project_count + 1
-            const prev_rating = user.average_rating * (user.project_count-1/user.project_count)
-            const new_rating = req.body.rating_client * (1/user.project_count)
-            user.average_rating = new_rating + prev_rating
-            */
-            //console.log(user.average_rating)
+
             user.save()
             res.status(200).send(project)
         })
