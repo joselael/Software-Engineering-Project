@@ -15,7 +15,8 @@ import {
   CardText,
   CardHeader,
   CardBody,
-  Card
+  Card,
+  Badge
 } from 'reactstrap';
 import defaultProfile from '../../../images/default_profile.png'
 import store from '../../../store'
@@ -57,7 +58,9 @@ export default class ProfileTab extends Component {
           </Col>
           <Col sm="12" md={{size: 8}}>
             <Card>
-              <CardHeader>Username</CardHeader>
+              <CardHeader>Username 
+                <Badge color="danger"> {store.getState().user.warnings}</Badge>
+              </CardHeader>
               <CardBody>
                 <CardText>
                   {store.getState().user.username}
