@@ -32,6 +32,7 @@ export default class RatingModal extends Component {
       rating: 0,
       comments: "",
       link2: false,
+      data: {}
     }
     this.toggleLink = this.toggleLink.bind(this)
     this.onStarClick = this.onStarClick.bind(this)
@@ -67,7 +68,11 @@ export default class RatingModal extends Component {
     if(this.state.rating < 3)
       this.toggleComments()
     else {
-      submitRating(this.props.project._id, this.state.rating)
+
+      this.state.data.rating_author = this.state.rating
+      this.state.data.require_rating = false
+
+      submitRating(this.props.project._id, this.state.data)
         .then( (response) => {
           console.log(response)
         })
@@ -78,7 +83,23 @@ export default class RatingModal extends Component {
   }
 
   handleSubmitComments() {
+    this.state.data.require_rating = false
+    this.state.data.rating_author = this.state.rating
+    this.state.data.author_comments = this.state.comments
 
+    submitRating(this.props.project._id, this.state.data)
+      .then( (response) => {
+        console.log(response)
+        this.toggleLink()
+        this.toggleComments()
+        alert("Admin alerted")
+      })
+      .catch( (err) => {
+        console.log(err)
+        this.toggleLink()
+        this.toggleComments()
+        alert("Error with rating")
+      })
   }
 
   render() {
@@ -157,7 +178,7 @@ export default class RatingModal extends Component {
                   <ButtonGroup>
                     <Button
                       color="danger"
-                      onClick={this.handleSubmitRating}
+                      onClick={this.handleSubmitComments}
                     >
                       Submit
                     </Button>

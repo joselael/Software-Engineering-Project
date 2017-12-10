@@ -36,7 +36,6 @@ class LandingCarousel extends Component {
     ];
     return(
       <div>
-      <br/>
       <div className="col-md-7" style={pStyle}>
         <div className="LandingCarousel" style={styles}>
           <UncontrolledCarousel items={items} />

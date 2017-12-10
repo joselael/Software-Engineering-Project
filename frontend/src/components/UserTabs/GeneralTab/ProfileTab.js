@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import StarRatingComponent from 'react-star-rating-component';
 import {
   TabContent,
   TabPane,
@@ -20,10 +21,18 @@ import defaultProfile from '../../../images/default_profile.png'
 import store from '../../../store'
 
 export default class ProfileTab extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      rating: 0
+    }
+  }
   render() {
     var imageStyle = {
       width: "100px",
-      height: "100px"
+      height: "100px",
+      borderRadius: "50%"
     }
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
@@ -86,16 +95,32 @@ export default class ProfileTab extends Component {
                 </CardBody>
               </Card>
               <br/>
+              <Card>
+                <CardHeader>Rating:
+                </CardHeader>
+                <CardBody>
+                  <CardText>
+                    <h2>{store.getState().user.rating}</h2>
+                    <StarRatingComponent
+                        name="rate2"
+                        editing={false}
+                        starCount="5"
+                        value={store.getState().user.rating}/>
+                  </CardText>
+                </CardBody>
+              </Card>
+              <br/>
 
             </div>
           }
-              <Card body inverse color="success" >
-                <CardTitle>Current Balance</CardTitle>
-                  <CardText> $
-                    {store.getState().user.account_balance}
-                  </CardText>
-              </Card>
-              <br/>
+          <Card body inverse color="success" >
+            <CardTitle>Current Balance</CardTitle>
+              <CardText> $
+                {store.getState().user.account_balance}
+              </CardText>
+          </Card>
+          <br/>
+
           </Col>
         </Row>
       </TabPane>

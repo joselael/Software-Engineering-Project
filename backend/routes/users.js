@@ -130,8 +130,8 @@ router.put('/:id', VerifyAdmin, (req, res) => {
     });
 });
 
-router.put('/money_request/:id/:money_amt', (req,res)=>{
-    User.findByIdAndUpdate(req.params.id, {$set : {req_money : req.params.money_amt}}, function(err, user){
+router.put('/money_request/:id', VerifyToken, (req,res)=>{
+    User.findByIdAndUpdate(req.params.id, {$set : {req_money : req.body.money_amt}}, function(err, user){
         if(err) res.status(500).send("There was a problem updating the user's request for money.");
         res.status(200).send((user.req_money.toString()));
     });

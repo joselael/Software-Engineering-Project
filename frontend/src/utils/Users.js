@@ -1,5 +1,6 @@
 import axios from 'axios'
-import {URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH} from '../urls/API'
+import {HISTORY, URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH, MONEY_REQUEST,
+    TOTAL_CLIENTS, TOTAL_DEV, TOP_CLIENT, TOP_DEV} from '../urls/API'
 
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
@@ -157,6 +158,84 @@ export function searchUser(username) {
         url: URL + USER + SEARCH + username,
         headers: {
             "Content-Type" :"application/json"
+        }
+    })
+}
+
+export function history(username) {
+    return axios({
+        method: 'get',
+        url: URL + USER + HISTORY + username,
+        headers: {
+            "Content-Type" : "application/json"
+        }
+    })
+}
+
+export function topDev() {
+    return axios({
+        method: 'get',
+        url: URL + USER + TOP_DEV
+    })
+}
+
+export function topClient() {
+    return axios({
+        method: 'get',
+        url: URL + USER + TOP_CLIENT
+    })
+}
+
+export function numberOfDev() {
+    return axios({
+        method: 'get',
+        url: URL + USER + TOTAL_DEV
+    })
+}
+
+export function numberOfClients() {
+    return axios({
+        method: 'get',
+        url: URL+USER+TOTAL_CLIENTS
+    })
+}
+
+export function moreMoney(token, money_amt, userID) {
+    return axios({
+        method: 'put',
+        url: URL + USER + MONEY_REQUEST + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            money_amt: money_amt
+        }
+    })
+}
+
+export function approveMoney(token, userID, new_account_balance) {
+    return axios({
+        method: 'put',
+        url: URL + USER + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            req_money: 0, 
+            account_balance: new_account_balance
+        }
+    })
+}
+
+export function disapproveMoney(token, userID) {
+    return axios({
+        method: 'put',
+        url: URL + USER + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            req_money: 0
         }
     })
 }

@@ -23,13 +23,14 @@ import {
 } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component'
 import {updateProject} from '../../utils/Projects'
+import {rateClient} from '../../utils/Projects'
 
 export default class GeneralModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
       link: false,
-      rating_assignee: 0
+      rating: 0
     }
     this.toggleLink = this.toggleLink.bind(this)
     this.submitRating = this.submitRating.bind(this)
@@ -43,10 +44,9 @@ export default class GeneralModal extends Component {
   }
 
   submitRating() {
-    var data = {}
-    data.rating_assignee = this.state.rating_assignee
-    console.log(data)
-    updateProject(this.props.project._id, data)
+    const rating = this.state.rating
+    console.log(rating)
+    rateClient(this.props.project._id, rating)
       .then( (response) => {
         console.log(response)
         this.toggleLink()
@@ -57,7 +57,7 @@ export default class GeneralModal extends Component {
       })
   }
   onStarClick(nextValue, prevValue, name) {
-    this.setState({rating_assignee: nextValue})
+    this.setState({rating: nextValue})
   }
 
   render() {
@@ -72,7 +72,11 @@ export default class GeneralModal extends Component {
         <td scope="row">{this.props.index + 1}</td>
         <td>{this.props.project.title}</td>
         <td>{this.props.project.max_budget}</td>
-        <td>FINSHED</td>
+        <td>
+        {this.props.project.rating_assignee === 0 ? "NEED RATING"
+          : "FINISHED"
+        }
+        </td>
         <td>
           <Button
             size="sm"
@@ -123,14 +127,14 @@ export default class GeneralModal extends Component {
                     this.props.project.rating_assignee === 0 ?
                     <div className="modelP">
                       <StarRatingComponent name="rating_assignee" editing={true} 
-                        starCount={5} value={this.state.rating_assignee}
+                        starCount={5} value={this.state.rating}
                         onStarClick={this.onStarClick.bind(this)}
                         />
                     </div>
                       :
                     <div className="modelP">
                       <StarRatingComponent name="rating_assignee" editing={false} 
-                        starCount={5} value={this.props.project.rating_assignee}/>
+                        starCount={5} value={this.props.project.rating}/>
                     </div>
                   }
                 </div>
