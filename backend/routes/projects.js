@@ -91,7 +91,7 @@ router.post('/create', VerifyToken, (req, res) => {
 
 
 // get all projects from the database
-router.get('/projects', VerifyToken, function (req, res) {
+router.get('/projects', function (req, res) {
     Project.find({}, function (err, projects) {
         if (err) return res.status(500).send("There was a problem finding the projects.");
         res.status(200).send(projects);
@@ -169,12 +169,12 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
                 var assignee = assig._id;
 
                 assig.project_count += 1
-                assig.average_rating = (assig.average_rating*((assig.project_count - 1)/(assig.project_count)) + (req.body.rating_author*(1/user.project_count)))
+                assig.average_rating = (assig.average_rating*((assig.project_count - 1)/(assig.project_count)) + (req.body.rating_author*(1/assig.project_count)))
 
                 if(assig.project_count >= 5 && assig.average_rating <= 2) {
                     assig.warnings += 1
                 }
-                user.save()
+                assig.save()
 
                 User.find({username: project.author}, function (err2, author) {
                     var account_balance_author = author[0].account_balance;
@@ -185,10 +185,12 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
                         var su_charge = final_transfer * .05;
                         var total_charge_author = final_transfer + su_charge;
                         var update_author_acct = account_balance_author - total_charge_author;
-                        User.findByIdAndUpdate(project.author_id, {$set:{account_balance: update_author_acct}}, function(err,user){
+                        //Find the author
+                        User.findOneAndUpdate({username:project.author}, {$set:{account_balance: update_author_acct}}, function(err,user){
+                            //console.log(user)
                             if(err) return res.status(500).send("There was a problem updating account balance for author.");
                             else{
-                                User.findByIdAndUpdate(assig_id, {$set:{money_made : (money_made + final_transfer)}},function(err, user){
+                                User.findByIdAndUpdate(assig._id, {$set:{money_made : (money_made + final_transfer)}},function(err, user){
                                     //console.log(user)
                                     if(err) return res.status(500).send("There was a problem updating money made for assignee.");
                                     else{
