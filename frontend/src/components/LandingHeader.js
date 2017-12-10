@@ -60,7 +60,6 @@ class LandingHeader extends Component {
               </div>
             </header>
             <FirstLoginModal />
-            {store.getState().user.warnings > 0 ? <ProtestModal /> : null}
           </div>
         ) : (
           <div className="LandingHeader">

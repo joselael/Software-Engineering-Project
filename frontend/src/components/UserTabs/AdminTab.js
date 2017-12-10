@@ -28,6 +28,7 @@ import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
 import ProjectModal from '../Projects/AdminProjectModal'
 import AdminRequestMoney from '../Users/AdminRequestMoney'
+import AdminProtestUsers from '../Users/AdminProtestUsers'
 import AdminUser from '../Users/AdminUsers'
 
 export class AdminTab extends Component {
@@ -133,7 +134,8 @@ export class AdminTab extends Component {
   notAdmin(user) {
     return user.user_type !== "admin"
   }
-toggle(tab) {
+
+  toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({activeTab: tab});
     }
@@ -231,12 +233,12 @@ toggle(tab) {
         <AdminRequestMoney key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
 
-    /*
-    const protestingWarningUsers = this.state.users.filter(this.checkPendingMoney)
+    const protestingWarningUsers = this.state.users.filter(this.checkProtest)
       .map((user, index) =>
-        <AdminRequestMoney key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+        <AdminProtestUsers key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
-    */
+    
+    console.log(protestingWarningUsers)
 
     const allProjects = this.state.projects
       .map((project, index) =>
@@ -390,11 +392,12 @@ toggle(tab) {
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Username</th>
-                      <th>Money Requested</th>
+                      <th>MSG</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
+                    {protestingWarningUsers}
                   </tbody>
                 </Table>
               </Row>

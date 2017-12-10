@@ -21,6 +21,7 @@ const TOP_CLIENT = "top_client"
 const MONEY_REQUEST = "money_request/"
 const PENALIZE_PROJECT = "penalize_project/"
 const PROTEST = "protest/"
+const WARNING = "warning_update/"
 
 export {
   URL,
@@ -45,5 +46,6 @@ export {
   TOP_CLIENT,
   MONEY_REQUEST,
   PENALIZE_PROJECT,
-  PROTEST
+  PROTEST,
+  WARNING
 }
