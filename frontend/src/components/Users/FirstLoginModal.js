@@ -72,7 +72,6 @@ export default class FirstLoginModal extends Component {
       }).catch( (err) => {
         console.log("First Logged In failed")
       })
-    */
   }
 
   render() {
