@@ -19,7 +19,7 @@ UserSchema = new mongoose.Schema({
     project_count: {type: Number, default: 0},
     enabled: Boolean,
     protest_message: String,
-    bad_rater: {type: Boolean,default:false},
+    bad_rater: {type: Boolean, default: false},
     protest_check: {type: Boolean, default: false},
     warnings: {type: Number, default: 0},
     blacklisted: Boolean,
@@ -36,8 +36,8 @@ UserSchema = new mongoose.Schema({
     first_login: Boolean,
     delete_requested: {type: Boolean, default: false},
     average_rating: {type: Number, default: 0, required: false},
-    resume: {type: String, trim: false, require: false},
-    picture: {type: String, trim: false, require: false}
+    resume: {type: String, trim: false, required: false},
+    picture: {type: String, trim: false, required: false}
 });
 
 const User = mongoose.model('User', UserSchema);
