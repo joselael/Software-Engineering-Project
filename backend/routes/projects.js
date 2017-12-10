@@ -159,11 +159,7 @@ router.put('/approve/:id', VerifyToken, (req, res) => {
 });
 
 //for final money transfer upon project completion
-<<<<<<< HEAD
 //rating api endpoint for the author
-=======
-//rating api endpoint for the author or client 
->>>>>>> lael_devel
 router.put('/rating/:id', VerifyToken, (req,res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         if (req.body.rating_author >= 3){

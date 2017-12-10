@@ -15,6 +15,7 @@ const m = multer({
 
 
 router.post('/:kind', VerifyToken, m.single("file"), (req, res) => {
+    console.log(req.file)
     if (!req.file) {
         res.status(400).send("No file uploaded.");
         return;
