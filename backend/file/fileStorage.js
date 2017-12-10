@@ -10,8 +10,11 @@ const storage = Storage({
 const bucket = storage.bucket('swep-bucket');
 
 
-upload = function (file, fileName, type, buffer) {
+upload = function (file, fileName, type) {
 
+    console.log("file is " + file);
+    console.log("file name is : " + fileName);
+    console.log("file type is : " + type);
 
     // Create a new blob in the bucket and upload the file data.
     const blob = bucket.file(fileName);
@@ -25,8 +28,6 @@ upload = function (file, fileName, type, buffer) {
     });
 
     blobStream.on("error", err => {
-        next(err);
-        return;
     });
 
     blobStream.on("finish", () => {
@@ -35,11 +36,12 @@ upload = function (file, fileName, type, buffer) {
 
         // Make the image public to the web (since we'll be displaying it in browser)
         blob.makePublic().then(() => {
-            res.status(200).send(`File uploaded to ${publicUrl}`);
+            // res.status(200).send(`File uploaded to ${publicUrl}`);
+            return `File uploaded to ${publicUrl}`;
         });
     });
 
-    blobStream.end(req.file.buffer);
+    // blobStream.end(req.file.buffer);
 };
 
 
