@@ -32,8 +32,8 @@ router.post('/:kind', VerifyToken, m.single("file"), (req, res) => {
         if (!user) return res.status(404).send("No user found.");
 
         // console.log("user_id: " + user_id);
-        let url = upload(req.file, user.username + req.param.kind, req.file.mimetype/*, req.file.buffer*/);
-        res.status(201).send(url);
+        upload(req, res);
+
     });
 
 
