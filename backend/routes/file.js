@@ -19,13 +19,11 @@ const m = multer({
 });
 
 
-router.post('/:kind', VerifyToken, m.single("file"), (req, res) => {
+router.post('/', VerifyToken, m.single("file"), (req, res) => {
     if (!req.file) {
         res.status(400).send("No file uploaded.");
         return;
     }
-
-    console.log("req.file.originalname: " + req.file.originalname);
 
     User.findById(req.userID, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
