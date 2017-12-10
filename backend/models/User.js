@@ -20,7 +20,7 @@ UserSchema = new mongoose.Schema({
     enabled: Boolean,
     protest_message: String,
     bad_rater: {type: Boolean,default:false},
-    protest_check: {Boolean, default: false},
+    protest_check: {type: Boolean, default: false},
     warnings: {type: Number, default: 0},
     blacklisted: Boolean,
     admin_message: String,

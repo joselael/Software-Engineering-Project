@@ -58,7 +58,7 @@ router.post('/create', (req, res) => {
         admin_message: null,
         req_money: 0,
         protest_message: null,
-        protest_check:false,
+        protest_check: false,
         linkedIn: {
             value: "",
             visible: true
