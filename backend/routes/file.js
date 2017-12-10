@@ -2,12 +2,7 @@ const multer = require("multer");
 const memoryStorage = multer.memoryStorage();
 const express = require('express');
 const router = express.Router();
-// const bcrypt = require('bcrypt');
 const User = require('../models/User');
-// const Project = require('../models/Project');
-// const Bid = require('../models/Bid');
-// const jwt = require('jsonwebtoken');
-// const VerifyAdmin = require('../auth/VerifyAdmin');
 const VerifyToken = require('../auth/VerifyToken');
 const upload = require('../file/fileStorage');
 
