@@ -2,7 +2,7 @@ const Storage = require('@google-cloud/storage');
 const projectId = 'dllmz-swep';
 
 const storage = Storage({
-    projectId: projectId,
+    projectId: 'swep-bucket',
     keyFilename: './Software Engineering Project-c1d3b68b6b12'
 });
 
