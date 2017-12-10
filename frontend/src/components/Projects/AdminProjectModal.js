@@ -22,6 +22,7 @@ import {
   ModalHeader
 } from 'reactstrap';
 import {deleteProject, approveProject, penalizeUser} from '../../utils/Projects'
+import StarRatingComponent from 'react-star-rating-component'
 
 export default class ProjectModal extends Component {
 
@@ -31,6 +32,7 @@ export default class ProjectModal extends Component {
       modal: false,
       review: false,
       comments: "",
+      admin_rating: this.props.project.rating_author,
       penalty: 0
     }
     this.toggleModal = this.toggleModal.bind(this)
@@ -39,6 +41,7 @@ export default class ProjectModal extends Component {
     this.reviewProject = this.reviewProject.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.submitReview = this.submitReview.bind(this)
+    this.onStarClick = this.onStarClick.bind(this)
   }
 
   //Approve Project's Assignee
@@ -75,10 +78,12 @@ export default class ProjectModal extends Component {
   submitReview() {
     const comments = this.state.comments
     const penalty = this.state.penalty
+    const admin_rating = this.state.admin_rating
 
-    penalizeUser(this.props.project._id, comments, penalty)    
+    penalizeUser(this.props.project._id, comments, penalty, admin_rating)    
       .then( (response) => {
         console.log(response)
+        this.props.updateTable()
         alert("Submitting review...")
       })
       .catch( (err) => {
@@ -86,6 +91,10 @@ export default class ProjectModal extends Component {
       })
 
     this.reviewProject()
+  }
+
+  onStarClick(nextValue, prevValue, name) {
+    this.setState({admin_rating: nextValue})
   }
 
   toggleModal() {
@@ -222,6 +231,12 @@ export default class ProjectModal extends Component {
                 name="comments"
                 onChange={this.handleChange}
               />
+              <StarRatingComponent
+                name="rating_author"
+                starCount={5}
+                value={this.props.project.rating_author}
+                onStarClick={this.onStarClick.bind(this)}
+              />
               <Label>Penalty for Assignee</Label>
               <Input
                 type="number"
@@ -241,10 +256,9 @@ export default class ProjectModal extends Component {
                 </Button>
                 <Button
                 size="sm"
-                color="danger"
-                onClick={this.deleteProject}
+                onClick={this.reviewProject}
                 >
-                  Delete
+                  Cancel
                 </Button>
               </ButtonGroup>
             </ModalFooter>

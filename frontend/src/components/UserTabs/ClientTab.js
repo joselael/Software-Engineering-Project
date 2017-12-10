@@ -157,8 +157,6 @@ export class ClientTab extends Component {
 
     var modalProject = ""
 
-    console.log(this.state.projects)
-
     const currentProjects = this.state.projects
       .filter(this.checkInProgress)
       .map((project, index) =>

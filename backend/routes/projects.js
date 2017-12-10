@@ -219,24 +219,58 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
 });
 
 router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
-    Project.findByIdAndUpdate(req.params.id, {$set: {admin_comments: req.body.admin_comments, problematic: false}}, {new:true}, (err, project) => {
+    Project.findByIdAndUpdate(req.params.id, {$set: {admin_comments: req.body.admin_comments, problematic: false, rating_author: req.body.admin_rating}}, {new:true}, (err, project) => {
         if(err) return res.status(500).send("There was a problem penalizing")
         User.findById(project.assignee.user_id, (err, user) => {
-            user.account_balance -= req.body.penalty
-            user.save()
             if(err) return res.status(500).send("There was a problem updating user")
-            //res.status(200).send(user)
-            User.find({username: project.author}, (err, author) => {
-                console.log(author)
-                if(err) return res.status(500).send("There was a problem updating user")
-                author[0].account_balance += req.body.penalty
-                author[0].save()
-                //
-                res.status(200).send(project)
-            })
+            if(project.rating_author >= 3) {
+                //Don't charge the penalty money and give the rest half to developer
+                Bid.findById(project.assignee.bid_id, (err, final_bid)=> {
+
+                    //Super user fee
+                    var final_transfer = final_bid.amount/2;
+                    var su_charge = final_transfer * .05;
+                    var total_charge_author = final_transfer + su_charge;
+
+                    //Give the money to developer
+                    user.account_balance += (final_transfer - su_charge)
+                    user.save()
+                    //Find the author then charge like normal
+                    User.find({username:project.author}, (err, author) => {
+                        author[0].account_balance -= total_charge_author
+                        author[0].save()
+
+                        res.status(200).send("Wrongly Accused")
+                    })
+                })
+            }
+
+            else if (project.rating_author < 3) {
+                //Charge penalty then put back penalty money to author 
+                user.account_balance -= req.body.penalty
+                user.save()
+                //res.status(200).send(user)
+                User.find({username: project.author}, (err, author) => {
+                    console.log(author)
+                    if(err) return res.status(500).send("There was a problem updating user")
+                    author[0].account_balance += req.body.penalty
+                    author[0].save()
+                    //
+                    res.status(200).send("Penalized developer")
+                })
+            }
         })
     })
 })
+
+router.put('/rate_client/:id', VerifyToken, (req, res) => {
+    Project.findByIdAndUpdate(req.param.id, function (err, project) {
+        if (err) return res.status(500).send("There was a problem finding the project.");
+        if (!project) return res.status(404).send("No project found.");
+
+        res.status(200).send(project);
+    });
+});
 
 // find projects by specific user
 router.get('/search/:user', VerifyToken, (req, res) => {

@@ -39,8 +39,8 @@ export default class ProjectModal extends Component {
       bid_id: "",
       description: 0,
       bid_amount: 0,
-      GithubLink: "",
-      LinkedInLinl: "",
+      Github: "",
+      LinkedIn: "",
       lowest_bid: Number.MAX_VALUE,
 
       bids: []
@@ -64,12 +64,14 @@ export default class ProjectModal extends Component {
   toggleNested() { //selected for more information
     //  alert("selected user for more information")
 
-    console.log(this.state.bids[this.state.developer])
+    //console.log(this.state.bids[this.state.developer])
 
     this.setState({
       nestedModal: !this.state.nestedModal,
       description: this.state.bids[this.state.developer].description,
       bid_amount: this.state.bids[this.state.developer].amount,
+      Github: this.state.bids[this.state.developer].github,
+      LinkedIn: this.state.bids[this.state.developer].linkedIn,
       bid_id: this.state.bids[this.state.developer]._id,
       developer_id: this.state.bids[this.state.developer].author_id,
       developer_username: this.state.bids[this.state.developer].author
@@ -114,7 +116,9 @@ export default class ProjectModal extends Component {
       .map((bid, index) =>
         <option key={bid._id} value={index}>{bid.author}</option>
     )
-    console.log(bidders)
+
+    //console.log(this.state.bids)
+    //console.log(bidders)
 
     return(
       <tr>
@@ -171,12 +175,10 @@ export default class ProjectModal extends Component {
                 }
 
                 <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                  <ModalHeader>"Developer's message"</ModalHeader>
+                  <ModalHeader>Developer's message</ModalHeader>
                   <ModalBody style={{paddingLeft: "30px"}}>
                     <Row>{this.state.description}</Row>
                     <Row>Bid Amount: ${this.state.bid_amount}</Row>
-                    <Row>Github link: </Row>
-                    <Row>LinkedIn link: </Row>
                   </ModalBody>
                   <ModalFooter>
                     <Input placeholder="Reason for selection"

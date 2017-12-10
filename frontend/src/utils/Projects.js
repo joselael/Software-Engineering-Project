@@ -162,7 +162,7 @@ export function updateProject(id, data) {
   })
 }
 
-export function penalizeUser(id, comments, penalty) {
+export function penalizeUser(id, comments, penalty, admin_rating) {
   return axios({
     method: 'put',
     url: URL + PROJECT + PENALIZE_PROJECT + id,
@@ -171,7 +171,8 @@ export function penalizeUser(id, comments, penalty) {
     },
     data: {
       "admin_comments": comments,
-      "penality" : penalty
+      "penality" : penalty,
+      "admin_rating": admin_rating
     }
   })
 }
