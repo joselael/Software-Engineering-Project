@@ -39,7 +39,10 @@ export default class ProjectModal extends Component {
       bid_id: "",
       description: 0,
       bid_amount: 0,
+      Github: "",
+      LinkedIn: "",
       lowest_bid: Number.MAX_VALUE,
+
       bids: []
     }
     this.toggleModal = this.toggleModal.bind(this)
@@ -61,12 +64,14 @@ export default class ProjectModal extends Component {
   toggleNested() { //selected for more information
     //  alert("selected user for more information")
 
-    console.log(this.state.bids[this.state.developer])
+    //console.log(this.state.bids[this.state.developer])
 
     this.setState({
       nestedModal: !this.state.nestedModal,
       description: this.state.bids[this.state.developer].description,
       bid_amount: this.state.bids[this.state.developer].amount,
+      Github: this.state.bids[this.state.developer].github,
+      LinkedIn: this.state.bids[this.state.developer].linkedIn,
       bid_id: this.state.bids[this.state.developer]._id,
       developer_id: this.state.bids[this.state.developer].author_id,
       developer_username: this.state.bids[this.state.developer].author
@@ -111,14 +116,24 @@ export default class ProjectModal extends Component {
       .map((bid, index) =>
         <option key={bid._id} value={index}>{bid.author}</option>
     )
-    console.log(bidders)
+
+    //console.log(this.state.bids)
+    //console.log(bidders)
+
+    var status = ""
+    if (this.props.project.require_review)
+      status = "UNDER REVIEW"
+    else if (this.props.project.bidding_in_progress)
+      status = "BIDDING IN PROGRESS"
+    else
+      status = "WIP"
 
     return(
       <tr>
         <td scope="row">{this.props.index + 1}</td>
         <td>{this.props.project.title}</td>
         <td>{this.props.project.max_budget}</td>
-        <td>BIDDING IN PROGRESS</td>
+        <td>{status}</td>
         <td>
           <Button
             size="sm"
@@ -136,6 +151,16 @@ export default class ProjectModal extends Component {
                 <p className="modelP"> {this.props.project.summary} </p>
               <Label>Project Details</Label>
                 <p className="modelP">{this.props.project.details}</p>
+              <Label> Maximum Budget</Label>
+                <p className="modelP">$ {this.props.project.max_budget}</p>
+              {status === "WIP" ? 
+              <div className="row">
+                <div className="col-md-6">
+                <Label>Assignee:</Label>
+                  <p className="modelP">{this.props.project.assignee.username}</p>
+                </div>
+              </div>
+              :
               <div className="row">
                 <div className="col-md-6">
                 <Label>Bid Starts:</Label>
@@ -146,7 +171,9 @@ export default class ProjectModal extends Component {
                   <p className="modelP">{this.props.project.bid_end}</p>
                 </div>
               </div>
+              }
             </ModalBody>
+            {status === "WIP" ? null :
             <ModalFooter>
               <Input
                 type="select"
@@ -161,18 +188,17 @@ export default class ProjectModal extends Component {
                   this.state.bids.length > 0 ?
                   <Button color="danger" onClick={this.toggleNested}>
                     More information 
-                  </Button> : 
-                  <Button/>
+                  </Button> : null
                 }
 
                 <Modal isOpen={this.state.nestedModal} toggle={this.toggleNested} onClosed={this.state.closeAll ? this.toggle : undefined}>
-                  <ModalHeader>"Developer's message"</ModalHeader>
+                  <ModalHeader>Developer's message</ModalHeader>
                   <ModalBody style={{paddingLeft: "30px"}}>
                     <Row>{this.state.description}</Row>
                     <Row>Bid Amount: ${this.state.bid_amount}</Row>
                   </ModalBody>
                   <ModalFooter>
-                    <Input placeholder="Reason for selection" 
+                    <Input placeholder="Reason for selection"
                       value={this.state.reasonForSelection}
                       onChange={this.handleChange}
                       name="reasonForSelection"
@@ -187,6 +213,7 @@ export default class ProjectModal extends Component {
                 </Button>
               </ButtonGroup>
             </ModalFooter>
+            }
           </Modal>
 
         </td>

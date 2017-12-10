@@ -36,7 +36,7 @@ export default class FirstLoginModal extends Component {
   //Then update the user in the redux to re render the page 
   toggleModal() {
 
-    console.log(this.state)  
+    //console.log(this.state)  
 
     firstLoggedIn(store.getState().token)
       .then( (response) => {

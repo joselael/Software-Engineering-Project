@@ -108,7 +108,7 @@ export class ClientTab extends Component {
 
     if (this.state.title === "search" || this.state.title === "projects"
     || this.state.title === "create" || this.state.title === "bid" ||
-    (this.state.bid_date > this.state.project_date) || this.state.max_budget > store.getState().user.account_balance) 
+    (this.state.bid_date > this.state.project_date) || this.state.max_budget > store.getState().user.account_balance)
     {
       alert("Invalid")
       this.clearStates()
@@ -157,13 +157,13 @@ export class ClientTab extends Component {
 
     var modalProject = ""
 
-    console.log(this.state.projects)
-
     const currentProjects = this.state.projects
       .filter(this.checkInProgress)
-      .map((project, index) => 
+      .map((project, index) =>
       {
         if (project.bidding_in_progress)
+          modalProject = <ProjectModal key={project._id} project={project} index={index} />
+        else if (!project.completed)
           modalProject = <ProjectModal key={project._id} project={project} index={index} />
         else
           modalProject = <RatingModal key={project._id} project={project} index={index} />

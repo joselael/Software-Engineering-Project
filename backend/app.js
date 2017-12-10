@@ -27,7 +27,9 @@ const project = require('./routes/projects');
 const db = require('./databases/db');
 const file = require('./routes/file');
 const bid = require('./routes/bids');
+const protest = require('./routes/protest');
 
+app.use('/protest', protest);
 app.use('/', index);
 app.use('/user', user);
 app.use('/project', project);

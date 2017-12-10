@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import StarRatingComponent from 'react-star-rating-component';
 import {
   TabContent,
   TabPane,
@@ -14,16 +15,25 @@ import {
   CardText,
   CardHeader,
   CardBody,
-  Card
+  Card,
+  Badge
 } from 'reactstrap';
 import defaultProfile from '../../../images/default_profile.png'
 import store from '../../../store'
 
 export default class ProfileTab extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      rating: 0
+    }
+  }
   render() {
     var imageStyle = {
       width: "100px",
-      height: "100px"
+      height: "100px",
+      borderRadius: "50%"
     }
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
@@ -48,7 +58,9 @@ export default class ProfileTab extends Component {
           </Col>
           <Col sm="12" md={{size: 8}}>
             <Card>
-              <CardHeader>Username</CardHeader>
+              <CardHeader>Username 
+                <Badge color="danger"> {store.getState().user.warnings}</Badge>
+              </CardHeader>
               <CardBody>
                 <CardText>
                   {store.getState().user.username}
@@ -65,7 +77,7 @@ export default class ProfileTab extends Component {
               </CardBody>
             </Card>
             <br/>
-            {store.getState().user.user_type === "admin" ? <h1> </h1>:
+            {store.getState().user.user_type === "admin" ? null:
             <div>
               <Card>
                 <CardHeader>LinkedIn</CardHeader>
@@ -86,16 +98,28 @@ export default class ProfileTab extends Component {
                 </CardBody>
               </Card>
               <br/>
-
-            </div>
-          }
-              <Card body inverse color="success" >
-                <CardTitle>Current Balance</CardTitle>
-                  <CardText> $
-                    {store.getState().user.account_balance}
-                  </CardText>
+              <Card>
+                <CardHeader>Rating:
+                </CardHeader>
+                <CardBody>
+                  <StarRatingComponent
+                    name="rating"
+                    editing={false}
+                    starCount={5}
+                    value={store.getState().user.rating}/>
+                </CardBody>
               </Card>
               <br/>
+            </div>
+          }
+          <Card body inverse color="success" >
+            <CardTitle>Current Balance</CardTitle>
+              <CardText> $
+                {store.getState().user.account_balance}
+              </CardText>
+          </Card>
+          <br/>
+
           </Col>
         </Row>
       </TabPane>
