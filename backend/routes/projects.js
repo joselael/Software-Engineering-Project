@@ -159,7 +159,7 @@ router.put('/approve/:id', VerifyToken, (req, res) => {
 });
 
 //for final money transfer upon project completion
-//rating api endpoint for the author or client 
+//rating api endpoint for the author
 router.put('/rating/:id', VerifyToken, (req,res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         if (req.body.rating_author >= 3){
@@ -185,9 +185,10 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
                         var su_charge = final_transfer * .05;
                         var total_charge_author = final_transfer + su_charge;
                         var update_author_acct = account_balance_author - total_charge_author;
+                        console.log(update_author_acct)
                         //Find the author
                         User.findOneAndUpdate({username:project.author}, {$set:{account_balance: update_author_acct}}, function(err,user){
-                            //console.log(user)
+                            console.log(user)
                             if(err) return res.status(500).send("There was a problem updating account balance for author.");
                             else{
                                 User.findByIdAndUpdate(assig._id, {$set:{money_made : (money_made + final_transfer)}},function(err, user){

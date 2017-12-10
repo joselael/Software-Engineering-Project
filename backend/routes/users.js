@@ -99,17 +99,10 @@ router.put('/me', VerifyToken, (req, res) => {
     });
 });
 
-<<<<<<< HEAD
 router.put('/balance/:id',VerifyToken, (req,res) =>{
     User.findByIdAndUpdate(req.params.id, {$set:{account_balance : req.body.balance_update}}, function(err,user){
         if(err) return res.status(500).send("There was a problem updating the user's account balance.");
         else res.status(200).send([true,"Account balance updated."]);
-=======
-router.put('/balance/:id', VerifyToken, (req, res) => {
-    User.findByIdAndUpdate(req.params.id, {$set: {account_balance: req.body.balance_update}}, function (err, user) {
-        if (err) return res.status(500).send("There was a problem updating the user's account balance.");
-        else res.status(200).send([true, "Account balance updated."]);
->>>>>>> lael_devel
     });
 });
 
@@ -200,7 +193,6 @@ router.put('/:id', VerifyAdmin, (req, res) => {
     });
 });
 
-<<<<<<< HEAD
 router.put('/money_request/:id', VerifyToken, (req,res)=>{
     User.findByIdAndUpdate(req.params.id, {$set : {req_money : req.body.money_amt}}, function(err, user){
         if(err) res.status(500).send("There was a problem updating the user's request for money.");
@@ -218,11 +210,6 @@ router.get('/warnings/:id', (req,res)=>{
 router.get('/total_clients', (req,res) =>{
     User.count({user_type : 'client'}, function( err, count){
         if(err)res.status(500).send("Could not get count.");
-=======
-router.get('/total_clients', VerifyToken, (req, res) => {
-    User.count({user_type: 'client'}, function (err, count) {
-        if (err) res.status(500).send("Could not get count.");
->>>>>>> lael_devel
         res.status(200).send((count).toString());
     });
 });
@@ -245,7 +232,6 @@ router.get('/top_dev', VerifyToken, (req, res) => {
     });
 });
 
-<<<<<<< HEAD
 router.get('/top_client', (req,res)=>{
     var query = User.find({user_type : 'client'}).sort({num_projects: -1}).limit(1);
     query.exec(function(err, project_boss){
@@ -254,13 +240,6 @@ router.get('/top_client', (req,res)=>{
         else {
             res.status(200).send(project_boss[0].username);       
         }
-=======
-router.get('/top_client', VerifyToken, (req, res) => {
-    var query = User.find({user_type: 'client'}).sort({num_projects: -1}).limit(1);
-    query.exec(function (err, project_boss) {
-        if (err) res.status(500).send("Could not find top Client");
-        res.status(200).send(project_boss[0].username);
->>>>>>> lael_devel
     });
 });
 
