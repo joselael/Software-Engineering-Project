@@ -1,5 +1,4 @@
 const Storage = require('@google-cloud/storage');
-const projectId = 'dllmz-swep';
 
 const storage = Storage({
     projectId: 'swep-bucket',
