@@ -159,7 +159,7 @@ router.put('/approve/:id', (req, res) => {
 });
 
 //for final money transfer upon project completion
-//rating api endpoint
+//rating api endpoint for the author or client 
 router.put('/rating/:id', VerifyToken, (req,res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         if (req.body.rating_author >= 3)
@@ -167,6 +167,7 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
                 var money_made = assig.money_made;
                 var account_balance_assignee = assig.account_balance;
                 var assignee = assig._id;
+
                 assig.project_count += 1
                 assig.average_rating = (assig.average_rating*((assig.project_count - 1)/(assig.project_count)) + (req.body.rating_author*(1/user.project_count)))
 
@@ -216,14 +217,6 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
             User.findById(project.assignee.user_id, (err, user) => {
                 if(err) return res.status(500).send("There was a problem updating the user")
 
-                user.project_count += 1
-                user.average_rating = (user.average_rating*((user.project_count - 1)/(user.project_count)) + (req.body.rating_author*(1/user.project_count)))
-
-                if(user.project_count >= 5 && user.average_rating <= 2) {
-                    user.warnings += 1
-                }
-                user.save()
-
                 project.problematic = true
                 project.save( (err) => {
                     console.log(err)
@@ -234,6 +227,7 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
     });
 });
 
+//Only touch the average rating after super user approve ratings
 router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, {$set: {admin_comments: req.body.admin_comments, problematic: false, rating_author: req.body.admin_rating}}, {new:true}, (err, project) => {
         if(err) return res.status(500).send("There was a problem penalizing")
@@ -247,6 +241,15 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
                     var final_transfer = final_bid.amount/2;
                     var su_charge = final_transfer * .05;
                     var total_charge_author = final_transfer + su_charge;
+
+                    //Increase project count and rate the user
+                    user.project_count += 1
+                    user.average_rating = (user.average_rating*((user.project_count - 1)/(user.project_count)) + (req.body.rating*(1/user.project_count)))
+
+                    //If average is bad, then give warning to user
+                    if(user.project_count >= 5 && user.average_rating <= 2) {
+                        user.warnings += 1
+                    }
 
                     //Give the money to developer
                     user.account_balance += (final_transfer - su_charge)
@@ -278,6 +281,8 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
         })
     })
 })
+
+//Developer can rate client after project is finished
 router.put('/rate_client/:id', VerifyToken, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, {$set: {rating_assignee: req.body.rating}}, {new:true}, (err, project) => {
 //        console.log(project)
