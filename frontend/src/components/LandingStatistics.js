@@ -3,12 +3,13 @@ import '../css/landing.css'
 import BarChart from 'react-bar-chart'
 import {Col, Row} from 'reactstrap'
 import {topClient, topDev, numberOfClients, numberOfDev} from '../utils/Users'
+import defaultProfile from '../images/default_profile.png'
 
 export default class LandingStatistics extends Component {
   constructor (props){
     super(props)
     this.state = {
-      width: 600,
+      width: 400,
       top_dev: "",
       top_client: "",
       total_devs: 0,
@@ -61,6 +62,14 @@ export default class LandingStatistics extends Component {
 
   render() {
 
+    var imageStyle = {
+      width: "100px",
+      height: "100px",
+      borderRadius: "50%",
+      textAlign: 'center',
+      justifyContent: 'center'
+    }
+
   const data = [
     {text: 'Developers', value: this.state.total_devs},
     {text: 'Clients', value: this.state.total_clients}
@@ -73,25 +82,38 @@ export default class LandingStatistics extends Component {
     return(
       <Row>
       <br/>
-        <Col xs="6">
-          <div ref='root'>
-              <div style={{width: '50%', fill:'#258e8e', stroke: 'grey'}}>
+        <Col xs="7">
+          <Row style={{textAlign: 'center', justifyContent: 'center'}}>
+              <div style={{width: '30%', fill:'#85D1C5', stroke: 'silver'}}>
                   <BarChart ylabel='Statistics'
                     width={this.state.width}
                     height={500}
                     margin={margin}
                     data={data}/>
               </div>
-          </div>
+          </Row>
         </Col>
-        <Col xs="6" style={{textAlign: 'center', color:'grey'}}>
-          <Row>
-            <h1>Top Developer </h1>
+        <Col xs="3">
+          <Row style={{textAlign: 'center', color:'grey', justifyContent: 'center'}}>
+            <h2>Top Developer </h2>
           </Row>
-          <br/>
-          <Row>
-            <h1>Top Client </h1>
+          <Row style={{textAlign: 'center', color:'grey', justifyContent: 'center'}}>
+            <img src={defaultProfile} style = {imageStyle}/>
           </Row>
+          <Row style={{textAlign: 'center', color:'silver', justifyContent: 'center'}}>
+            <h3>
+              {this.state.top_dev}
+            </h3>
+          </Row>
+          <Row style={{textAlign: 'center', color:'grey', justifyContent: 'center'}}>
+            <h2>Top Client </h2>
+          </Row>
+          <Row style={{textAlign: 'center', color:'grey', justifyContent: 'center'}}>
+            <img src={defaultProfile} style = {imageStyle}/>
+          </Row>
+          <Row style={{textAlign: 'center', color:'silver', justifyContent: 'center'}}>
+            <h3> {this.state.top_client} </h3>
+           </Row>
         </Col>
       </Row>
     )

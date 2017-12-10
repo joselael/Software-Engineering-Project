@@ -5,7 +5,8 @@ import { Button,
   ModalFooter,
   ModalHeader,
   Row,
-  Col
+  Col,
+  Alert
  } from 'reactstrap'
 import { NavLink as RRNavLink } from 'react-router-dom'
 import { loggedIn } from '../utils/Auth'
@@ -24,9 +25,11 @@ class LandingHeader extends Component {
       first_name: store.getState().user.first_name,
       last_name: store.getState().user.last_name,
       modal: store.getState().user.first_login,
-      warnings: 0
+      warnings: 0,
+      visible: true
     }
-    this.toggleModal = this.toggleModal.bind(this)
+    this.toggleModal = this.toggleModal.bind(this);
+    this.onDismiss = this.onDismiss.bind(this);
   }
   toggleModal() {
     this.setState({
@@ -34,6 +37,9 @@ class LandingHeader extends Component {
     })
   }
 
+  onDismiss() {
+    this.setState({ visible: false });
+  }
   render() {
 
     const isLoggedIn = loggedIn()
@@ -48,18 +54,30 @@ class LandingHeader extends Component {
     return (
       <div>
         {isLoggedIn ? (
-          <div className="LandingHeader">
-            <header className="loggedin-intro-header">
-              <div className="container">
-                <div className="loggedin-intro-message">
-                  <div className="text-background">
-                  <h1>Welcome back!</h1>
-                  <h3>{store.getState().user.first_name}</h3>
+          <div>
+            {store.getState().user.warnings === 1 ?
+            <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss}>
+              You have been warned {store.getState().user.warnings} time
+            </Alert> : null
+            }
+            {store.getState().user.warnings === 2 ?
+            <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss}>
+              This is your final warning
+            </Alert> : null
+            }
+            <div className="LandingHeader">
+              <header className="loggedin-intro-header">
+                <div className="container">
+                  <div className="loggedin-intro-message">
+                    <div className="text-background">
+                    <h1>Welcome back!</h1>
+                    <h3>{store.getState().user.first_name}</h3>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </header>
-            <FirstLoginModal />
+              </header>
+              <FirstLoginModal />
+            </div>
           </div>
         ) : (
           <div className="LandingHeader">
@@ -78,7 +96,6 @@ class LandingHeader extends Component {
             </header>
           </div>
         )}
-
       </div>
     );
   }
