@@ -3,7 +3,7 @@ const projectId = 'dllmz-swep';
 
 const storage = Storage({
     projectId: 'swep-bucket',
-    keyFilename: './Software Engineering Project-c1d3b68b6b12'
+    keyFilename: './Software Engineering Project-c1d3b68b6b12.json'
 });
 
 
