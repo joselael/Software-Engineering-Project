@@ -13,7 +13,7 @@ const bucket = storage.bucket('swep-bucket');
 upload = function (req, res, name) {
 
     // Create a new blob in the bucket and upload the file data.
-    const blob = bucket.file(name + req.param.kind);
+    const blob = bucket.file(name + req.params.kind);
 
     // Make sure to set the contentType metadata for the browser to be able
     // to render the image instead of downloading the file (default behavior)
