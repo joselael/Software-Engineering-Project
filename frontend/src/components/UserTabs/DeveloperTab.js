@@ -78,7 +78,7 @@ export class DeveloperTab extends Component {
         <GeneralModal updateTable={() => this.updateTable()} key={project._id} project={project} index={index}/>
         )
 
-      console.log(this.state.projects)
+      //console.log(this.state.projects)
 
       return ( 
         <div> 

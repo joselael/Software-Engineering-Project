@@ -66,8 +66,6 @@ export default class LandingStatistics extends Component {
     {text: 'Clients', value: this.state.total_clients}
   ];
 
-  console.log(this.state)
-
   const margin = {
     top: 20, right: 20, bottom: 30, left: 40
   };

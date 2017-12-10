@@ -70,7 +70,6 @@ class NavigationBar extends Component {
                   My Account
                 </NavLink>
               </NavItem>
-              <NavItem>
                 <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
                   <DropdownToggle nav caret>
                     Search
@@ -84,7 +83,6 @@ class NavigationBar extends Component {
                     </NavLink>
                   </DropdownMenu>
                 </Dropdown>
-              </NavItem>
               <NavItem>
                 <Button
                   onClick={this.signout}

@@ -87,7 +87,12 @@ export default class SettingsTab extends Component {
 
   onSubmitAuth = e => {
     e.preventDefault()
-    checkUser(store.getState().token, this.state.oldpassword)
+
+    const passwordCheck = this.state.oldpassword
+    this.setState({
+      oldpassword: ""
+    })
+    checkUser(store.getState().token, passwordCheck)
       .then( (response) => {
         if(response.data) {
           this.setState({
@@ -246,7 +251,7 @@ export default class SettingsTab extends Component {
             </ModalFooter>
           </Modal>
 
-          <Modal value="" isOpen={this.state.auth}>
+          <Modal isOpen={this.state.auth}>
             <ModalHeader>Confirm your password</ModalHeader>
             <ModalBody>
               <form onSubmit={this.onSubmitAuth}>
@@ -433,6 +438,7 @@ export default class SettingsTab extends Component {
                     Submit
                   </Button>
                   <Button
+                    onClick={this.toggleMoney}
                   >
                     Cancel
                   </Button>

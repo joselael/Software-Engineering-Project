@@ -11,6 +11,7 @@ import { NavLink as RRNavLink } from 'react-router-dom'
 import { loggedIn } from '../utils/Auth'
 import FirstLoginModal from './Users/FirstLoginModal'
 import store from '../store'
+import ProtestModal from './Users/ProtestModal'
 import '../css/landing.css'
 import BarChart from 'react-bar-chart'
 
@@ -23,6 +24,7 @@ class LandingHeader extends Component {
       first_name: store.getState().user.first_name,
       last_name: store.getState().user.last_name,
       modal: store.getState().user.first_login,
+      warnings: 0
     }
     this.toggleModal = this.toggleModal.bind(this)
   }
@@ -36,6 +38,13 @@ class LandingHeader extends Component {
 
     const isLoggedIn = loggedIn()
 
+    var protestPrompt = ""
+    if (this.state.warnings > 0) {
+      protestPrompt = <ProtestModal />
+    }
+
+    console.log(protestPrompt)
+    //Send protesting message to user if the warning is greater 0. Warning should be at 0 when they first login
     return (
       <div>
         {isLoggedIn ? (
@@ -51,6 +60,7 @@ class LandingHeader extends Component {
               </div>
             </header>
             <FirstLoginModal />
+            {store.getState().user.warnings > 0 ? <ProtestModal /> : null}
           </div>
         ) : (
           <div className="LandingHeader">

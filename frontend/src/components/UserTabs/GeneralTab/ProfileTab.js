@@ -74,7 +74,7 @@ export default class ProfileTab extends Component {
               </CardBody>
             </Card>
             <br/>
-            {store.getState().user.user_type === "admin" ? <h1> </h1>:
+            {store.getState().user.user_type === "admin" ? null:
             <div>
               <Card>
                 <CardHeader>LinkedIn</CardHeader>
@@ -99,18 +99,14 @@ export default class ProfileTab extends Component {
                 <CardHeader>Rating:
                 </CardHeader>
                 <CardBody>
-                  <CardText>
-                    <h2>{store.getState().user.rating}</h2>
-                    <StarRatingComponent
-                        name="rate2"
-                        editing={false}
-                        starCount="5"
-                        value={store.getState().user.rating}/>
-                  </CardText>
+                  <StarRatingComponent
+                    name="rating"
+                    editing={false}
+                    starCount={5}
+                    value={store.getState().user.rating}/>
                 </CardBody>
               </Card>
               <br/>
-
             </div>
           }
           <Card body inverse color="success" >
