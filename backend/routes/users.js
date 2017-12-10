@@ -73,7 +73,7 @@ router.post('/create', (req, res) => {
         if (err) return res.status(500).send("There was a problem registering the user.");
         // create a token
         let token = jwt.sign({id: user._id}, config.secret, {
-            expiresIn: 21600 // expires in 6 hours
+            expiresIn: 43200 // expires in 12 hours
         });
         res.status(200).send({auth: true, token: token});
     });
@@ -214,16 +214,16 @@ router.get('/total_clients', (req,res) =>{
     });
 });
 
-router.get('/total_devs', VerifyToken, (req, res) => {
-    User.count({user_type: 'developer'}, function (err, count) {
-        if (err) res.status(500).send("Could not get count.");
+router.get('/total_devs', (req,res)=>{
+    User.count({user_type: 'developer'}, function(err,count){
+        if(err)res.status(500).send("Could not get count.");
         res.status(200).send((count).toString());
     });
 });
 
-router.get('/top_dev', VerifyToken, (req, res) => {
-    var query = User.find({user_type: 'developer'}).sort({money_made: -1}).limit(1);
-    query.exec(function (err, money_maker) {
+router.get('/top_dev', (req,res)=>{
+    var query = User.find({user_type : 'developer'}).sort({money_made : -1}).limit(1);
+    query.exec(function(err, money_maker){
         if (err) res.status(500).send("Could not find top dev.");
         if(money_maker.length === 0) res.status(500).send("There are no devs")
         else {
@@ -244,43 +244,43 @@ router.get('/top_client', (req,res)=>{
 });
 
 //get all projects a user worked on given their username -> sends back an array of necessary info 
-router.get('/history/:name', VerifyToken, (req, res) => {
-    Project.find({author: req.params.name}, function (err, projects) {
-        if (projects.length === 0) {
-            Project.find({'assignee.username': req.params.name}, function (err, projects) {
-                if (err) return res.status(500).send("There was a problem getting user projects");
+router.get('/history/:name', (req,res) =>{
+    Project.find({author : req.params.name}, function(err,projects){
+        if(projects.length === 0){
+            Project.find({'assignee.username' : req.params.name}, function(err,projects){
+                if(err) return res.status(500).send("There was a problem getting user projects");
                 var proj_arr = [];
-                for (var i = 0; i < projects.length; i++) {
+                for(var i = 0 ; i < projects.length; i++){
                     project_details = {
                         "title": projects[i].title,
                         "summary": projects[i].summary,
-                        "rating_assignee": projects[i].rating_assignee,
+                        "rating_assignee" : projects[i].rating_assignee,
                         "rating_author": projects[i].rating_author,
-                        "project_end": projects[i].project_end
+                        "project_end" : projects[i].project_end
                     }
                     proj_arr.push(project_details);
                 }
-                if (err) return res.status(500).send("There was a problem getting user projects");
+                if(err) return res.status(500).send("There was a problem getting user projects");
                 res.status(200).send(proj_arr);
-            });
-        }
-        else {
+                });
+    }
+        else{
             var proj_arr = [];
-            for (var i = 0; i < projects.length; i++) {
+            for(var i = 0 ; i < projects.length; i++){
                 project_details = {
                     "title": projects[i].title,
                     "summary": projects[i].summary,
-                    "rating_assignee": projects[i].rating_assignee,
+                    "rating_assignee" : projects[i].rating_assignee,
                     "rating_author": projects[i].rating_author,
-                    "project_end": projects[i].project_end
+                    "project_end" : projects[i].project_end
                 }
                 proj_arr.push(project_details);
             }
-            if (err) return res.status(500).send("There was a problem getting user projects");
+            if(err) return res.status(500).send("There was a problem getting user projects");
             res.status(200).send(proj_arr);
-        }
+          }     
+        });
     });
-});
 
 router.get('/me', VerifyToken, (req, res) => {
     console.log("received request");
@@ -303,7 +303,7 @@ router.get('/:name', VerifyAdmin, (req, res) => {
 });
 
 // get a particular user by name, for users
-router.get('/search/:name', VerifyToken, (req, res) => {
+router.get('/search/:name', (req, res) => {
     User.find({username: req.params.name}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user || user.length < 1) return res.status(404).send("No user found.");
