@@ -1,5 +1,5 @@
-import multer, {memoryStorage} from "multer";
-
+const multer = require("multer");
+const memoryStorage = multer.memoryStorage();
 const express = require('express');
 const router = express.Router();
 // const bcrypt = require('bcrypt');
@@ -12,7 +12,7 @@ const VerifyToken = require('../auth/VerifyToken');
 const upload = require('../file/fileStorage');
 
 const m = multer({
-    storage: memoryStorage(),
+    storage: memoryStorage,
     limits: {
         fileSize: 5 * 1024 * 1024
     }
@@ -26,13 +26,14 @@ router.post('//:kind', VerifyToken, m.single("file"), (req, res) => {
     }
 
     var user_id;
+
     User.findById(req.userID, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user) return res.status(404).send("No user found.");
 
         user_id = user.username;
     });
-
+    console.log("user_id: " + user_id);
     upload(req.file, user_id + req.param.kind, req.file.mimetype, req.file.buffer);
 
 });
