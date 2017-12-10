@@ -102,7 +102,6 @@ router.put('/balance/:id', VerifyToken, (req,res) =>{
     });
 });
 
-router.get('/warnings/:')
 // update user profile in database, by user
 router.delete('/me', VerifyToken, (req, res) => {
     if (!req.body.password)
