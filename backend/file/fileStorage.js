@@ -33,7 +33,6 @@ upload = function (req, res, name) {
         // Make the image public to the web (since we'll be displaying it in browser)
         blob.makePublic().then(() => {
 
-            // res.status(200).send(`File uploaded to ${publicUrl}`);
             res.status(201).send(publicUrl);
         });
     });
