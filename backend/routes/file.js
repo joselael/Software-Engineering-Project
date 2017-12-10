@@ -32,7 +32,7 @@ router.post('/:kind', VerifyToken, m.single("file"), (req, res) => {
         if (!user) return res.status(404).send("No user found.");
 
         // console.log("user_id: " + user_id);
-        upload(req, res);
+        upload(req, res, user.username);
 
     });
 
