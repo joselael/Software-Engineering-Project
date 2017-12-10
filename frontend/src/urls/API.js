@@ -22,6 +22,9 @@ const MONEY_REQUEST = "money_request/"
 const PENALIZE_PROJECT = "penalize_project/"
 const PROTEST = "protest/"
 const WARNING = "warning_update/"
+const FILE = "file/"
+const DOC = "doc"
+const PIC = "pic"
 
 export {
   URL,
@@ -47,5 +50,8 @@ export {
   MONEY_REQUEST,
   PENALIZE_PROJECT,
   PROTEST,
-  WARNING
+  WARNING,
+  FILE,
+  DOC,
+  PIC
 }
