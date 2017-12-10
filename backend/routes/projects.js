@@ -91,7 +91,7 @@ router.post('/create', VerifyToken, (req, res) => {
 
 
 // get all projects from the database
-router.get('/projects', function (req, res) {
+router.get('/projects', VerifyToken, function (req, res) {
     Project.find({}, function (err, projects) {
         if (err) return res.status(500).send("There was a problem finding the projects.");
         res.status(200).send(projects);
@@ -115,7 +115,7 @@ router.put('/:id', VerifyToken, (req, res) => {
 });
 
 //super user approval for project
-router.put('/approve/:id', (req, res) => {
+router.put('/approve/:id', VerifyToken, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         if (err) return res.status(404).send("There was a problem updating the project.");
         else{
@@ -162,7 +162,7 @@ router.put('/approve/:id', (req, res) => {
 //rating api endpoint for the author or client 
 router.put('/rating/:id', VerifyToken, (req,res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
-        if (req.body.rating_author >= 3)
+        if (req.body.rating_author >= 3){
             User.findById(project.assignee.user_id, (err1, assig)=>{
                 var money_made = assig.money_made;
                 var account_balance_assignee = assig.account_balance;
@@ -184,7 +184,8 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
                         var final_transfer = bid_amount/2;
                         var su_charge = final_transfer * .05;
                         var total_charge_author = final_transfer + su_charge;
-                        User.findByIdAndUpdate(project.author_id, {$set:{account_balance:(account_balance_author - total_charge_author)}}, function(err,user){
+                        var update_author_acct = account_balance_author - total_charge_author;
+                        User.findByIdAndUpdate(project.author_id, {$set:{account_balance: update_author_acct}}, function(err,user){
                             if(err) return res.status(500).send("There was a problem updating account balance for author.");
                             else{
                                 User.findByIdAndUpdate(assig_id, {$set:{money_made : (money_made + final_transfer)}},function(err, user){
@@ -212,7 +213,8 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
                     });
                 });   
             });
-        else
+        }
+        else{
             //Alert the user that there is a problem within the project
             User.findById(project.assignee.user_id, (err, user) => {
                 if(err) return res.status(500).send("There was a problem updating the user")
@@ -222,8 +224,10 @@ router.put('/rating/:id', VerifyToken, (req,res) => {
                     console.log(err)
                     if (err) return res.status(500).send("There was a problem saving the project")
                     res.status(200).send("Alerted the admin")
-                })
-            })
+            
+                });
+            });
+}
     });
 });
 
