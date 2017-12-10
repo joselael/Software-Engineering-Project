@@ -36,14 +36,8 @@ UserSchema = new mongoose.Schema({
     first_login: Boolean,
     delete_requested: {type: Boolean, default: false},
     average_rating: {type: Number, default: 0, required: false},
-    resume: {
-        value: {type: String, trim: false, require: false},
-        visible: {type: Boolean, trim: true, default: true, required: true}
-    },
-    picture: {
-        value: {type: String, trim: false, require: false},
-        visible: {type: Boolean, trim: true, default: true, required: true}
-    }
+    resume: {type: String, trim: false, require: false},
+    picture: {type: String, trim: false, require: false}
 });
 
 const User = mongoose.model('User', UserSchema);
