@@ -78,8 +78,8 @@ router.post('/create', VerifyToken, (req, res) => {
         }
         //update author project count
         User.find({username: req.body.author}, (err1, author) => {
-            var author_id = author[0]._id;
-            var num_projects = author[0].number_projects;
+            let author_id = author[0]._id;
+            let num_projects = author[0].number_projects;
             User.findByIdAndUpdate(author_id, {$set: {num_projects: num_projects + 1}}, function (err, project) {
                 if (err) return res.status(500).send("There was a problem updating the number of projects for the author.");
                 // create a token
@@ -120,18 +120,18 @@ router.put('/approve/:id', VerifyToken, (req, res) => {
         if (err) return res.status(404).send("There was a problem updating the project.");
         else {
             User.findById(project.assignee.user_id, (err1, assig) => {
-                var account_balance_assignee = assig.account_balance;
-                var assig_id = assig.id;
-                var money_made = assig.money_made;
+                let account_balance_assignee = assig.account_balance;
+                let assig_id = assig.id;
+                let money_made = assig.money_made;
                 User.find({username: project.author}, function (err2, author) {
-                    var account_balance_author = author[0].account_balance;
-                    var auth_id = author[0]._id;
+                    let account_balance_author = author[0].account_balance;
+                    let auth_id = author[0]._id;
                     Bid.find({_id: project.assignee.bid_id}, function (err2, final_bid) {
-                        var bid_amount = final_bid[0].amount;
-                        var initial_transfer = bid_amount / 2;
-                        var acct_balance_assig = account_balance_assignee + initial_transfer;
-                        var acct_balance_author = account_balance_author - initial_transfer;
-                        var money_made_assig = money_made + initial_transfer;
+                        let bid_amount = final_bid[0].amount;
+                        let initial_transfer = bid_amount / 2;
+                        let acct_balance_assig = account_balance_assignee + initial_transfer;
+                        let acct_balance_author = account_balance_author - initial_transfer;
+                        let money_made_assig = money_made + initial_transfer;
                         //console.log(initial_transfer)
                         User.findByIdAndUpdate(assig_id, {$set: {account_balance: acct_balance_assig}}, {new: true}, function (err, user) {
                             //console.log(user)
@@ -164,27 +164,27 @@ router.put('/rating/:id', VerifyToken, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
         if (req.body.rating_author >= 3) {
             User.findById(project.assignee.user_id, (err1, assig) => {
-                var money_made = assig.money_made;
-                var account_balance_assignee = assig.account_balance;
-                var assignee = assig._id;
+                let money_made = assig.money_made;
+                let account_balance_assignee = assig.account_balance;
+                let assignee = assig._id;
 
-                assig.project_count += 1
+                assig.project_count += 1;
                 assig.average_rating = (assig.average_rating * ((assig.project_count - 1) / (assig.project_count)) + (req.body.rating_author * (1 / assig.project_count)))
 
                 if (assig.project_count >= 5 && assig.average_rating <= 2) {
                     assig.warnings += 1
                 }
-                assig.save()
+                assig.save();
 
                 User.find({username: project.author}, function (err2, author) {
-                    var account_balance_author = author[0].account_balance;
-                    var author_id = author[0]._id;
+                    let account_balance_author = author[0].account_balance;
+                    let author_id = author[0]._id;
                     Bid.findById(project.assignee.bid_id, function (err2, final_bid) {
-                        var bid_amount = final_bid.amount;
-                        var final_transfer = bid_amount / 2;
-                        var su_charge = final_transfer * .05;
-                        var total_charge_author = final_transfer + su_charge;
-                        var update_author_acct = account_balance_author - total_charge_author;
+                        let bid_amount = final_bid.amount;
+                        let final_transfer = bid_amount / 2;
+                        let su_charge = final_transfer * .05;
+                        let total_charge_author = final_transfer + su_charge;
+                        let update_author_acct = account_balance_author - total_charge_author;
                         //Find the author
                         User.findOneAndUpdate({username: project.author}, {$set: {account_balance: update_author_acct}}, function (err, user) {
                             //console.log(user)
@@ -198,8 +198,8 @@ router.put('/rating/:id', VerifyToken, (req, res) => {
                                             if (err) return res.status(500).send("There was a problem updating account balance for assignee.");
                                             else {
                                                 User.find({username: 'admin'}, (err, su) => {
-                                                    var super_user_balance = su[0].account_balance;
-                                                    var super_user_id = su[0]._id;
+                                                    let super_user_balance = su[0].account_balance;
+                                                    let super_user_id = su[0]._id;
                                                     User.findByIdAndUpdate(super_user_id, {$set: {account_balance: (super_user_balance + (su_charge * 2))}}, (err, su) => {
                                                         if (err) return res.status(500).send("There was a problem updating account for super user")
                                                         res.status(200).send("Transaction Finalized")
@@ -250,9 +250,9 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
                 Bid.findById(project.assignee.bid_id, (err, final_bid) => {
 
                     //Super user fee
-                    var final_transfer = final_bid.amount / 2;
-                    var su_charge = final_transfer * .05;
-                    var total_charge_author = final_transfer + su_charge;
+                    let final_transfer = final_bid.amount / 2;
+                    let su_charge = final_transfer * .05;
+                    let total_charge_author = final_transfer + su_charge;
 
                     //Increase project count and rate the user
                     user.project_count += 1
