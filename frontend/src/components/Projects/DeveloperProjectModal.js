@@ -22,6 +22,7 @@ import {
   ModalHeader
 } from 'reactstrap';
 import {finishProject, updateProject} from '../../utils/Projects'
+import StarRatingComponent from 'react-star-rating-component'
 
 export default class ProjectModal extends Component {
 

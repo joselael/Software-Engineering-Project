@@ -5,7 +5,7 @@ import { Form, FormGroup,TabPane, Label,
   Modal, ModalHeader, ModalBody, ModalFooter
  } from 'reactstrap';
 import store from '../../../store'
-import {checkUser, updateSettings} from '../../../utils/Users'
+import {checkUser, updateSettings, moreMoney, protestWarning} from '../../../utils/Users'
 import {userInfo} from '../../../utils/Auth'
 
 export default class SettingsTab extends Component {
@@ -29,6 +29,8 @@ export default class SettingsTab extends Component {
         collapse: false,
         moneycollapse: false,
         delete: false,
+        protest: false,
+        protestMSG: "",
         moremoney: 0,
         id: ""
       }
@@ -39,11 +41,34 @@ export default class SettingsTab extends Component {
       this.toggle = this.toggle.bind(this)
       this.toggleAuth = this.toggleAuth.bind(this)
       this.toggleDelete = this.toggleDelete.bind(this)
+      this.toggleProtest = this.toggleProtest.bind(this)
       this.clearState = this.clearState.bind(this)
       this.submitDelete = this.submitDelete.bind(this)
       this.toggleMoney = this.toggleMoney.bind(this)
       this.onSubmitMoney = this.onSubmitMoney.bind(this)
       this.handleInputChange = this.handleInputChange.bind(this)
+      this.onSubmitProtest = this.onSubmitProtest.bind(this)
+  }
+
+  onSubmitProtest = e => {
+    e.preventDefault()
+    console.log("Submitting protest...")
+    const msg = this.state.protestMSG
+    this.toggleProtest()
+    protestWarning(store.getState().token, store.getState().user._id, msg)
+      .then( (response) => {
+        console.log(response)
+        alert("Alerting admin...")
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
+  }
+
+  toggleProtest() {
+    this.setState({
+      protest: !this.state.protest
+    })
   }
 
   handleInputChange(event) {
@@ -80,25 +105,31 @@ export default class SettingsTab extends Component {
       linkedIn: '',
       email: '',
       first_name: '',
-      last_name: ''
+      last_name: '',
+      protestMSG: '',
+      moremoney: 0
     })
   }
 
   onSubmitAuth = e => {
     e.preventDefault()
-    checkUser(store.getState().token, this.state.oldpassword)
+
+    const passwordCheck = this.state.oldpassword
+    this.clearState()
+    checkUser(store.getState().token, passwordCheck)
       .then( (response) => {
         if(response.data) {
           this.setState({
             auth: !this.state.auth
           })
           if (this.state.id === "change") {
-            this.clearState()
             this.toggle()
           } else if (this.state.id === "delete") {
             this.toggleDelete()
           } else if(this.state.id === "money") {
             this.toggleMoney()
+          } else if(this.state.id ==="protest" ) {
+            this.toggleProtest()
           }
         } else {
           alert("You're not authorized")
@@ -199,7 +230,17 @@ export default class SettingsTab extends Component {
   }
 
   onSubmitMoney = e => {
-    console.log("Add more money")
+    e.preventDefault()
+    moreMoney(store.getState().token, this.state.moremoney, store.getState().user._id)
+      .then( (response) => {
+        console.log(response)
+        alert("Requesting approval for more money...")
+        this.clearState()
+        this.toggleMoney()
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
   }
 
   render() {
@@ -217,6 +258,12 @@ export default class SettingsTab extends Component {
             <Button id="money" color="success" onClick={this.toggleAuth}>
               Input More Money
             </Button>
+            {
+              store.getState().user.warnings > 0 ?
+                <Button id="protest" color="warning" onClick={this.toggleAuth}>
+                  Protest Warning
+                </Button> : null
+            }
           </ButtonGroup>
 
           <Modal isOpen={this.state.delete} toggle={this.toggleDelete}>
@@ -235,7 +282,7 @@ export default class SettingsTab extends Component {
             </ModalFooter>
           </Modal>
 
-          <Modal value="" isOpen={this.state.auth}>
+          <Modal isOpen={this.state.auth}>
             <ModalHeader>Confirm your password</ModalHeader>
             <ModalBody>
               <form onSubmit={this.onSubmitAuth}>
@@ -403,13 +450,13 @@ export default class SettingsTab extends Component {
           <Collapse isOpen={this.state.moneycollapse}>
           <Card>
             <CardBody>
-              <form onSubmit={this.onSubmit}>
+              <form onSubmit={this.onSubmitMoney}>
                 <FormGroup>
                   <Label> More Money </Label>
                   <Input
                     value={this.state.moremoney}
                     onChange={this.onChange}
-                    type="moremoney"
+                    type="number"
                     name="moremoney"
                   />
                 </FormGroup>
@@ -417,11 +464,44 @@ export default class SettingsTab extends Component {
                   <Button
                     type="submit"
                     color="success"
+                    onClick={this.onSubmitMoney}
                   >
                     Submit
                   </Button>
                   <Button
-                    onClick={this.state.moremoney}
+                    onClick={this.toggleMoney}
+                  >
+                    Cancel
+                  </Button>
+                </ButtonGroup>
+              </form>
+            </CardBody>
+          </Card>
+          </Collapse>
+
+          <Collapse isOpen={this.state.protest}>
+          <Card>
+            <CardBody>
+              <form onSubmit={this.onSubmitProtest}>
+                <FormGroup>
+                  <Label> Protest Warning </Label>
+                  <Input
+                    value={this.state.protestMSG}
+                    onChange={this.onChange}
+                    type="textarea"
+                    name="protestMSG"
+                  />
+                </FormGroup>
+                <ButtonGroup>
+                  <Button
+                    type="submit"
+                    color="success"
+                    onClick={this.onSubmitProtest}
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    onClick={this.toggleProtest}
                   >
                     Cancel
                   </Button>

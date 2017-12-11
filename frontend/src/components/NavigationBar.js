@@ -4,9 +4,10 @@ import {
   Button,Nav, Navbar,
   NavbarBrand, NavItem, Collapse,
   NavbarToggler, NavLink, NavDropdown,
-  Dropdown, DropdownItem, DropdownToggle, DropdownMenu
+  Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Badge
 } from "reactstrap";
 import { loggedIn, logout } from '../utils/Auth'
+import store from '../store'
 
 class NavigationBar extends Component {
 
@@ -68,9 +69,9 @@ class NavigationBar extends Component {
               <NavItem>
                 <NavLink to='/myaccount' tag={RRNavLink} onClick={this.closeToggle}>
                   My Account
+                  <Badge color="danger">{store.getState().user.warnings}</Badge>
                 </NavLink>
               </NavItem>
-              <NavItem>
                 <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
                   <DropdownToggle nav caret>
                     Search
@@ -84,7 +85,6 @@ class NavigationBar extends Component {
                     </NavLink>
                   </DropdownMenu>
                 </Dropdown>
-              </NavItem>
               <NavItem>
                 <Button
                   onClick={this.signout}

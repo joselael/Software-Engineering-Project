@@ -1,6 +1,7 @@
 import axios from 'axios'
-import {HISTORY, URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH, 
-    TOTAL_CLIENTS, TOTAL_DEV, TOP_CLIENT, TOP_DEV} from '../urls/API'
+import {HISTORY, URL, USER, ACCOUNTS, CREATE, ME, CHECK, SEARCH, MONEY_REQUEST, FILE, DOC, PIC,
+    TOTAL_CLIENTS, TOTAL_DEV, TOP_CLIENT, TOP_DEV, PROTEST, WARNING} from '../urls/API'
+import FormData from 'form-data'
 
 //Register user
 export function register(Username, Password, First_name, Last_name, User_type, Email, money) {
@@ -121,7 +122,8 @@ export function updateMe(token, github, linkedIn, resume) {
         },
         data: {
             github: {value: github},
-            linkedIn: {value: linkedIn}
+            linkedIn: {value: linkedIn},
+            resume: resume
         }
     })
 }
@@ -197,5 +199,103 @@ export function numberOfClients() {
     return axios({
         method: 'get',
         url: URL+USER+TOTAL_CLIENTS
+    })
+}
+
+export function moreMoney(token, money_amt, userID) {
+    return axios({
+        method: 'put',
+        url: URL + USER + MONEY_REQUEST + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            money_amt: money_amt
+        }
+    })
+}
+
+export function approveMoney(token, userID, new_account_balance) {
+    return axios({
+        method: 'put',
+        url: URL + USER + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            req_money: 0, 
+            account_balance: new_account_balance
+        }
+    })
+}
+
+export function disapproveMoney(token, userID) {
+    return axios({
+        method: 'put',
+        url: URL + USER + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            req_money: 0
+        }
+    })
+}
+
+export function protestWarning(token, userID, protestMSG) {
+    return axios({
+        method: 'put',
+        url: URL + PROTEST + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            message: protestMSG
+        }
+    })
+}
+
+export function changeWarning(token, userID, warning) {
+    return axios({
+        method: 'put',
+        url: URL + PROTEST + WARNING + userID,
+        headers: {
+            'x-access-token': token
+        },
+        data: {
+            warning: warning
+        }
+    })
+}
+
+export function resumeUpload(token, file) {
+
+    console.log(file)
+    let data = new FormData()
+    data.append('file', file)
+
+    return axios.post(URL + FILE + DOC, data, {
+          headers: {
+            'accept': 'application/json',
+            'Accept-Language': 'en-US,en;q=0.8',
+            'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+            'x-access-token': token
+        }
+    })
+}
+
+export function pictureUpload(token, picture) {
+
+    console.log(picture)
+    let data = new FormData()
+    data.append('file', picture)
+
+    return axios.post(URL + FILE + PIC, data, {
+          headers: {
+            'accept': 'application/json',
+            'Accept-Language': 'en-US,en;q=0.8',
+            'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+            'x-access-token': token
+        }
     })
 }

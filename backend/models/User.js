@@ -11,12 +11,16 @@ UserSchema = new mongoose.Schema({
         value: {type: String, unique: true, trim: true},
         visible: {type: Boolean, trim: true, default: true, required: false}
     },
+    req_money: {type: Number, default: 0},
     password: {type: String, required: true},
     user_type: {type: String, required: true},
     account_balance: {type: Number, default: 0},
-    money_made: {type: Number, default:0},
+    money_made: {type: Number, default: 0},
     project_count: {type: Number, default: 0},
     enabled: Boolean,
+    protest_message: String,
+    bad_rater: {type: Boolean, default: false},
+    protest_check: {type: Boolean, default: false},
     warnings: {type: Number, default: 0},
     blacklisted: Boolean,
     admin_message: String,
@@ -31,7 +35,9 @@ UserSchema = new mongoose.Schema({
     },
     first_login: Boolean,
     delete_requested: {type: Boolean, default: false},
-    average_rating: {type: Number, default: 0, required: false}
+    average_rating: {type: Number, default: 0, required: false},
+    resume: {type: String, trim: false, required: false},
+    picture: {type: String, trim: false, required: false}
 });
 
 const User = mongoose.model('User', UserSchema);
