@@ -46,14 +46,9 @@ class LandingHeader extends Component {
       <div>
         {isLoggedIn ? (
           <div>
-            {store.getState().user.warnings === 1 ?
+            {store.getState().user.warnings > 0 ?
             <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss}>
-              You have been warned {store.getState().user.warnings} time
-            </Alert> : null
-            }
-            {store.getState().user.warnings === 2 ?
-            <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss}>
-              This is your final warning
+              You have been warned {store.getState().user.warnings} time(s). If you have two warnings this is the last time you can log on to Cre-ators.
             </Alert> : null
             }
             <div className="LandingHeader">
