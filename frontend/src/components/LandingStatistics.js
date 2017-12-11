@@ -10,8 +10,8 @@ export default class LandingStatistics extends Component {
     super(props)
     this.state = {
       width: 400,
-      top_dev: "",
-      top_client: "",
+      top_dev: {},
+      top_client: {},
       total_devs: 0,
       total_clients: 0
     }
@@ -79,6 +79,24 @@ export default class LandingStatistics extends Component {
     top: 20, right: 20, bottom: 30, left: 40
   };
 
+  var imgClient = ""
+  var imgDev = ""
+
+  var imgClient = ""
+  var imgDev = ""
+
+  console.log(this.state.top_client)
+
+  if(!this.state.top_client.picture)
+    imgClient = defaultProfile  
+  else
+    imgClient = this.state.top_client.picture
+
+  if(!this.state.top_dev.picture)
+    imgDev = defaultProfile  
+  else
+    imgDev = this.state.top_dev.picture
+
     return(
       <Row>
       <br/>
@@ -98,21 +116,21 @@ export default class LandingStatistics extends Component {
             <h2>Top Developer </h2>
           </Row>
           <Row style={{textAlign: 'center', color:'grey', justifyContent: 'center'}}>
-            <img src={defaultProfile} style = {imageStyle}/>
+            <img src={imgDev} style = {imageStyle}/>
           </Row>
           <Row style={{textAlign: 'center', color:'silver', justifyContent: 'center'}}>
             <h3>
-              {this.state.top_dev}
+              {this.state.top_dev.username}
             </h3>
           </Row>
           <Row style={{textAlign: 'center', color:'grey', justifyContent: 'center'}}>
             <h2>Top Client </h2>
           </Row>
           <Row style={{textAlign: 'center', color:'grey', justifyContent: 'center'}}>
-            <img src={defaultProfile} style = {imageStyle}/>
+            <img src={imgClient} style = {imageStyle}/>
           </Row>
           <Row style={{textAlign: 'center', color:'silver', justifyContent: 'center'}}>
-            <h3> {this.state.top_client} </h3>
+            <h3> {this.state.top_client.username} </h3>
            </Row>
         </Col>
       </Row>

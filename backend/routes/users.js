@@ -228,7 +228,7 @@ router.get('/top_dev', (req, res) => {
         if (err) res.status(500).send("Could not find top dev.");
         if (money_maker.length === 0) res.status(500).send("There are no devs");
         else {
-            res.status(200).send(money_maker[0].username);
+            res.status(200).send({username: money_maker[0].username, picture: money_maker[0].picture});
         }
     });
 });
@@ -237,9 +237,10 @@ router.get('/top_client', (req, res) => {
     let query = User.find({user_type: 'client'}).sort({num_projects: -1}).limit(1);
     query.exec(function (err, project_boss) {
         if (err) res.status(500).send("Could not find top Client");
+        console.log(project_boss[0].picture)
         if (project_boss.length === 0) res.status(500).send("There are no clients");
         else {
-            res.status(200).send(project_boss[0].username);
+            res.status(200).send({username: project_boss[0].username, picture: project_boss[0].picture});
         }
     });
 });
