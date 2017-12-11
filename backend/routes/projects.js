@@ -5,7 +5,6 @@ const Bid = require('../models/Bid');
 const VerifyToken = require('../auth/VerifyToken');
 const VerifyAdmin = require('../auth/VerifyAdmin');
 
-
 //project/bid endpoint, to allow users to post bids given the projectid
 router.post('/bid/:id', VerifyToken, (req, res) => {
 
@@ -169,7 +168,7 @@ router.put('/rating/:id', VerifyToken, (req, res) => {
                 let assignee = assig._id;
 
                 assig.project_count += 1;
-                assig.average_rating = (assig.average_rating * ((assig.project_count - 1) / (assig.project_count)) + (req.body.rating_author * (1 / assig.project_count)))
+                assig.average_rating = (assig.average_rating * ((assig.project_count - 1) / (assig.project_count)) + (req.body.rating_author * (1 / assig.project_count)));
 
                 if (assig.project_count >= 5 && assig.average_rating <= 2) {
                     assig.warnings += 1
@@ -292,7 +291,7 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
             }
         })
     })
-})
+});
 
 //Developer can rate client after project is finished
 router.put('/rate_client/:id', VerifyToken, (req, res) => {
