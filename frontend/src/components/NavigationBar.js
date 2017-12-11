@@ -3,9 +3,11 @@ import { NavLink as RRNavLink } from 'react-router-dom'
 import {
   Button,Nav, Navbar,
   NavbarBrand, NavItem, Collapse,
-  NavbarToggler, NavLink
+  NavbarToggler, NavLink, NavDropdown,
+  Dropdown, DropdownItem, DropdownToggle, DropdownMenu, Badge
 } from "reactstrap";
 import { loggedIn, logout } from '../utils/Auth'
+import store from '../store'
 
 class NavigationBar extends Component {
 
@@ -13,21 +15,43 @@ class NavigationBar extends Component {
     super(props);
 
     this.state = {
-      isOpen: false
+      isOpen: false,
+      dropdownOpen: false
     }
     this.toggle = this.toggle.bind(this)
     this.signout = this.signout.bind(this)
+    this.closeToggle = this.closeToggle.bind(this)
+    this.toggleDropDownAndClose = this.toggleDropDownAndClose.bind(this)
   }
 
-  toggle() {
+  toggle = event => {
     this.setState({
       isOpen: !this.state.isOpen
     })
   }
 
+  toggleDropDown = event => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    })
+  }
+
+  toggleDropDownAndClose = event => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    })
+    this.closeToggle()
+  }
+
+  closeToggle = event => {
+    if(this.state.isOpen)
+      this.toggle()
+  }
+
   signout(e) {
     e.preventDefault();
     logout()
+    this.closeToggle()
   }
 
   render() {
@@ -35,23 +59,32 @@ class NavigationBar extends Component {
     return (
       <div className="NavigationBar">
         <Navbar className="navbar-light bg-light" light expand="md">
-          <NavbarBrand to="/" tag={RRNavLink}>
-            Simple Coding Turkish System
+          <NavbarBrand to="/" tag={RRNavLink} style={{ fontFamily: 'OCR A Std, monospace', fontWeight: 'bold'}}>
+            Cre-ators
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
           {isLoggedIn ? (
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink to='/myaccount' tag={RRNavLink}>
+                <NavLink to='/myaccount' tag={RRNavLink} onClick={this.closeToggle}>
                   My Account
+                  <Badge color="danger">{store.getState().user.warnings}</Badge>
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink to='/search' tag={RRNavLink}>
-                  Search
-                </NavLink>
-              </NavItem>
+                <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
+                  <DropdownToggle nav caret>
+                    Search
+                  </DropdownToggle>
+                  <DropdownMenu>
+                    <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDownAndClose}>
+                      Projects
+                    </NavLink>
+                    <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDownAndClose}>
+                      Users
+                    </NavLink>
+                  </DropdownMenu>
+                </Dropdown>
               <NavItem>
                 <Button
                   onClick={this.signout}
@@ -65,17 +98,25 @@ class NavigationBar extends Component {
           ) : (
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink to='/about' tag={RRNavLink}>
+                <NavLink to='/about' tag={RRNavLink} onClick={this.closeToggle}>
                   About
                 </NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink to='/search' tag={RRNavLink}>
+              <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
+                <DropdownToggle nav caret>
                   Search
-                </NavLink>
-              </NavItem>
+                </DropdownToggle>
+                <DropdownMenu>
+                  <NavLink to='/searchprojects' tag={RRNavLink} onClick={this.toggleDropDownAndClose}>
+                    Projects
+                  </NavLink>
+                  <NavLink to='/searchusers' tag={RRNavLink} onClick={this.toggleDropDownAndClose}>
+                    Users
+                  </NavLink>
+                </DropdownMenu>
+              </Dropdown>
               <NavItem>
-                <NavLink to='/signin' tag={RRNavLink}>
+                <NavLink to='/signin' tag={RRNavLink} onClick={this.closeToggle}>
                   Sign In
                 </NavLink>
               </NavItem>

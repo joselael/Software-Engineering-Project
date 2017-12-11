@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import StarRatingComponent from 'react-star-rating-component';
 import {
   TabContent,
   TabPane,
@@ -22,6 +23,9 @@ import {
 } from 'reactstrap';
 import '../../css/usertab.css';
 import {myproject, createprojects} from '../../utils/Projects'
+import ProjectModal from '../Projects/ClientProjectModal'
+import GeneralModal from '../Projects/GeneralClientProjectModal'
+import RatingModal from '../Projects/RatingProjectModal'
 import store from '../../store'
 import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
@@ -34,37 +38,56 @@ export class ClientTab extends Component {
       activeTab: '1',
       projects: [],
       summary: "",
-      date: "",
+      details: "",
+      bid_date: "",
+      project_date: "",
       title: "",
-      min_budget: 0,
       max_budget: 0,
       modal: false,
       link: false,
-      dev_username: ""
+      dev_username: "",
+      rating: 1.5
     }
 
-    this.toggleTab = this
-      .toggleTab
-      .bind(this);
-    this.toggleModal = this
-      .toggleModal
-      .bind(this);
-    this.handleChange = this
-      .handleChange
-      .bind(this)
+    this.toggleTab = this.toggleTab.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.handleChange = this.handleChange.bind(this)
     this.handleSubmitProject = this.handleSubmitProject.bind(this)
     this.updateTable = this.updateTable.bind(this)
-    this.checkFinished = this.checkFinished.bind(this)
+    this.checkBidding = this.checkBidding.bind(this)
     this.checkDone = this.checkDone.bind(this)
-    this.toggleLink = this.toggleLink.bind(this)
+    this.clearStates = this.clearStates.bind(this)
+    this.onStarClick = this.onStarClick.bind(this)
+    this.checkInProgress = this.checkInProgress.bind(this)
   }
 
-  checkFinished(project) {
-    return !project.completed
+  checkInProgress(project) {
+    return !(project.completed && !(project.require_review || project.bidding_in_progress ||
+      project.require_rating || project.problematic))
+  }
+
+  onStarClick(nextValue, prevValue, name) {
+    this.setState({rating: nextValue});
+  }
+
+  clearStates() {
+    this.setState({
+      summary: "",
+      bid_date: "",
+      project_date: "",
+      title: "",
+      details: "",
+      max_budget: 0,
+    })
+  }
+
+  checkBidding(project) {
+    return project.bidding_in_progress
   }
 
   checkDone(project) {
-    return project.completed
+    return project.completed && !(project.require_review || project.bidding_in_progress ||
+      project.require_rating || project.problematic)
   }
 
   componentDidMount() {
@@ -76,29 +99,38 @@ export class ClientTab extends Component {
       this.setState({
         projects: response.data
       })
-      console.log(this.state.projects)
-      console.log("Updating table...")
     }).catch( (err) => {
       console.log(err)
     })
   }
 
   handleSubmitProject = event => {
-    createprojects(
-      this.state.title, 
-      store.getState().user.username,
-      this.state.summary, 
-      this.state.date, 
-      this.state.min_budget,
-      this.state.max_budget
-    ).then( (response) => {
-      console.log(response)
-    }).catch( (err) => {
-      console.log(err)
-    })
-    alert("Submitting Project!!!")
-    this.toggleModal()
-    console.log(this.state)
+
+    if (this.state.title === "search" || this.state.title === "projects"
+    || this.state.title === "create" || this.state.title === "bid" ||
+    (this.state.bid_date > this.state.project_date) || this.state.max_budget > store.getState().user.account_balance)
+    {
+      alert("Invalid")
+      this.clearStates()
+    } else {
+      createprojects(
+        this.state.title,
+        store.getState().user.username,
+        this.state.summary,
+        this.state.details,
+        this.state.bid_date,
+        this.state.project_date,
+        this.state.max_budget
+      ).then( (response) => {
+        console.log(response)
+        alert("Submitting Project!!!")
+        this.updateTable()
+        this.toggleModal()
+        this.clearStates()
+      }).catch( (err) => {
+        console.log(err)
+      })
+    }
   }
 
   handleChange = event => {
@@ -111,114 +143,38 @@ export class ClientTab extends Component {
     if (this.state.activeTab !== tab) {
       this.setState({activeTab: tab});
     }
-  }
-
-  toggleLink() {
-    this.setState({
-      link: !this.state.link
-    })
+    this.clearStates()
   }
 
   toggleModal() {
     this.setState({
       modal: !this.state.modal
     })
+    this.clearStates()
   }
 
   render() {
-    const currentProject = this.state.projects.
-      filter(this.checkFinished)
-      .map((project, index) => 
-        <tr key={project._id}>
-          <td scope="row">{index + 1}</td>
-          <td>{project.title}</td>
-          <td>{project.mid_budget}</td>
-          <td>{project.max_budget}</td>
-          <td>
-            <Button
-              size="sm"
-              color="primary"
-              onClick={this.toggleLink}
-            >
-              Link
-            </Button>
-            <Modal isOpen={this.state.link} toggle={this.toggleLink}>
-              <ModalHeader>
-                {project.title}
-              </ModalHeader>
-              <ModalBody>
-                {project.summary}
-              </ModalBody>
-              <ModalFooter>
-                <FormGroup>
-                <select value={this.state.dev_username} 
-                  onChange={this.handleChange} 
-                  type="text" 
-                  name="dev_username" 
-                  className="form-control">
-                  <option value="" disabled> Choose your user type </option>
-                  <option value="developer"> Developer </option>
-                  <option value="client"> Client </option>
-                </select>
-                </FormGroup>
-                <Button color="danger" onClick={this.toggleLink}>
-                  Choose
-                </Button>
-                <Button color="primary" onClick={this.toggleLink}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </td>
-        </tr>
+
+    var modalProject = ""
+
+    const currentProjects = this.state.projects
+      .filter(this.checkInProgress)
+      .map((project, index) =>
+      {
+        if (project.bidding_in_progress)
+          modalProject = <ProjectModal key={project._id} project={project} index={index} />
+        else if (!project.completed)
+          modalProject = <ProjectModal key={project._id} project={project} index={index} />
+        else
+          modalProject = <RatingModal key={project._id} project={project} index={index} />
+      }
     )
 
     const pastProjects = this.state.projects.
       filter(this.checkDone)
-      .map((project, index) => 
-        <tr key={project._id}>
-          <td scope="row">{index + 1}</td>
-          <td>{project.title}</td>
-          <td>{project.mid_budget}</td>
-          <td>{project.max_budget}</td>
-          <td>
-            <Button
-              size="sm"
-              color="primary"
-              onClick={this.toggleLink}
-            >
-              Link
-            </Button>
-            <Modal isOpen={this.state.link} toggle={this.toggleLink}>
-              <ModalHeader>
-                {project.title}
-              </ModalHeader>
-              <ModalBody>
-                {project.summary}
-              </ModalBody>
-              <ModalFooter>
-                <FormGroup>
-                <select value={this.state.dev_username} 
-                  onChange={this.handleChange} 
-                  type="text" 
-                  name="dev_username" 
-                  className="form-control">
-                  <option value="" disabled> Choose your user type </option>
-                  <option value="developer"> Developer </option>
-                  <option value="client"> Client </option>
-                </select>
-                </FormGroup>
-                <Button color="danger" onClick={this.toggleLink}>
-                  Choose
-                </Button>
-                <Button color="primary" onClick={this.toggleLink}>
-                  Cancel
-                </Button>
-              </ModalFooter>
-            </Modal>
-          </td>
-        </tr>
-    )
+        .map((project, index) =>
+          <GeneralModal key={project._id} project={project} index={index} />)
+
     return (
       <div>
         <Nav tabs>
@@ -284,22 +240,28 @@ export class ClientTab extends Component {
                         bsSize="sm"
                         value={this.state.summary}
                         onChange={this.handleChange}/>
-                      <Label>Date of End</Label>
+                      <Label>Details of Project</Label>
+                      <Input
+                        placeholder="Details of Project"
+                        type="textarea"
+                        name="details"
+                        bsSize="sm"
+                        value={this.state.details}
+                        onChange={this.handleChange}/>
+                      <Label>Date of End of Bid</Label>
                       <Input
                         type="date"
-                        name="date"
+                        name="bid_date"
                         placeholder="date placeholder"
                         onChange={this.handleChange}
-                        value={this.state.date}/>
-                      <Label>Min Budget</Label>
-                      <InputGroup>
-                        <InputGroupAddon>$</InputGroupAddon>
-                        <Input
-                          value={this.state.min_budget}
-                          name="min_budget"
-                          type="number"
-                          onChange={this.handleChange}/>
-                      </InputGroup>
+                        value={this.state.bid_date}/>
+                      <Label>Date of End of Project</Label>
+                      <Input
+                        type="date"
+                        name="project_date"
+                        placeholder="date placeholder"
+                        onChange={this.handleChange}
+                        value={this.state.project_date}/>
                       <Label>Max Budget</Label>
                       <InputGroup>
                         <InputGroupAddon>$</InputGroupAddon>
@@ -328,14 +290,12 @@ export class ClientTab extends Component {
                     <tr>
                       <th>#</th>
                       <th>Project Name</th>
-                      <th>Min Budget</th>
                       <th>Max Budget</th>
+                      <th>Status</th>
                       <th>Link</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {currentProject}
-                  </tbody>
+                  <tbody>{modalProject}</tbody>
                 </Table>
                 <h4>Past Project</h4>
                 <Table hover responsive striped>
@@ -343,19 +303,19 @@ export class ClientTab extends Component {
                     <tr>
                       <th>#</th>
                       <th>Project Name</th>
-                      <th>Min Budget</th>
                       <th>Max Budget</th>
+                      <th>Status</th>
                       <th>Link</th>
                     </tr>
                   </thead>
                   <tbody>
-                
+                    {pastProjects}
                   </tbody>
                 </Table>
               </Row>
             </TabPane>
-            <ProfileTab/>
-            <SettingsTab/>
+            <ProfileTab tabId={"2"}/>
+            <SettingsTab tabId={"3"}/>
           </TabContent>
         </div>
       </div>

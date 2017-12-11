@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {FormGroup, Input} from 'reactstrap'
+import {FormGroup, Input, Label} from 'reactstrap'
 import {projects} from '../utils/Projects'
-import Project from '../components/Project'
-import '../css/search.css'
+import Project from '../components/Projects/Project'
+import '../css/searchprojects.css'
+import store from '../store'
 
 export default class SearchProjects extends Component {
 
@@ -24,7 +25,6 @@ export default class SearchProjects extends Component {
   componentDidMount() {
     projects().then((response) => {
       this.setState({projects: response.data})
-      console.log(this.state.projects)
     }).catch((err) => {
       console.log(err)
     })
@@ -44,6 +44,7 @@ export default class SearchProjects extends Component {
 
     return (
       <div className="SearchProjects">
+        <Label>Search Projects</Label>
         <FormGroup>
           <Input
             placeholder="SEARCH ME!!!"
