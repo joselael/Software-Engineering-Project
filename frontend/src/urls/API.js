@@ -18,7 +18,13 @@ const TOTAL_DEV = "total_devs"
 const TOTAL_CLIENTS = "total_clients"
 const TOP_DEV = "top_dev"
 const TOP_CLIENT = "top_client"
-
+const MONEY_REQUEST = "money_request/"
+const PENALIZE_PROJECT = "penalize_project/"
+const PROTEST = "protest/"
+const WARNING = "warning_update/"
+const FILE = "file/"
+const DOC = "doc"
+const PIC = "pic"
 
 export {
   URL,
@@ -40,5 +46,12 @@ export {
   TOTAL_DEV,
   TOTAL_CLIENTS,
   TOP_DEV,
-  TOP_CLIENT
+  TOP_CLIENT,
+  MONEY_REQUEST,
+  PENALIZE_PROJECT,
+  PROTEST,
+  WARNING,
+  FILE,
+  DOC,
+  PIC
 }

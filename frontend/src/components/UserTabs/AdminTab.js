@@ -27,6 +27,8 @@ import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
 import ProjectModal from '../Projects/AdminProjectModal'
+import AdminRequestMoney from '../Users/AdminRequestMoney'
+import AdminProtestUsers from '../Users/AdminProtestUsers'
 import AdminUser from '../Users/AdminUsers'
 
 export class AdminTab extends Component {
@@ -44,33 +46,18 @@ export class AdminTab extends Component {
       users: [],
       projects: []
     };
-    this.notAdmin = this
-      .notAdmin
-      .bind(this)
-    this.checkPending = this
-      .checkPending
-      .bind(this)
+    this.notAdmin = this.notAdmin.bind(this)
+    this.checkPending = this.checkPending.bind(this)
     this.checkAccept = this.checkAccept.bind(this)
-    this.checkBlacklist = this
-      .checkBlacklist
-      .bind(this)
-    this.acceptUser = this
-      .acceptUser
-      .bind(this)
-    this.updateTable = this
-      .updateTable
-      .bind(this)
-    this.toggleModal = this
-      .toggleModal
-      .bind(this)
-    this.handleChange = this
-      .handleChange
-      .bind(this)
-    this.rejectUser = this
-      .rejectUser
-      .bind(this)
+    this.checkBlacklist = this.checkBlacklist.bind(this)
+    this.acceptUser = this.acceptUser.bind(this)
+    this.updateTable = this.updateTable.bind(this)
+    this.toggleModal = this.toggleModal.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.rejectUser = this.rejectUser.bind(this)
+    this.checkPendingMoney = this.checkPendingMoney.bind(this)
+    this.checkProtest = this.checkProtest.bind(this)
   }
-
 
   handleChange = event => {
     this.setState({
@@ -95,8 +82,8 @@ export class AdminTab extends Component {
       this.setState({
         projects: response.data
       })
-      console.log(this.state.projects)
-      console.log("Updating table...")
+      //console.log(this.state.projects)
+      //console.log("Updating table...")
     }).catch( (err) => {
       console.log(err)
     })
@@ -124,6 +111,10 @@ export class AdminTab extends Component {
     return user.delete_requested
   }
 
+  checkPendingMoney(user) {
+    return user.req_money > 0
+  }
+
   checkAccept(user) {
     return user.enabled && !user.blacklisted && !user.delete_requested
   }
@@ -134,6 +125,10 @@ export class AdminTab extends Component {
 
   checkBlacklist(user) {
     return user.blacklisted && !user.delete_requested
+  }
+
+  checkProtest(user) {
+    return user.protest_check
   }
 
   notAdmin(user) {
@@ -233,10 +228,23 @@ export class AdminTab extends Component {
         <AdminUser key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
       )
 
+    const pendingRequestMoney = this.state.users.filter(this.checkPendingMoney)
+      .map((user, index) =>
+        <AdminRequestMoney key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+      )
+
+    const protestingWarningUsers = this.state.users.filter(this.checkProtest)
+      .map((user, index) =>
+        <AdminProtestUsers key={user._id} user={user} index={index} updateTable = {() => this.updateTable()}/>
+      )
+    
+    console.log(protestingWarningUsers)
+
     const allProjects = this.state.projects
       .map((project, index) =>
         <ProjectModal key={project._id} project={project} index={index} updateTable = {() => this.updateTable()}/>
       )
+
     return (
       <div>
         <Nav tabs>
@@ -356,6 +364,40 @@ export class AdminTab extends Component {
                   </thead>
                   <tbody>
                     {pendingDeletionUsers}
+                  </tbody>
+                </Table>
+                <h4>Requesting more money</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User Type</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                      <th>Money Requested</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {pendingRequestMoney}
+                  </tbody>
+                </Table>
+                <h4>Protesting Warning</h4>
+                <Table hover responsive striped>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User Type</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Username</th>
+                      <th>MSG</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {protestingWarningUsers}
                   </tbody>
                 </Table>
               </Row>

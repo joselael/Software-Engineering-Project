@@ -15,25 +15,77 @@ import {
   CardText,
   CardHeader,
   CardBody,
-  Card
-} from 'reactstrap';
+  Card,
+  Badge,
+  Input,
+  Modal,
+  ModalBody,
+  ModalFooter
+} from 'reactstrap'
 import defaultProfile from '../../../images/default_profile.png'
 import store from '../../../store'
+import {pictureUpload, updateSettings} from '../../../utils/Users'
+import {userInfo} from '../../../utils/Auth'
 
 export default class ProfileTab extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      rating: 0
+      rating: 0,
+      image: null,
+      imageOpen: false
     }
+    this.toggleImage = this.toggleImage.bind(this)
+    this.submitImg = this.submitImg.bind(this)
   }
+
+  toggleImage() {
+    this.setState({imageOpen: !this.state.imageOpen})
+  }
+
+  handleFileChange = e => {
+    this.setState({image: e.target.files[0]})
+  }
+
+  submitImg() {
+    this.toggleImage()
+    const img = this.state.image
+    //Upload picture
+    pictureUpload(store.getState().token, img)
+      .then( (response) => {
+        console.log(response)
+        alert("Submitting image...")
+        //Reload user info in redux
+        var data = {}
+        data.picture = response.data
+        updateSettings(store.getState().token, data)
+          .then( (response) => {
+            console.log(response)
+            userInfo(store.getState().token)
+          })
+          .catch( (err) => {
+            console.log(err)
+          })
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
+  }
+
   render() {
     var imageStyle = {
       width: "100px",
       height: "100px",
       borderRadius: "50%"
     }
+
+    var pictureURL = store.getState().user.picture
+    if (!store.getState().user.picture)
+      pictureURL = defaultProfile
+    else
+      pictureURL = store.getState().user.picture
+
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
       <br/>
@@ -41,7 +93,7 @@ export default class ProfileTab extends Component {
           <Col sm="2">
             <Media style={{display: 'flex', justifyContent: 'center'}}>
               <Media left href="#">
-                <Media object src={defaultProfile} style={imageStyle}/>
+                <Media object src={pictureURL} style={imageStyle}/>
               </Media>
             </Media>
             <Media body>
@@ -54,10 +106,27 @@ export default class ProfileTab extends Component {
               </div>
             </Media>
 
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+
+            <Button onClick={this.toggleImage}>Upload Img</Button>
+            <Modal toggle={this.toggleImage} isOpen={this.state.imageOpen}>
+              <ModalBody>
+              </ModalBody>
+                <Input type="file" name="image" id="resume" onChange={this.handleFileChange} />
+              <ModalFooter>
+                <Button
+                  onClick={this.submitImg}
+                >
+                  Submit
+                </Button>
+              </ModalFooter>
+            </Modal>
+            </div>
           </Col>
-          <Col sm="12" md={{size: 8}}>
+          <Col md={{size: 8}}>
             <Card>
-              <CardHeader>Username</CardHeader>
+              <CardHeader>Username <Badge color="danger"> {store.getState().user.warnings}</Badge>
+              </CardHeader>
               <CardBody>
                 <CardText>
                   {store.getState().user.username}
@@ -74,7 +143,7 @@ export default class ProfileTab extends Component {
               </CardBody>
             </Card>
             <br/>
-            {store.getState().user.user_type === "admin" ? <h1> </h1>:
+            {store.getState().user.user_type === "admin" ? null:
             <div>
               <Card>
                 <CardHeader>LinkedIn</CardHeader>
@@ -95,22 +164,33 @@ export default class ProfileTab extends Component {
                 </CardBody>
               </Card>
               <br/>
+
               <Card>
-                <CardHeader>Rating:
-                </CardHeader>
+                <CardHeader>Resume</CardHeader>
                 <CardBody>
                   <CardText>
-                    <h2>{store.getState().user.rating}</h2>
-                    <StarRatingComponent
-                        name="rate2"
-                        editing={false}
-                        starCount="5"
-                        value={store.getState().user.rating}/>
+                    <NavLink href={store.getState().user.resume}>
+                      Resume
+                    </NavLink>
                   </CardText>
                 </CardBody>
               </Card>
               <br/>
 
+              <Card>
+                <CardHeader>Rating and Project Count</CardHeader>
+                <CardBody>
+                  <StarRatingComponent
+                    name="rating"
+                    editing={false}
+                    starCount={5}
+                    value={store.getState().user.average_rating}/>
+                  <CardText>
+                    Rating: {store.getState().user.average_rating}| Project Count: {store.getState().user.project_count}
+                  </CardText>
+                </CardBody>
+              </Card>
+              <br/>
             </div>
           }
           <Card body inverse color="success" >
@@ -120,8 +200,8 @@ export default class ProfileTab extends Component {
               </CardText>
           </Card>
           <br/>
-
           </Col>
+
         </Row>
       </TabPane>
     )

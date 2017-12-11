@@ -3,7 +3,6 @@ const router = express.Router();
 const Project = require('../models/Project');
 const Bid = require('../models/Bid');
 const VerifyToken = require('../auth/VerifyToken');
-const VerifyAdmin = require('../auth/VerifyAdmin');
 
 //project/bid endpoint, to allow users to post bids given the projectid
 router.post('/:id', VerifyToken, (req, res) => {

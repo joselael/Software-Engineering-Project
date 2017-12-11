@@ -68,6 +68,7 @@ export default class SearchUsers extends Component {
               <th>Email</th>
               <th>LinkedIn</th>
               <th>Github</th>
+              <th>Resume</th>
               <th>History</th>
             </tr>
           </thead>

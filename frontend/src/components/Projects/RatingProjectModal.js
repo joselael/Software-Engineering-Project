@@ -22,7 +22,9 @@ import {
   ModalHeader
 } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component'
+import store from '../../store'
 import {submitRating} from '../../utils/Projects'
+import {setUser} from '../../actions/index'
 
 export default class RatingModal extends Component {
   constructor(props) {
@@ -71,19 +73,42 @@ export default class RatingModal extends Component {
 
       this.state.data.rating_author = this.state.rating
       this.state.data.require_rating = false
-
       submitRating(this.props.project._id, this.state.data)
         .then( (response) => {
+          //Need to update userInfo in redux
           console.log(response)
+          this.toggleLink()
+          this.toggleComments()
+          this.props.updateTable()
+          store.dispatch(setUser(store.getState().token))
         })
         .catch( (err) => {
           console.log(err)
+          this.toggleLink()
+          this.toggleComments()
         })
     }
   }
 
   handleSubmitComments() {
+    this.state.data.require_rating = false
+    this.state.data.rating_author = this.state.rating
+    this.state.data.author_comments = this.state.comments
 
+    submitRating(this.props.project._id, this.state.data)
+      .then( (response) => {
+        console.log(response)
+        this.toggleLink()
+        this.toggleComments()
+        this.props.updateTable()
+        alert("Admin alerted")
+      })
+      .catch( (err) => {
+        console.log(err)
+        this.toggleLink()
+        this.toggleComments()
+        alert("Error with rating")
+      })
   }
 
   render() {
@@ -162,7 +187,7 @@ export default class RatingModal extends Component {
                   <ButtonGroup>
                     <Button
                       color="danger"
-                      onClick={this.handleSubmitRating}
+                      onClick={this.handleSubmitComments}
                     >
                       Submit
                     </Button>

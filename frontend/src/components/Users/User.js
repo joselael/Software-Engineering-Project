@@ -18,6 +18,7 @@ import {
   InputGroupAddon,
   InputGroup,
   Table,
+  NavLink
 } from 'reactstrap';
 import store from '../../store'
 import '../../css/project.css'
@@ -58,16 +59,9 @@ export default class User extends Component {
 
   render() {
 
-    var historyUser = this.state.history
-      .map( (h, index) => 
-        <tr key={h.title}>
-          <td scope="row">{index + 1}}</td>
-          <td>{h.title}</td>
-          <td>{h.summary}</td>
-          <td>{h.rating_assignee}</td>
-          <td>{h.rating_author}</td>
-          <td>{h.project_end}</td>
-        </tr>
+    const historyUser = this.state.history
+      .map( (history, index) => 
+        <UserHistory history={history} index={index}/>
     )
 
     return (
@@ -78,6 +72,11 @@ export default class User extends Component {
         <td>{this.props.user.email}</td>
         <td>{this.props.user.linkedIn}</td>
         <td>{this.props.user.github}</td>
+        <td>
+          <NavLink href={this.props.user.resume}>
+            Resume
+          </NavLink>
+        </td>
         <td>
           <Button
             onClick={this.toggleModal}
@@ -92,10 +91,9 @@ export default class User extends Component {
                 <thead>
                   <th>#</th>
                   <th>Title</th>
-                  <th>Summary</th>
                   <th>Rating Assignee</th>
                   <th>Rating Author</th>
-                  <th>Project End</th>
+                  <th>Summary</th>
                 </thead>
                 <tbody>
                   {historyUser}
