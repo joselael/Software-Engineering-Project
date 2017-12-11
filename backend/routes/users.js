@@ -106,17 +106,17 @@ router.put('/balance/:id', VerifyToken, (req, res) => {
 });
 
 router.put('/rater/:name', (req, res) => {
-    var total_sum = 0;
+    let total_sum = 0;
     Project.find({author: req.params.name}, function (err, projects) {
         if (projects.length === 0) {
             Project.find({'assignee.username': req.params.name}, function (err, projects) {
-                for (var i = 0; i < projects.length; i++) {
+                for (let i = 0; i < projects.length; i++) {
                     total_sum = total_sum + projects[i].rating_assignee;
                 }
-                var avg = total_sum / projects.length;
+                let avg = total_sum / projects.length;
                 if (avg < 2 || avg > 8) {
                     User.find({username: req.params.name}, function (err, user) {
-                        var user_id = user[0].id;
+                        let user_id = user[0].id;
                         User.findByIdAndUpdate(user_id, {$set: {bad_rater: true}}, function (err, user) {
                             if (err) return res.status(500).send("There was a problem updating the user.");
                             res.status(202).send(user.bad_rater);
@@ -125,7 +125,7 @@ router.put('/rater/:name', (req, res) => {
                 }
                 else {
                     User.find({username: req.params.name}, function (err, user) {
-                        var user_id = user[0].id;
+                        let user_id = user[0].id;
                         User.findByIdAndUpdate(user_id, {$set: {bad_rater: false}}, function (err, user) {
                             if (err) return res.status(500).send("There was a problem updating the user.");
                             res.status(202).send(user.bad_rater);
@@ -137,13 +137,13 @@ router.put('/rater/:name', (req, res) => {
         }
         else {
             Project.find({'author': req.params.name}, function (err, projects) {
-                for (var i = 0; i < projects.length; i++) {
+                for (let i = 0; i < projects.length; i++) {
                     total_sum = total_sum + projects[i].rating_assignee;
                 }
-                var avg = total_sum / projects.length;
+                let avg = total_sum / projects.length;
                 if (avg < 2 || avg > 8) {
                     User.find({username: req.params.name}, function (err, user) {
-                        var user_id = user[0].id;
+                        let user_id = user[0].id;
                         User.findByIdAndUpdate(user_id, {$set: {bad_rater: true}}, function (err, user) {
                             if (err) return res.status(500).send("There was a problem updating the user.");
                             res.status(202).send(user.bad_rater);
@@ -152,7 +152,7 @@ router.put('/rater/:name', (req, res) => {
                 }
                 else {
                     User.find({username: req.params.name}, function (err, user) {
-                        var user_id = user[0].id;
+                        let user_id = user[0].id;
                         User.findByIdAndUpdate(user_id, {$set: {bad_rater: false}}, function (err, user) {
                             if (err) return res.status(500).send("There was a problem updating the user.");
                             res.status(202).send(user.bad_rater);
@@ -221,7 +221,7 @@ router.get('/total_devs', (req, res) => {
 });
 
 router.get('/top_dev', (req, res) => {
-    var query = User.find({user_type: 'developer'}).sort({money_made: -1}).limit(1);
+    let query = User.find({user_type: 'developer'}).sort({money_made: -1}).limit(1);
     query.exec(function (err, money_maker) {
         if (err) res.status(500).send("Could not find top dev.");
         if (money_maker.length === 0) res.status(500).send("There are no devs")
@@ -232,10 +232,10 @@ router.get('/top_dev', (req, res) => {
 });
 
 router.get('/top_client', (req, res) => {
-    var query = User.find({user_type: 'client'}).sort({num_projects: -1}).limit(1);
+    let query = User.find({user_type: 'client'}).sort({num_projects: -1}).limit(1);
     query.exec(function (err, project_boss) {
         if (err) res.status(500).send("Could not find top Client");
-        if (project_boss.length === 0) res.status(500).send("There are no clients")
+        if (project_boss.length === 0) res.status(500).send("There are no clients");
         else {
             res.status(200).send(project_boss[0].username);
         }
@@ -248,15 +248,15 @@ router.get('/history/:name', (req, res) => {
         if (projects.length === 0) {
             Project.find({'assignee.username': req.params.name}, function (err, projects) {
                 if (err) return res.status(500).send("There was a problem getting user projects");
-                var proj_arr = [];
-                for (var i = 0; i < projects.length; i++) {
+                let proj_arr = [];
+                for (let i = 0; i < projects.length; i++) {
                     project_details = {
                         "title": projects[i].title,
                         "summary": projects[i].summary,
                         "rating_assignee": projects[i].rating_assignee,
                         "rating_author": projects[i].rating_author,
                         "project_end": projects[i].project_end
-                    }
+                    };
                     proj_arr.push(project_details);
                 }
                 if (err) return res.status(500).send("There was a problem getting user projects");
@@ -264,15 +264,15 @@ router.get('/history/:name', (req, res) => {
             });
         }
         else {
-            var proj_arr = [];
-            for (var i = 0; i < projects.length; i++) {
-                project_details = {
+            let proj_arr = [];
+            for (let i = 0; i < projects.length; i++) {
+                let project_details = {
                     "title": projects[i].title,
                     "summary": projects[i].summary,
                     "rating_assignee": projects[i].rating_assignee,
                     "rating_author": projects[i].rating_author,
                     "project_end": projects[i].project_end
-                }
+                };
                 proj_arr.push(project_details);
             }
             if (err) return res.status(500).send("There was a problem getting user projects");
