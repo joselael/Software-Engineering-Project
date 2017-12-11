@@ -113,6 +113,14 @@ router.put('/:id', VerifyToken, (req, res) => {
     });
 });
 
+//Find total # of projects
+router.get('/total_projects', (req, res) => {
+    Project.count({}, function (err, count) {
+        if (err) res.status(500).send("Could not get count.");
+        res.status(200).send((count).toString());
+    });
+});
+
 //super user approval for project
 router.put('/approve/:id', VerifyToken, (req, res) => {
     Project.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, project) {
@@ -345,5 +353,6 @@ router.get('/:title', VerifyToken, (req, res) => {
         res.status(200).send(project);
     });
 });
+
 
 module.exports = router;
