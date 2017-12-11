@@ -1,0 +1,29 @@
+$salmon : #e3776f;
+
+$bar : $salmon;
+$text : $salmon;
+$ticks: $salmon;
+$tick-width : 1px;
+
+//container styles
+.chart--container{
+	height: 100vh;
+	width: 100%;
+}
+
+//Graph Styles
+.bar{
+	fill: $bar;
+}
+text{
+	fill: $text;
+	font-family: courier;
+	letter-spacing: -1px;
+}
+.domain, .tick line{
+	stroke: $ticks;
+	stroke-width: $tick-width;
+}
+.label{
+	text-transform: capitalize;
+}

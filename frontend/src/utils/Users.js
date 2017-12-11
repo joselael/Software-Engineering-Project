@@ -290,7 +290,7 @@ export function pictureUpload(token, picture) {
     let data = new FormData()
     data.append('file', picture)
 
-    return axios.post(URL + FILE + DOC, data, {
+    return axios.post(URL + FILE + PIC, data, {
           headers: {
             'accept': 'application/json',
             'Accept-Language': 'en-US,en;q=0.8',

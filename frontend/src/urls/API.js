@@ -16,6 +16,7 @@ const ACCEPT = "accept"
 const HISTORY = "history/"
 const TOTAL_DEV = "total_devs"
 const TOTAL_CLIENTS = "total_clients"
+const TOTAL_PROJECTS = "total_projects"
 const TOP_DEV = "top_dev"
 const TOP_CLIENT = "top_client"
 const MONEY_REQUEST = "money_request/"
@@ -45,6 +46,7 @@ export {
   HISTORY,
   TOTAL_DEV,
   TOTAL_CLIENTS,
+  TOTAL_PROJECTS,
   TOP_DEV,
   TOP_CLIENT,
   MONEY_REQUEST,

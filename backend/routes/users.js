@@ -66,7 +66,9 @@ router.post('/create', (req, res) => {
             value: "",
             visible: true
         },
-        first_login: true
+        first_login: true,
+        reusme: null,
+        picture: null
     }, function (err, user) {
         // console.log("done creating user");
         if (err) return res.status(500).send("There was a problem registering the user.");
@@ -226,7 +228,7 @@ router.get('/top_dev', (req, res) => {
         if (err) res.status(500).send("Could not find top dev.");
         if (money_maker.length === 0) res.status(500).send("There are no devs");
         else {
-            res.status(200).send(money_maker[0].username);
+            res.status(200).send({username: money_maker[0].username, picture: money_maker[0].picture});
         }
     });
 });
@@ -235,9 +237,10 @@ router.get('/top_client', (req, res) => {
     let query = User.find({user_type: 'client'}).sort({num_projects: -1}).limit(1);
     query.exec(function (err, project_boss) {
         if (err) res.status(500).send("Could not find top Client");
+        console.log(project_boss[0].picture)
         if (project_boss.length === 0) res.status(500).send("There are no clients");
         else {
-            res.status(200).send(project_boss[0].username);
+            res.status(200).send({username: project_boss[0].username, picture: project_boss[0].picture});
         }
     });
 });
@@ -313,8 +316,8 @@ router.get('/search/:name', (req, res) => {
             "last_name": (user[0].last_name.visible) ? user[0].last_name.value : null,
             "email": (user[0].email.visible) ? user[0].email.value : null,
             "linkedIn": (user[0].linkedIn.visible) ? user[0].linkedIn.value : null,
-            "github": (user[0].github.visible) ? user[0].github.value : null
-
+            "github": (user[0].github.visible) ? user[0].github.value : null,
+            "resume": user[0].resume
         });
     });
 });

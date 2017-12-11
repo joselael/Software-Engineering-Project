@@ -134,7 +134,7 @@ export default class GeneralModal extends Component {
                       :
                     <div className="modelP">
                       <StarRatingComponent name="rating_assignee" editing={false} 
-                        starCount={5} value={this.props.project.rating}/>
+                        starCount={5} value={this.props.project.rating_assignee}/>
                     </div>
                   }
                 </div>
