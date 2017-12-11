@@ -201,7 +201,7 @@ router.put('/rating/:id', VerifyToken, (req, res) => {
                                                     let super_user_balance = su[0].account_balance;
                                                     let super_user_id = su[0]._id;
                                                     User.findByIdAndUpdate(super_user_id, {$set: {account_balance: (super_user_balance + (su_charge * 2))}}, (err, su) => {
-                                                        if (err) return res.status(500).send("There was a problem updating account for super user")
+                                                        if (err) return res.status(500).send("There was a problem updating account for super user");
                                                         res.status(200).send("Transaction Finalized")
                                                     });
                                                 });
@@ -219,12 +219,12 @@ router.put('/rating/:id', VerifyToken, (req, res) => {
         else {
             //Alert the user that there is a problem within the project
             User.findById(project.assignee.user_id, (err, user) => {
-                if (err) return res.status(500).send("There was a problem updating the user")
+                if (err) return res.status(500).send("There was a problem updating the user");
 
-                project.problematic = true
+                project.problematic = true;
                 project.save((err) => {
-                    console.log(err)
-                    if (err) return res.status(500).send("There was a problem saving the project")
+                    console.log(err);
+                    if (err) return res.status(500).send("There was a problem saving the project");
                     res.status(200).send("Alerted the admin")
 
                 });
@@ -242,9 +242,9 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
             rating_author: req.body.admin_rating
         }
     }, {new: true}, (err, project) => {
-        if (err) return res.status(500).send("There was a problem penalizing")
+        if (err) return res.status(500).send("There was a problem penalizing");
         User.findById(project.assignee.user_id, (err, user) => {
-            if (err) return res.status(500).send("There was a problem updating user")
+            if (err) return res.status(500).send("There was a problem updating user");
             if (project.rating_author >= 3) {
                 //Don't charge the penalty money and give the rest half to developer
                 Bid.findById(project.assignee.bid_id, (err, final_bid) => {
@@ -255,8 +255,8 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
                     let total_charge_author = final_transfer + su_charge;
 
                     //Increase project count and rate the user
-                    user.project_count += 1
-                    user.average_rating = (user.average_rating * ((user.project_count - 1) / (user.project_count)) + (req.body.rating * (1 / user.project_count)))
+                    user.project_count += 1;
+                    user.average_rating = (user.average_rating * ((user.project_count - 1) / (user.project_count)) + (req.body.rating * (1 / user.project_count)));
 
                     //If average is bad, then give warning to user
                     if (user.project_count >= 5 && user.average_rating <= 2) {
@@ -264,12 +264,12 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
                     }
 
                     //Give the money to developer
-                    user.account_balance += (final_transfer - su_charge)
-                    user.save()
+                    user.account_balance += (final_transfer - su_charge);
+                    user.save();
                     //Find the author then charge like normal
                     User.find({username: project.author}, (err, author) => {
-                        author[0].account_balance -= total_charge_author
-                        author[0].save()
+                        author[0].account_balance -= total_charge_author;
+                        author[0].save();
 
                         res.status(200).send("Wrongly Accused")
                     })
@@ -278,14 +278,14 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
 
             else if (project.rating_author < 3) {
                 //Charge penalty then put back penalty money to author 
-                user.account_balance -= req.body.penalty
-                user.save()
+                user.account_balance -= req.body.penalty;
+                user.save();
                 //res.status(200).send(user)
                 User.find({username: project.author}, (err, author) => {
-                    console.log(author)
-                    if (err) return res.status(500).send("There was a problem updating user")
-                    author[0].account_balance += req.body.penalty
-                    author[0].save()
+                    console.log(author);
+                    if (err) return res.status(500).send("There was a problem updating user");
+                    author[0].account_balance += req.body.penalty;
+                    author[0].save();
                     //
                     res.status(200).send("Penalized developer")
                 })
@@ -300,20 +300,20 @@ router.put('/rate_client/:id', VerifyToken, (req, res) => {
 //        console.log(project)
         //Error catch
         if (err) return res.status(500).send("There was a problem finding the project.");
-        if (!project) return res.status(404).send("No project found")
+        if (!project) return res.status(404).send("No project found");
 
         //Find author then increate warning if the rating is less than 3
         User.findOne({username: project.author}, (err, user) => {
-            if (err) return res.status(500).send("There was a problem finding author")
+            if (err) return res.status(500).send("There was a problem finding author");
 
-            user.project_count += 1
-            user.average_rating = (user.average_rating * ((user.project_count - 1) / (user.project_count)) + (req.body.rating * (1 / user.project_count)))
+            user.project_count += 1;
+            user.average_rating = (user.average_rating * ((user.project_count - 1) / (user.project_count)) + (req.body.rating * (1 / user.project_count)));
 
             if (user.project_count >= 5 && user.average_rating <= 2) {
                 user.warnings += 1
             }
 
-            user.save()
+            user.save();
             res.status(200).send(project)
         })
     });
