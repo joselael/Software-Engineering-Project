@@ -25,7 +25,6 @@ router.post('/:kind', VerifyToken, m.single("file"), (req, res) => {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user) return res.status(404).send("No user found.");
 
-        // console.log("user_id: " + user_id);
         upload(req, res, user.username);
 
     });
