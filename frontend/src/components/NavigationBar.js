@@ -68,8 +68,7 @@ class NavigationBar extends Component {
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink to='/myaccount' tag={RRNavLink} onClick={this.closeToggle}>
-                  My Account
-                  <Badge color="danger">{store.getState().user.warnings}</Badge>
+                  My Account <Badge color="danger">{store.getState().user.warnings}</Badge>
                 </NavLink>
               </NavItem>
                 <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggleDropDown}>
