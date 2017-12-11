@@ -9,7 +9,7 @@ import classnames from 'classnames'
 import ProfileTab from './GeneralTab/ProfileTab'
 import SettingsTab from './GeneralTab/SettingsTab'
 import ProjectModal from '../Projects/DeveloperProjectModal'
-import GeneralModal from '../Projects/GeneralClientProjectModal'
+import GeneralModal from '../Projects/GeneralDeveloperProjectModal'
 
 export class DeveloperTab extends Component {
     constructor(props) {
@@ -78,7 +78,7 @@ export class DeveloperTab extends Component {
         <GeneralModal updateTable={() => this.updateTable()} key={project._id} project={project} index={index}/>
         )
 
-      console.log(this.state.projects)
+      //console.log(this.state.projects)
 
       return ( 
         <div> 

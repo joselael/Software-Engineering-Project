@@ -8,7 +8,8 @@ import {
   SEARCH,
   BID,
   APPROVE,
-  RATING
+  RATING,
+  PENALIZE_PROJECT
 } from '../urls/API'
 import store from '../store'
 
@@ -158,5 +159,33 @@ export function updateProject(id, data) {
       'x-access-token': store.getState().token
     },
     data: data
+  })
+}
+
+export function penalizeUser(id, comments, penalty, admin_rating) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + PENALIZE_PROJECT + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      "admin_comments": comments,
+      "penality" : penalty,
+      "admin_rating": admin_rating
+    }
+  })
+}
+
+export function rateClient(id, rating) {
+  return axios({
+    method: 'put',
+    url: URL + PROJECT + "rate_client/" + id,
+    headers: {
+      'x-access-token': store.getState().token
+    },
+    data: {
+      rating: rating
+    }
   })
 }

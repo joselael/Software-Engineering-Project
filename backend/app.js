@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-//const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -12,8 +11,6 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -25,13 +22,15 @@ const index = require('./routes/index');
 const user = require('./routes/users');
 const project = require('./routes/projects');
 const db = require('./databases/db');
-// const file = require('./routes/file');
+const file = require('./routes/file');
 const bid = require('./routes/bids');
+const protest = require('./routes/protest');
 
+app.use('/protest', protest);
 app.use('/', index);
 app.use('/user', user);
 app.use('/project', project);
-// app.use('/file', file);
+app.use('/file', file);
 app.use('/bid', bid);
 
 // catch 404 and forward to error handler
