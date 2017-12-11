@@ -16,25 +16,67 @@ import {
   CardHeader,
   CardBody,
   Card,
-  Badge
-} from 'reactstrap';
+  Badge,
+  Input,
+  Modal,
+  ModalBody,
+  ModalFooter
+} from 'reactstrap'
 import defaultProfile from '../../../images/default_profile.png'
 import store from '../../../store'
+import {pictureUpload} from '../../../utils/Users'
+import {userInfo} from '../../../utils/Auth'
 
 export default class ProfileTab extends Component {
 
   constructor(props) {
     super(props)
     this.state = {
-      rating: 0
+      rating: 0,
+      image: null,
+      imageOpen: false
     }
+    this.toggleImage = this.toggleImage.bind(this)
+    this.submitImg = this.submitImg.bind(this)
   }
+
+  toggleImage() {
+    this.setState({imageOpen: !this.state.imageOpen})
+  }
+
+  handleFileChange = e => {
+    this.setState({image: e.target.files[0]})
+  }
+
+  submitImg() {
+    this.toggleImage()
+    const img = this.state.image
+    //Upload picture
+    pictureUpload(store.getState().token, img)
+      .then( (response) => {
+        console.log(response)
+        alert("Submitting image...")
+        //Reload user info in redux
+        userInfo(store.getState().token)
+      })
+      .catch( (err) => {
+        console.log(err)
+      })
+  }
+
   render() {
     var imageStyle = {
       width: "100px",
       height: "100px",
       borderRadius: "50%"
     }
+
+    var pictureURL = store.getState().user.picture
+    if (!store.getState().user.picture)
+      pictureURL = defaultProfile
+    else 
+      pictureURL = store.getState().user.picture
+
     return (
       <TabPane tabId={this.props.tabId} className="Profile-Tab">
       <br/>
@@ -42,7 +84,7 @@ export default class ProfileTab extends Component {
           <Col sm="2">
             <Media style={{display: 'flex', justifyContent: 'center'}}>
               <Media left href="#">
-                <Media object src={store.getState().user.picture} style={imageStyle}/>
+                <Media object src={pictureURL} style={imageStyle}/>
               </Media>
             </Media>
             <Media body>
@@ -54,9 +96,21 @@ export default class ProfileTab extends Component {
               {store.getState().user.user_type}
               </div>
             </Media>
-
+            <Button onClick={this.toggleImage}>Upload Img</Button>
+            <Modal toggle={this.toggleImage} isOpen={this.state.imageOpen}>
+              <ModalBody>
+              </ModalBody>
+                <Input type="file" name="image" id="resume" onChange={this.handleFileChange} />
+              <ModalFooter>
+                <Button
+                  onClick={this.submitImg}
+                >
+                  Submit
+                </Button>
+              </ModalFooter>
+            </Modal>
           </Col>
-          <Col sm="12" md={{size: 8}}>
+          <Col md={{size: 8}}>
             <Card>
               <CardHeader>Username 
                 <Badge color="danger"> {store.getState().user.warnings}</Badge>
@@ -134,8 +188,8 @@ export default class ProfileTab extends Component {
               </CardText>
           </Card>
           <br/>
-
           </Col>
+
         </Row>
       </TabPane>
     )
