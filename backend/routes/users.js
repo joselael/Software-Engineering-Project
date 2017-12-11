@@ -224,7 +224,7 @@ router.get('/top_dev', (req, res) => {
     let query = User.find({user_type: 'developer'}).sort({money_made: -1}).limit(1);
     query.exec(function (err, money_maker) {
         if (err) res.status(500).send("Could not find top dev.");
-        if (money_maker.length === 0) res.status(500).send("There are no devs")
+        if (money_maker.length === 0) res.status(500).send("There are no devs");
         else {
             res.status(200).send(money_maker[0].username);
         }
@@ -306,9 +306,6 @@ router.get('/search/:name', (req, res) => {
     User.find({username: req.params.name}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user || user.length < 1) return res.status(404).send("No user found.");
-
-        //  console.log(user[0]);
-        // console.log("last name: " + user[0].last_name);
 
         res.status(200).send({
             "username": user[0].username,
