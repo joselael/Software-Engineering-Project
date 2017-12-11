@@ -99,14 +99,16 @@ export default class ProfileTab extends Component {
               </Card>
               <br/>
               <Card>
-                <CardHeader>Rating:
-                </CardHeader>
+                <CardHeader>Rating and Project Count</CardHeader>
                 <CardBody>
                   <StarRatingComponent
                     name="rating"
                     editing={false}
                     starCount={5}
-                    value={store.getState().user.rating}/>
+                    value={store.getState().user.average_rating}/>
+                  <CardText>
+                    Rating: {store.getState().user.average_rating}| Project Count: {store.getState().user.project_count}
+                  </CardText>
                 </CardBody>
               </Card>
               <br/>

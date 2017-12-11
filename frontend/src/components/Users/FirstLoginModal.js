@@ -10,7 +10,7 @@ import { Button,
   FormGroup
  } from 'reactstrap'
 import store from '../../store'
-import {firstLoggedIn, updateMe} from '../../utils/Users'
+import {firstLoggedIn, updateMe, resumeUpload} from '../../utils/Users'
 import {userInfo} from '../../utils/Auth'
 
 export default class FirstLoginModal extends Component {
@@ -20,10 +20,11 @@ export default class FirstLoginModal extends Component {
     this.state = {
       github: "",
       linkedIn: "",
-      resume: ""
+      resume: null
     }
     this.toggleModal = this.toggleModal.bind(this)
     this.handleChange = this.handleChange.bind(this)
+    this.handleFileChange = this.handleFileChange.bind(this)
   }
 
   handleChange = event => {
@@ -32,24 +33,41 @@ export default class FirstLoginModal extends Component {
     });
   }
 
+  handleFileChange = e => {
+    this.setState({resume: e.target.files[0]})
+  }
+
   //First change the first_login to false then update the values of user of github and linked in
   //Then update the user in the redux to re render the page 
   toggleModal() {
 
     //console.log(this.state)  
 
+    const file = this.state.resume
+
+    //First check if loggedin
     firstLoggedIn(store.getState().token)
       .then( (response) => {
-        updateMe(store.getState().token, this.state.github, this.state.linkedIn)
+        //Then upload the resume
+        resumeUpload(store.getState().token, file)
           .then( (response) => {
-            userInfo(store.getState().token)
-              .then( (response) =>{
-                alert("Welcome to our website")
+            console.log(response)
+            const resumeLink = response.data
+            //Then get resume and update db
+            updateMe(store.getState().token, this.state.github, this.state.linkedIn, resumeLink)
+              .then( (response) => {
+                userInfo(store.getState().token)
+                  .then( (response) =>{
+                    alert("Welcome to our website")
+                  }).catch( (err) => {
+                    console.log("User Info update failed")
+                  })
               }).catch( (err) => {
-                console.log("User Info update failed")
+                console.log("Update me failed")
               })
-          }).catch( (err) => {
-            console.log("Update me failed")
+          })
+          .catch( (err) => {
+            console.log(err)
           })
       }).catch( (err) => {
         console.log("First Logged In failed")
@@ -83,7 +101,7 @@ export default class FirstLoginModal extends Component {
                 value={this.state.linkedIn}
               />
               <Label for="resume">Resume</Label>
-              <Input type="file" name="resume" id="resume" value={this.state.resume} />
+              <Input type="file" name="resume" id="resume" onChange={this.handleFileChange} />
             </FormGroup>
           </form>
         </ModalBody>

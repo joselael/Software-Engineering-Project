@@ -50,7 +50,8 @@ export default class SettingsTab extends Component {
       this.onSubmitProtest = this.onSubmitProtest.bind(this)
   }
 
-  onSubmitProtest() {
+  onSubmitProtest = e => {
+    e.preventDefault()
     console.log("Submitting protest...")
     const msg = this.state.protestMSG
     this.toggleProtest()
@@ -257,9 +258,12 @@ export default class SettingsTab extends Component {
             <Button id="money" color="success" onClick={this.toggleAuth}>
               Input More Money
             </Button>
-            <Button id="protest" color="warning" onClick={this.toggleAuth}>
-              Protest Warning
-            </Button>
+            {
+              store.getState().user.warnings > 0 ?
+                <Button id="protest" color="warning" onClick={this.toggleAuth}>
+                  Protest Warning
+                </Button> : null
+            }
           </ButtonGroup>
 
           <Modal isOpen={this.state.delete} toggle={this.toggleDelete}>
