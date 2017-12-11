@@ -30,7 +30,7 @@ router.put('/warning_update/:id', VerifyAdmin, (req, res) => {
         else {
             console.log(user);
             if (req.body.warning === "remove") {
-                var warning_update = user.warnings - 1;
+                let warning_update = user.warnings - 1;
                 user.set({warnings: warning_update});
                 user.set({blacklist: false});
                 user.save(function (err, warnings) {
