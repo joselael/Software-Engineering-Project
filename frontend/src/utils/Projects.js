@@ -9,7 +9,8 @@ import {
   BID,
   APPROVE,
   RATING,
-  PENALIZE_PROJECT
+  PENALIZE_PROJECT,
+  TOTAL_PROJECTS
 } from '../urls/API'
 import store from '../store'
 
@@ -159,6 +160,13 @@ export function updateProject(id, data) {
       'x-access-token': store.getState().token
     },
     data: data
+  })
+}
+
+export function totalProjects() {
+  return axios({
+    method: 'get',
+    url: URL + PROJECT + TOTAL_PROJECTS
   })
 }
 
