@@ -67,7 +67,9 @@ router.post('/create', (req, res) => {
             value: "",
             visible: true
         },
-        first_login: true
+        first_login: true,
+        reusme: null,
+        picture: null
     }, function (err, user) {
         // console.log("done creating user");
         if (err) return res.status(500).send("There was a problem registering the user.");

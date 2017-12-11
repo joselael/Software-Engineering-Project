@@ -42,7 +42,7 @@ export default class ProfileTab extends Component {
           <Col sm="2">
             <Media style={{display: 'flex', justifyContent: 'center'}}>
               <Media left href="#">
-                <Media object src={defaultProfile} style={imageStyle}/>
+                <Media object src={store.getState().user.picture} style={imageStyle}/>
               </Media>
             </Media>
             <Media body>
@@ -98,6 +98,19 @@ export default class ProfileTab extends Component {
                 </CardBody>
               </Card>
               <br/>
+
+              <Card>
+                <CardHeader>Resume</CardHeader>
+                <CardBody>
+                  <CardText>
+                    <NavLink href={store.getState().user.resume}>
+                      Resume
+                    </NavLink>
+                  </CardText>
+                </CardBody>
+              </Card>
+              <br/>
+
               <Card>
                 <CardHeader>Rating and Project Count</CardHeader>
                 <CardBody>
