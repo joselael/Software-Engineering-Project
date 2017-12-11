@@ -238,13 +238,13 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
         $set: {
             admin_comments: req.body.admin_comments,
             problematic: false,
-            rating_author: req.body.admin_rating
+            rating_assignee: req.body.admin_rating
         }
     }, {new: true}, (err, project) => {
         if (err) return res.status(500).send("There was a problem penalizing");
         User.findById(project.assignee.user_id, (err, user) => {
             if (err) return res.status(500).send("There was a problem updating user");
-            if (project.rating_author >= 3) {
+            if (project.rating_assignee >= 3) {
                 //Don't charge the penalty money and give the rest half to developer
                 Bid.findById(project.assignee.bid_id, (err, final_bid) => {
 
@@ -255,7 +255,7 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
 
                     //Increase project count and rate the user
                     user.project_count += 1;
-                    user.average_rating = (user.average_rating * ((user.project_count - 1) / (user.project_count)) + (req.body.rating * (1 / user.project_count)));
+                    user.average_rating = (user.average_rating * ((user.project_count - 1) / (user.project_count)) + (req.body.admin_rating * (1 / user.project_count)));
 
                     //If average is bad, then give warning to user
                     if (user.project_count >= 5 && user.average_rating <= 2) {
@@ -268,14 +268,22 @@ router.put('/penalize_project/:id', VerifyAdmin, (req, res) => {
                     //Find the author then charge like normal
                     User.find({username: project.author}, (err, author) => {
                         author[0].account_balance -= total_charge_author;
-                        author[0].save();
+                        author[0].save()
 
-                        res.status(200).send("Wrongly Accused")
+                        res.status(200).send(user)
                     })
                 })
             }
 
-            else if (project.rating_author < 3) {
+            else {
+                //Increase project count and rate the user
+                user.project_count += 1;
+                user.average_rating = (user.average_rating * ((user.project_count - 1) / (user.project_count)) + (req.body.admin_rating * (1 / user.project_count)));
+
+                //If average is bad, then give warning to user
+                if (user.project_count >= 5 && user.average_rating <= 2) {
+                    user.warnings += 1
+                }
                 //Charge penalty then put back penalty money to author 
                 user.account_balance -= req.body.penalty;
                 user.save();

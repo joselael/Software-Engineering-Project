@@ -316,8 +316,8 @@ router.get('/search/:name', (req, res) => {
             "last_name": (user[0].last_name.visible) ? user[0].last_name.value : null,
             "email": (user[0].email.visible) ? user[0].email.value : null,
             "linkedIn": (user[0].linkedIn.visible) ? user[0].linkedIn.value : null,
-            "github": (user[0].github.visible) ? user[0].github.value : null
-
+            "github": (user[0].github.visible) ? user[0].github.value : null,
+            "resume": user[0].resume
         });
     });
 });

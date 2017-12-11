@@ -18,6 +18,7 @@ import {
   InputGroupAddon,
   InputGroup,
   Table,
+  NavLink
 } from 'reactstrap';
 import store from '../../store'
 import '../../css/project.css'
@@ -71,6 +72,11 @@ export default class User extends Component {
         <td>{this.props.user.email}</td>
         <td>{this.props.user.linkedIn}</td>
         <td>{this.props.user.github}</td>
+        <td>
+          <NavLink href={this.props.user.resume}>
+            Resume
+          </NavLink>
+        </td>
         <td>
           <Button
             onClick={this.toggleModal}

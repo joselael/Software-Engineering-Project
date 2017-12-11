@@ -125,6 +125,8 @@ export default class ProjectModal extends Component {
       status = "UNDER REVIEW"
     else if (this.props.project.bidding_in_progress)
       status = "BIDDING IN PROGRESS"
+    else if (this.props.project.problematic)
+      status = "PROBLEMATIC"
     else
       status = "WIP"
 
