@@ -24,7 +24,7 @@ import {
 } from 'reactstrap'
 import defaultProfile from '../../../images/default_profile.png'
 import store from '../../../store'
-import {pictureUpload} from '../../../utils/Users'
+import {pictureUpload, updateSettings} from '../../../utils/Users'
 import {userInfo} from '../../../utils/Auth'
 
 export default class ProfileTab extends Component {
@@ -57,7 +57,16 @@ export default class ProfileTab extends Component {
         console.log(response)
         alert("Submitting image...")
         //Reload user info in redux
-        userInfo(store.getState().token)
+        var data = {}
+        data.picture = response.data
+        updateSettings(store.getState().token, data)
+          .then( (response) => {
+            console.log(response)
+            userInfo(store.getState().token)
+          })
+          .catch( (err) => {
+            console.log(err)
+          })
       })
       .catch( (err) => {
         console.log(err)
