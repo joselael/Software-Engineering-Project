@@ -83,7 +83,7 @@ export default class ProfileTab extends Component {
     var pictureURL = store.getState().user.picture
     if (!store.getState().user.picture)
       pictureURL = defaultProfile
-    else 
+    else
       pictureURL = store.getState().user.picture
 
     return (
@@ -105,6 +105,9 @@ export default class ProfileTab extends Component {
               {store.getState().user.user_type}
               </div>
             </Media>
+
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+
             <Button onClick={this.toggleImage}>Upload Img</Button>
             <Modal toggle={this.toggleImage} isOpen={this.state.imageOpen}>
               <ModalBody>
@@ -118,11 +121,11 @@ export default class ProfileTab extends Component {
                 </Button>
               </ModalFooter>
             </Modal>
+            </div>
           </Col>
           <Col md={{size: 8}}>
             <Card>
-              <CardHeader>Username 
-                <Badge color="danger"> {store.getState().user.warnings}</Badge>
+              <CardHeader>Username <Badge color="danger"> {store.getState().user.warnings}</Badge>
               </CardHeader>
               <CardBody>
                 <CardText>
