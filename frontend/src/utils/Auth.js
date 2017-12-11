@@ -14,6 +14,7 @@ import {
   setToken,
   setUser
 } from '../actions/index';
+import {updateSettings} from './Users'
 
 export function login(Username, Password) {
   return axios({
@@ -48,6 +49,20 @@ export function userInfo(token) {
       } else if (!response.data.enabled) {
         alert("You're not enabled")
       } else {
+        //Store the blacklist if warning is >= 2 
+        if (response.data.warnings >= 2) {
+          console.log("Enabling blacklist")
+          axios({
+            method: 'put',
+            url: URL + USER + ME,
+            headers: {
+              'x-access-token': token
+            },
+            data: {
+              blacklisted: true
+            }
+          })
+        }
         store.dispatch(setToken(token))
        // console.log(response.data)
         store.dispatch(setUser(response.data))
